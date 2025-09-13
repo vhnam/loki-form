@@ -3,6 +3,7 @@
 import { BadgeCheckIcon, ChevronsUpDown, LogOutIcon } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useCallback } from 'react';
+import { toast } from 'sonner';
 
 import { PRIVATE_ROUTES, PUBLIC_ROUTES } from '@/constants/routes';
 
@@ -48,6 +49,7 @@ const NavUser = ({ user }: NavUserProps) => {
     () =>
       logout(undefined, {
         onSuccess: () => {
+          toast.success('Logged out successfully');
           router.push(PUBLIC_ROUTES.auth.signIn);
         },
       }),
