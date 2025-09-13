@@ -1,6 +1,7 @@
 import { useQueryClient } from '@tanstack/react-query';
+import { useTranslations } from 'next-intl';
 import { useTheme } from 'next-themes';
-import React, { forwardRef, useImperativeHandle } from 'react';
+import React, { forwardRef, useImperativeHandle, useTransition } from 'react';
 import { toast } from 'sonner';
 
 import { useClientOnly } from '@repo/core-ui/hooks/use-client-only';
@@ -10,6 +11,9 @@ import { ProfileFormSchema } from '@/schemas/profile';
 import { type User } from '@/types/user';
 
 import { profileQueryKey } from '@/services/auth';
+import { setUserLocale } from '@/services/locale';
+
+import { Spinner } from '@/components/spinner';
 
 import {
   Card,
@@ -35,6 +39,8 @@ import {
   SelectValue,
 } from '@repo/core-ui/components/select';
 
+import { type Locale } from '@/i18n/config';
+
 import useProfileFormActions from './profile.actions';
 
 interface ProfileFormProps {
@@ -51,11 +57,17 @@ const ProfileForm = forwardRef<ProfileFormRef, ProfileFormProps>(
     const { setTheme } = useTheme();
     const queryClient = useQueryClient();
     const hasMounted = useClientOnly();
-    const { form, onSubmit, isPending } = useProfileFormActions({ user });
+    const {
+      form,
+      onSubmit,
+      isPending: isSubmitting,
+    } = useProfileFormActions({ user });
+    const t = useTranslations('profilePage');
+    const [isPending, startTransition] = useTransition();
 
     useImperativeHandle(ref, () => ({
       submit: form.handleSubmit(handleFormSubmit),
-      isSubmitting: isPending,
+      isSubmitting,
     }));
 
     const handleFormSubmit = async (payload: ProfileFormSchema) => {
@@ -65,16 +77,19 @@ const ProfileForm = forwardRef<ProfileFormRef, ProfileFormProps>(
           queryKey: profileQueryKey.getProfile,
         });
 
-        setTheme(response.interfaceMode);
-        toast.success('Profile updated successfully');
+        startTransition(() => {
+          setTheme(response.interfaceMode);
+          setUserLocale(response.interfaceLanguage as Locale);
+          toast.success(t('actions.update.success'));
+        });
       } catch (error) {
-        toast.error('Failed to update profile');
+        toast.error(t('actions.update.error'));
         console.log(error);
       }
     };
 
     if (!hasMounted) {
-      return <div>Loading....</div>;
+      return <Spinner />;
     }
 
     return (
@@ -85,7 +100,7 @@ const ProfileForm = forwardRef<ProfileFormRef, ProfileFormProps>(
         >
           <Card>
             <CardHeader>
-              <CardTitle>Profile</CardTitle>
+              <CardTitle>{t('profile.title')}</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-2 gap-4">
@@ -95,9 +110,12 @@ const ProfileForm = forwardRef<ProfileFormRef, ProfileFormProps>(
                     name="firstName"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>First name</FormLabel>
+                        <FormLabel>{t('profile.firstName.label')}</FormLabel>
                         <FormControl>
-                          <Input placeholder="Enter first name" {...field} />
+                          <Input
+                            placeholder={t('profile.firstName.placeholder')}
+                            {...field}
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -110,9 +128,12 @@ const ProfileForm = forwardRef<ProfileFormRef, ProfileFormProps>(
                     name="lastName"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Last name</FormLabel>
+                        <FormLabel>{t('profile.lastName.label')}</FormLabel>
                         <FormControl>
-                          <Input placeholder="Enter last name" {...field} />
+                          <Input
+                            placeholder={t('profile.lastName.placeholder')}
+                            {...field}
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -125,16 +146,16 @@ const ProfileForm = forwardRef<ProfileFormRef, ProfileFormProps>(
                     name="email"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Email</FormLabel>
+                        <FormLabel>{t('profile.email.label')}</FormLabel>
                         <FormControl>
                           <Input
-                            placeholder="m@example.com"
+                            placeholder={t('profile.email.placeholder')}
                             disabled
                             {...field}
                           />
                         </FormControl>
                         <FormDescription className="text-xs">
-                          Email cannot be changed.
+                          {t('profile.email.description')}
                         </FormDescription>
                         <FormMessage />
                       </FormItem>
@@ -147,7 +168,7 @@ const ProfileForm = forwardRef<ProfileFormRef, ProfileFormProps>(
 
           <Card>
             <CardHeader>
-              <CardTitle>Experience</CardTitle>
+              <CardTitle>{t('experience.title')}</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-2 gap-4">
@@ -157,24 +178,28 @@ const ProfileForm = forwardRef<ProfileFormRef, ProfileFormProps>(
                     name="interfaceLanguage"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Interface language</FormLabel>
+                        <FormLabel>{t('experience.language.label')}</FormLabel>
                         <FormControl>
                           <Select
                             value={field.value}
                             onValueChange={field.onChange}
+                            disabled={isPending}
                           >
                             <SelectTrigger className="w-full">
                               <SelectValue placeholder="Select language" />
                             </SelectTrigger>
                             <SelectContent>
-                              <SelectItem value="en-US">English</SelectItem>
-                              <SelectItem value="vi-VN">Tiếng Việt</SelectItem>
+                              <SelectItem value="en-US">
+                                {t('experience.language.options.en-US')}
+                              </SelectItem>
+                              <SelectItem value="vi-VN">
+                                {t('experience.language.options.vi-VN')}
+                              </SelectItem>
                             </SelectContent>
                           </Select>
                         </FormControl>
                         <FormDescription className="text-xs">
-                          This will only display your own interface in the
-                          chosen language.
+                          {t('experience.language.description')}
                         </FormDescription>
                         <FormMessage />
                       </FormItem>
@@ -187,7 +212,7 @@ const ProfileForm = forwardRef<ProfileFormRef, ProfileFormProps>(
                     name="interfaceMode"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Interface mode</FormLabel>
+                        <FormLabel>{t('experience.mode.label')}</FormLabel>
                         <FormControl>
                           <Select
                             value={field.value}
@@ -197,16 +222,20 @@ const ProfileForm = forwardRef<ProfileFormRef, ProfileFormProps>(
                               <SelectValue placeholder="Select mode" />
                             </SelectTrigger>
                             <SelectContent>
-                              <SelectItem value="light">Light mode</SelectItem>
-                              <SelectItem value="dark">Dark mode</SelectItem>
+                              <SelectItem value="light">
+                                {t('experience.mode.options.light')}
+                              </SelectItem>
+                              <SelectItem value="dark">
+                                {t('experience.mode.options.dark')}
+                              </SelectItem>
                               <SelectItem value="system">
-                                Use system settings
+                                {t('experience.mode.options.system')}
                               </SelectItem>
                             </SelectContent>
                           </Select>
                         </FormControl>
                         <FormDescription className="text-xs">
-                          Displays your interface in the chosen mode.
+                          {t('experience.mode.description')}
                         </FormDescription>
                         <FormMessage />
                       </FormItem>

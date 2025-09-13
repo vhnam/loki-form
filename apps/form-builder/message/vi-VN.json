@@ -1,0 +1,62 @@
+{
+  "homePage": {
+    "title": "Xin chào!"
+  },
+  "profilePage": {
+    "header": {
+      "title": "Hồ sơ",
+      "actions": {
+        "save": "Lưu",
+        "saving": "Đang lưu..."
+      }
+    },
+    "profile": {
+      "title": "Hồ sơ",
+      "firstName": {
+        "label": "Tên",
+        "placeholder": "Nhập tên"
+      },
+      "lastName": {
+        "label": "Họ",
+        "placeholder": "Nhập họ"
+      },
+      "email": {
+        "label": "Email",
+        "placeholder": "m@example.com",
+        "description": "Email không thể thay đổi."
+      },
+      "emailDescription": "Email không thể thay đổi."
+    },
+    "experience": {
+      "title": "Trải nghiệm",
+      "language": {
+        "label": "Ngôn ngữ",
+        "placeholder": "Chọn ngôn ngữ",
+        "description": "Chỉ hiển thị giao diện của bạn theo ngôn ngữ đã chọn.",
+        "options": {
+          "en-US": "English",
+          "vi-VN": "Tiếng Việt"
+        }
+      },
+      "mode": {
+        "label": "Chế độ giao diện",
+        "placeholder": "Chọn chế độ giao diện",
+        "description": "Hiển thị giao diện của bạn theo chế độ đã chọn.",
+        "options": {
+          "light": "Chế độ sáng",
+          "dark": "Chế độ tối",
+          "system": "Sử dụng cài đặt hệ thống"
+        }
+      }
+    },
+    "actions": {
+      "get": {
+        "error": "Lấy hồ sơ thất bại"
+      },
+      "update": {
+        "success": "Cập nhật hồ sơ thành công",
+        "error": "Cập nhật hồ sơ thất bại"
+      }
+    }
+  }
+}

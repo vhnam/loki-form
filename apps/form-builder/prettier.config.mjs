@@ -26,6 +26,7 @@ export default {
           '^@repo/form-ui/components(.*)$',
           '^@/layouts/(.*)$',
           '^@/modules/(.*)$',
+          '^@/i18n/(.*)$',
           '^[./]',
           '^@/mocks/(.*)$',
         ],

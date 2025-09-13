@@ -1,0 +1,61 @@
+{
+  "homePage": {
+    "title": "Hello world!"
+  },
+  "profilePage": {
+    "header": {
+      "title": "Profile",
+      "actions": {
+        "save": "Save",
+        "saving": "Saving..."
+      }
+    },
+    "profile": {
+      "title": "Profile",
+      "firstName": {
+        "label": "First name",
+        "placeholder": "Enter first name"
+      },
+      "lastName": {
+        "label": "Last name",
+        "placeholder": "Enter last name"
+      },
+      "email": {
+        "label": "Email",
+        "placeholder": "m@example.com",
+        "description": "Email cannot be changed."
+      }
+    },
+    "experience": {
+      "title": "Experience",
+      "language": {
+        "label": "Interface language",
+        "placeholder": "Select interface language",
+        "description": "This will only display your own interface in the chosen language.",
+        "options": {
+          "en-US": "English",
+          "vi-VN": "Tiếng Việt"
+        }
+      },
+      "mode": {
+        "label": "Interface mode",
+        "placeholder": "Select interface mode",
+        "description": "Displays your interface in the chosen mode.",
+        "options": {
+          "light": "Light",
+          "dark": "Dark",
+          "system": "Use system settings"
+        }
+      }
+    },
+    "actions": {
+      "get": {
+        "error": "Failed to get profile"
+      },
+      "update": {
+        "success": "Profile updated successfully",
+        "error": "Failed to update profile"
+      }
+    }
+  }
+}

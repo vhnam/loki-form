@@ -1,5 +1,6 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
 import React, { useRef } from 'react';
 import { toast } from 'sonner';
 
@@ -15,8 +16,9 @@ import { PrivateLayoutHeader } from '@/layouts/private';
 import Profile, { type ProfileFormRef } from '@/modules/profile';
 
 const ProfilePage = () => {
-  const { data, isPending } = useGetProfileQuery();
   const profileFormRef = useRef<ProfileFormRef>(null);
+  const t = useTranslations('profilePage');
+  const { data, isPending } = useGetProfileQuery();
 
   const handleSave = () => {
     profileFormRef.current?.submit();
@@ -25,18 +27,20 @@ const ProfilePage = () => {
   return (
     <ErrorBoundary
       onError={() => {
-        toast.error('Failed to load profile');
+        toast.error(t('actions.get.error'));
       }}
     >
       <PrivateLayoutHeader
-        title="Profile"
+        title={t('header.title')}
         actions={
           <Button
             variant="default"
             onClick={handleSave}
             disabled={profileFormRef.current?.isSubmitting}
           >
-            {profileFormRef.current?.isSubmitting ? 'Saving...' : 'Save'}
+            {profileFormRef.current?.isSubmitting
+              ? t('header.actions.saving')
+              : t('header.actions.save')}
           </Button>
         }
       />

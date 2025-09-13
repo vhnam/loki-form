@@ -21,43 +21,47 @@ async function main() {
   const hashedPassword = await bcrypt.hash(password, 10);
   console.log('🔐 Generated hash for password');
 
-  // Seed superadmin user
+  // Seed users (both superadmin and regular user)
   await seed(db, { users }).refine((funcs) => ({
     users: {
-      count: 1,
+      count: 2,
       columns: {
         email: funcs.valuesFromArray({
-          values: ['sa@lokiform.io'],
+          values: ['sa@lokiform.io', 'user.01@yopmail.com'],
         }),
         firstName: funcs.valuesFromArray({
-          values: ['Vincent'],
+          values: ['Vincent', 'Chet'],
         }),
         lastName: funcs.valuesFromArray({
-          values: ['Wu'],
+          values: ['Wu', 'Baker'],
         }),
         password: funcs.valuesFromArray({
-          values: [hashedPassword],
+          values: [hashedPassword, hashedPassword],
         }),
         role: funcs.valuesFromArray({
-          values: ['superadmin'],
+          values: ['superadmin', 'user'],
         }),
         interfaceMode: funcs.valuesFromArray({
-          values: ['system'],
+          values: ['system', 'system'],
         }),
         interfaceLanguage: funcs.valuesFromArray({
-          values: ['en-US'],
+          values: ['en-US', 'en-US'],
         }),
         isActive: funcs.valuesFromArray({
-          values: [true],
+          values: [true, true],
         }),
       },
     },
   }));
 
-  console.log('✅ Superadmin account seeded successfully!');
-  console.log('📧 Email: sa@lokiform.io');
-  console.log('🔑 Password:', password);
-  console.log('⚠️  IMPORTANT: Please change the password after first login!');
+  console.log('✅ Users seeded successfully!');
+  console.log('👤 Superadmin:');
+  console.log('   📧 Email: sa@lokiform.io');
+  console.log('   🔑 Password:', password);
+  console.log('👤 Regular User:');
+  console.log('   📧 Email: user.01@yopmail.com');
+  console.log('   🔑 Password:', password);
+  console.log('⚠️  IMPORTANT: Please change the passwords after first login!');
 
   await connection.end();
   console.log('📦 Database connection closed');
