@@ -9,17 +9,19 @@ alwaysApply: true
 This is a TypeScript monorepo using pnpm workspaces with the following structure:
 
 ## Project Structure
-- **Apps**: `apps/*` - Next.js applications
+- **Apps**: `apps/*` - Next.js applications and NestJS servers
 - **Packages**: `packages/*` - Shared libraries and utilities
 
 ## Projects
 
 ### Applications
-- **form-builder** (`apps/form-builder`): Main form builder application (Next.js)
+- **form-builder** (`apps/form-builder`): Main form builder application (Next.js 15)
+- **form-builder-server** (`apps/form-builder-server`): NestJS API server
 
 ### Packages
-- **core-ui** (`packages/core-ui`): Design system and UI components (React)
-- **form-ui** (`packages/form-ui`): Form-specific UI components (React)
+- **core-ui** (`packages/core-ui`): Design system and UI components (React 19)
+- **form-ui** (`packages/form-ui`): Form-specific UI components (React 19)
+- **api-spec** (`packages/api-spec`): TypeSpec API specification
 - **eslint-config** (`packages/eslint-config`): Shared ESLint configurations
 - **typescript-config** (`packages/typescript-config`): Shared TypeScript configurations
 - **prettier-config** (`packages/prettier-config`): Shared Prettier configuration
@@ -28,9 +30,14 @@ This is a TypeScript monorepo using pnpm workspaces with the following structure
 - `form-builder` depends on: `@repo/form-ui`, `@repo/core-ui`
 - `form-ui` depends on: `@repo/core-ui`
 - `core-ui` has no internal dependencies
+- `form-builder-server` is independent (API server)
 
 ## Development Guidelines
 - Use pnpm for package management
 - Follow TypeScript strict mode
 - Use the shared ESLint and TypeScript configurations
 - Maintain proper dependency relationships between packages
+- Use Turbo for build orchestration and caching
+- Follow Next.js 15 App Router patterns
+- Use Drizzle ORM for database operations
+- Implement proper error boundaries and error handling

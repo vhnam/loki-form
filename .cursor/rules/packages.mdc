@@ -12,15 +12,29 @@ This directory contains shared packages used across the monorepo.
 
 ### Core UI (`packages/core-ui`)
 - **Purpose**: Design system and reusable UI components
-- **Framework**: React
+- **Framework**: React 19.1.1
+- **Language**: TypeScript 5.9.2 (strict mode)
+- **Styling**: TailwindCSS v4, Radix UI primitives
 - **Type**: Design system
 - **Dependencies**: None (base design system)
+- **Key Libraries**: 
+  - Radix UI components (dialog, dropdown, select, etc.)
+  - TailwindCSS v4 with PostCSS
+  - class-variance-authority, clsx, tailwind-merge
+  - react-hook-form, zod validation
+  - lucide-react icons, next-themes
 
 ### Form UI Library (`packages/form-ui`)
 - **Purpose**: Form-specific UI components and logic
-- **Framework**: React
+- **Framework**: React 19.1.1
+- **Language**: TypeScript 5.9.2 (strict mode)
+- **Styling**: TailwindCSS v4
 - **Type**: Library
 - **Dependencies**: `@repo/core-ui`
+- **Key Libraries**:
+  - lucide-react icons
+  - zod validation
+  - Testing: Vitest, @testing-library/react
 
 ### ESLint Config (`packages/eslint-config`)
 - **Purpose**: Shared ESLint configurations
@@ -36,6 +50,17 @@ This directory contains shared packages used across the monorepo.
 - **Purpose**: Shared Prettier configuration
 - **Type**: Configuration package
 - **Dependencies**: None
+
+### API Spec (`packages/api-spec`)
+- **Purpose**: TypeSpec API specification and OpenAPI documentation
+- **Language**: TypeSpec (Microsoft's TypeSpec)
+- **Type**: API specification
+- **Dependencies**: None
+- **Key Libraries**:
+  - @typespec/compiler, @typespec/http
+  - @typespec/openapi3, @typespec/rest
+  - @typespec/versioning
+  - Output: OpenAPI 3.0 specification
 
 ## Development Guidelines
 

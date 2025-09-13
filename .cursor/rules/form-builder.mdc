@@ -11,8 +11,17 @@ This is the main form builder application built with Next.js. It provides a drag
 ## Technology Stack
 
 - **Framework**: Next.js 15 with App Router
-- **Language**: TypeScript (strict mode)
-- **Styling**: TailwindCSS v4, Shadcn UI
+- **Language**: TypeScript 5.9.2 (strict mode)
+- **Styling**: TailwindCSS v4, Radix UI components, Shadcn UI
+- **State Management**: Zustand, React Query (TanStack Query)
+- **Forms**: React Hook Form with Zod validation
+- **UI Components**: Shadcn UI, Radix UI primitives
+- **Icons**: Lucide React
+- **Theming**: next-themes
+- **Internationalization**: next-intl
+- **Notifications**: Sonner
+- **Error Handling**: react-error-boundary
+- **HTTP Client**: Axios
 - **Dependencies**:
   - `@repo/form-ui` - Form-specific UI components and logic
   - `@repo/core-ui` - Design system and reusable UI components
