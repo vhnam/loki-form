@@ -2,6 +2,21 @@
   "homePage": {
     "title": "Hello world!"
   },
+  "sidebar": {
+    "nav": {
+      "home": "Home",
+      "forms": "Forms"
+    },
+    "user": {
+      "profile": "Profile",
+      "logout": "Logout"
+    },
+    "actions": {
+      "logout": {
+        "success": "Logged out successfully"
+      }
+    }
+  },
   "profilePage": {
     "header": {
       "title": "Profile",

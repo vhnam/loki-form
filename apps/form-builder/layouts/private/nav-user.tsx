@@ -1,6 +1,7 @@
 'use client';
 
 import { BadgeCheckIcon, ChevronsUpDown, LogOutIcon } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import { useCallback } from 'react';
 import { toast } from 'sonner';
@@ -40,6 +41,7 @@ const NavUser = ({ user }: NavUserProps) => {
   const hasMounted = useClientOnly();
   const { isMobile } = useSidebar();
   const { mutate: logout } = useLogoutMutation();
+  const t = useTranslations('sidebar');
 
   const handleProfileClick = useCallback(() => {
     router.push(PRIVATE_ROUTES.profile);
@@ -49,11 +51,11 @@ const NavUser = ({ user }: NavUserProps) => {
     () =>
       logout(undefined, {
         onSuccess: () => {
-          toast.success('Logged out successfully');
+          toast.success(t('actions.logout.success'));
           router.push(PUBLIC_ROUTES.auth.signIn);
         },
       }),
-    [logout, router]
+    [logout, router, t]
   );
 
   if (!hasMounted) {
@@ -97,13 +99,13 @@ const NavUser = ({ user }: NavUserProps) => {
             <DropdownMenuGroup>
               <DropdownMenuItem onClick={handleProfileClick}>
                 <BadgeCheckIcon />
-                Account
+                {t('user.profile')}
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={handleLogoutClick}>
               <LogOutIcon />
-              Log out
+              {t('user.logout')}
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

@@ -1,6 +1,8 @@
 import { FileTextIcon, HomeIcon } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import React, { useMemo } from 'react';
 
 import { PRIVATE_ROUTES } from '@/constants/routes';
 
@@ -11,21 +13,25 @@ import {
   SidebarMenuItem,
 } from '@repo/core-ui/components/sidebar';
 
-const items = [
-  {
-    title: 'Home',
-    url: PRIVATE_ROUTES.home,
-    icon: HomeIcon,
-  },
-  {
-    title: 'Forms',
-    url: PRIVATE_ROUTES.forms.list,
-    icon: FileTextIcon,
-  },
-];
-
 const NavMain = () => {
   const pathname = usePathname();
+  const t = useTranslations('sidebar');
+
+  const items = useMemo(
+    () => [
+      {
+        title: t('nav.home'),
+        url: PRIVATE_ROUTES.home,
+        icon: HomeIcon,
+      },
+      {
+        title: t('nav.forms'),
+        url: PRIVATE_ROUTES.forms.list,
+        icon: FileTextIcon,
+      },
+    ],
+    [t]
+  );
 
   return (
     <SidebarGroup>

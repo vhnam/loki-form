@@ -2,9 +2,24 @@
   "homePage": {
     "title": "Xin chào!"
   },
+  "sidebar": {
+    "nav": {
+      "home": "Trang chủ",
+      "forms": "Biểu mẫu"
+    },
+    "user": {
+      "profile": "Hồ sơ",
+      "logout": "Đăng xuất"
+    },
+    "actions": {
+      "logout": {
+        "success": "Đăng xuất thành công"
+      }
+    }
+  },
   "profilePage": {
     "header": {
-      "title": "Hồ sơ",
+      "title": "Tài khoản",
       "actions": {
         "save": "Lưu",
         "saving": "Đang lưu..."

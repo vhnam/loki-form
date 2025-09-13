@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import React from 'react';
 
 import { BRAND_LOGO, BRAND_NAME } from '@/constants/branding';
 import { PRIVATE_ROUTES } from '@/constants/routes';
