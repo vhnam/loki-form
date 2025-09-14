@@ -18,6 +18,12 @@ export interface IForm {
   title: string;
   description: string;
   sections: ISection[];
+  isActive?: boolean;
+  multiPage?: boolean;
+  allowDrafts?: boolean;
+  requireAuth?: boolean;
+  submitMessage?: string;
+  redirectUrl?: string;
   createdAt: number;
   updatedAt: number;
 }
@@ -36,6 +42,7 @@ export interface IField<T extends IFieldAttributes = IFieldAttributes> {
   sectionId: string;
   type: string;
   label: string;
+  helperText?: string;
   required: boolean;
   order: number;
   attributes: T;

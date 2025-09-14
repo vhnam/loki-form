@@ -10,6 +10,7 @@
     "preview": "pnpm compile && pnpm start"
   },
   "devDependencies": {
+    "@scalar/api-reference": "^1.35.5",
     "@typespec/compiler": "1.4.0",
     "@typespec/http": "1.4.0",
     "@typespec/openapi3": "1.4.0",

@@ -23,13 +23,9 @@ model NotFoundError extends ApiError<"NOT_FOUND"> {}
 @doc("Error returned when an unexpected server error occurs, indicating a problem with the server's internal processing")
 model InternalServerError extends ApiError<"INTERNAL_SERVER_ERROR"> {}
 
-@doc("Paginated response model containing an array of data items along with pagination metadata for managing large datasets")
-model Page<T> {
-  @doc("Array of data items for the current page")
-  @pageItems
-  data: T[];
-
-  @doc("Current page number (1-based)")
+@doc("Pagination metadata model containing information about the current page, total items, and navigation state for paginated API responses")
+model Pagination {
+  @doc("Current page number (1-based indexing)")
   page: int32;
 
   @doc("Number of items per page")
@@ -37,4 +33,23 @@ model Page<T> {
 
   @doc("Total number of items across all pages")
   total: int32;
+
+  @doc("Total number of pages available")
+  totalPages: int32;
+
+  @doc("Whether there is a previous page available")
+  hasPrev: boolean;
+
+  @doc("Whether there is a next page available")
+  hasNext: boolean;
+}
+
+@doc("Paginated response model containing an array of data items along with comprehensive pagination metadata for managing large datasets efficiently")
+model Page<T> {
+  @doc("Array of data items for the current page")
+  @pageItems
+  data: T[];
+
+  @doc("Pagination metadata including page information, totals, and navigation state")
+  pagination: Pagination;
 }

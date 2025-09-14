@@ -19,9 +19,9 @@ import "./apis/health.tsp";
 using Http;
 using Versioning;
 
-@service(#{ title: "LokiForm " })
-@server("http://localhost:4000", "API endpoint")
-@summary("A modern, drag-and-drop form builder application built with Next.js and TypeScript, organized as a Turborepo monorepo. Create dynamic forms with various field types, conditional logic, and real-time preview capabilities.")
-@doc("LokiForm is a comprehensive form builder API that enables users to create, manage, and publish dynamic forms with advanced features including conditional logic, multiple field types, form validation, and submission management. The API provides authentication, form CRUD operations, form publishing, and submission handling capabilities.")
+@service(#{ title: "LokiForm API" })
+@server("http://localhost:4000", "Development API endpoint")
+@summary("LokiForm API - A comprehensive form builder service that enables users to create, manage, and publish dynamic forms with advanced features including conditional logic, multiple field types, real-time validation, and submission management.")
+@doc("LokiForm is a modern, feature-rich form builder API built with Next.js and TypeScript in a Turborepo monorepo architecture. The API provides complete form lifecycle management including creation, editing, publishing, and submission handling. Key features include drag-and-drop form building, multiple field types (text, email, select, checkbox, date, number), conditional logic, form validation, user authentication, role-based access control, and comprehensive submission management with pagination support.")
 @versioned(Versions)
 namespace LokiForm;

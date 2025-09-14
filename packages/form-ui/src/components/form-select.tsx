@@ -42,8 +42,12 @@ const FormSelect = (field: IField) => {
         </SelectTrigger>
         <SelectContent>
           {options.map((option) => (
-            <SelectItem key={option} value={option}>
-              {option}
+            <SelectItem
+              key={option.value}
+              value={option.value}
+              disabled={option.disabled}
+            >
+              {option.label}
             </SelectItem>
           ))}
         </SelectContent>

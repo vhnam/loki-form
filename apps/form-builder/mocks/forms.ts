@@ -11,6 +11,11 @@ export const recentForms: IForm[] = [
     id: 'f47ac10b-58cc-4372-a567-0e02b2c3d479',
     title: 'Customer Feedback Survey',
     description: 'Collect customer satisfaction and feedback data',
+    isActive: true,
+    multiPage: false,
+    allowDrafts: true,
+    requireAuth: false,
+    submitMessage: 'Thank you for your feedback! We appreciate your input.',
     sections: [
       {
         id: 'a1b2c3d4-e5f6-4789-a012-3456789abcde',
@@ -23,6 +28,7 @@ export const recentForms: IForm[] = [
             type: 'text',
             label: 'Full Name',
             required: true,
+            helperText: 'Enter your first and last name',
             order: 1,
             attributes: {
               placeholder: 'Enter your full name (e.g., John Doe)',
@@ -37,6 +43,8 @@ export const recentForms: IForm[] = [
             type: 'email',
             label: 'Email Address',
             required: true,
+            helperText:
+              'We will use this to contact you regarding your feedback',
             order: 2,
             attributes: {
               placeholder: 'your.email@example.com',
@@ -60,6 +68,8 @@ export const recentForms: IForm[] = [
             type: 'textarea',
             label: 'Comments',
             required: false,
+            helperText:
+              'Please provide detailed feedback about your experience',
             order: 1,
             attributes: {
               placeholder:
@@ -76,11 +86,18 @@ export const recentForms: IForm[] = [
             type: 'select',
             label: 'Overall Rating',
             required: true,
+            helperText: 'Please select your overall satisfaction level',
             order: 2,
             attributes: {
-              options: ['Excellent', 'Good', 'Average', 'Poor', 'Very Poor'],
+              options: [
+                { label: 'Excellent', value: 'excellent' },
+                { label: 'Good', value: 'good' },
+                { label: 'Average', value: 'average' },
+                { label: 'Poor', value: 'poor' },
+                { label: 'Very Poor', value: 'very-poor' },
+              ],
               placeholder: 'Select your rating',
-              defaultValue: 'Excellent',
+              defaultValue: 'excellent',
               minSelected: 1,
               maxSelected: 1,
             },
@@ -97,6 +114,13 @@ export const recentForms: IForm[] = [
     id: '6ba7b810-9dad-11d1-80b4-00c04fd430c8',
     title: 'Job Application Form',
     description: 'Application form for open positions',
+    isActive: true,
+    multiPage: true,
+    allowDrafts: true,
+    requireAuth: true,
+    submitMessage:
+      'Thank you for your application! We will review it and get back to you within 5 business days.',
+    redirectUrl: 'https://company.com/careers/application-success',
     sections: [
       {
         id: 'a7b8c9d0-e1f2-4345-a678-9abcdef01234',
@@ -109,6 +133,7 @@ export const recentForms: IForm[] = [
             type: 'text',
             label: 'Full Name',
             required: true,
+            helperText: 'Enter your legal first and last name',
             order: 1,
             attributes: {
               placeholder: 'Enter your full name',
@@ -123,6 +148,8 @@ export const recentForms: IForm[] = [
             type: 'email',
             label: 'Email Address',
             required: true,
+            helperText:
+              'We will use this to contact you about your application',
             order: 2,
             attributes: {
               placeholder: 'your.email@example.com',
@@ -137,6 +164,7 @@ export const recentForms: IForm[] = [
             type: 'text',
             label: 'Phone Number',
             required: true,
+            helperText: 'Include country code and area code',
             order: 3,
             attributes: {
               placeholder: '+1 (555) 123-4567',
@@ -163,14 +191,20 @@ export const recentForms: IForm[] = [
             order: 1,
             attributes: {
               options: [
-                'Software Engineer',
-                'Product Manager',
-                'Designer',
-                'Marketing Specialist',
-                'Sales Representative',
-                'Data Scientist',
-                'DevOps Engineer',
-                'QA Engineer',
+                { label: 'Software Engineer', value: 'software-engineer' },
+                { label: 'Product Manager', value: 'product-manager' },
+                { label: 'Designer', value: 'designer' },
+                {
+                  label: 'Marketing Specialist',
+                  value: 'marketing-specialist',
+                },
+                {
+                  label: 'Sales Representative',
+                  value: 'sales-representative',
+                },
+                { label: 'Data Scientist', value: 'data-scientist' },
+                { label: 'DevOps Engineer', value: 'devops-engineer' },
+                { label: 'QA Engineer', value: 'qa-engineer' },
               ],
               placeholder: 'Select your position',
               minSelected: 1,
@@ -244,6 +278,13 @@ export const recentForms: IForm[] = [
     id: '550e8400-e29b-41d4-a716-446655440000',
     title: 'Event Registration',
     description: 'Register for our upcoming conference',
+    isActive: true,
+    multiPage: false,
+    allowDrafts: false,
+    requireAuth: false,
+    submitMessage:
+      'Registration successful! You will receive a confirmation email shortly.',
+    redirectUrl: 'https://conference.com/registration-success',
     sections: [
       {
         id: 'e7f8a9b0-c1d2-4345-e678-abcdef012345',
@@ -287,12 +328,12 @@ export const recentForms: IForm[] = [
             order: 3,
             attributes: {
               options: [
-                'General Admission',
-                'VIP Pass',
-                'Student Discount',
-                'Group Registration',
-                'Early Bird',
-                'Corporate Package',
+                { label: 'General Admission', value: 'general-admission' },
+                { label: 'VIP Pass', value: 'vip-pass' },
+                { label: 'Student Discount', value: 'student-discount' },
+                { label: 'Group Registration', value: 'group-registration' },
+                { label: 'Early Bird', value: 'early-bird' },
+                { label: 'Corporate Package', value: 'corporate-package' },
               ],
               placeholder: 'Select your registration type',
               minSelected: 1,
@@ -331,15 +372,15 @@ export const recentForms: IForm[] = [
             order: 2,
             attributes: {
               options: [
-                'None',
-                'Vegetarian',
-                'Vegan',
-                'Gluten-Free',
-                'Kosher',
-                'Halal',
-                'Nut Allergy',
-                'Dairy-Free',
-                'Other',
+                { label: 'None', value: 'none' },
+                { label: 'Vegetarian', value: 'vegetarian' },
+                { label: 'Vegan', value: 'vegan' },
+                { label: 'Gluten-Free', value: 'gluten-free' },
+                { label: 'Kosher', value: 'kosher' },
+                { label: 'Halal', value: 'halal' },
+                { label: 'Nut Allergy', value: 'nut-allergy' },
+                { label: 'Dairy-Free', value: 'dairy-free' },
+                { label: 'Other', value: 'other' },
               ],
               placeholder: 'Select your dietary requirements',
               minSelected: 0,
@@ -382,6 +423,12 @@ export const recentForms: IForm[] = [
     id: '6ba7b810-9dad-11d1-80b4-00c04fd430c9',
     title: 'Product Feedback Form',
     description: 'Help us improve our product',
+    isActive: true,
+    multiPage: false,
+    allowDrafts: true,
+    requireAuth: false,
+    submitMessage:
+      'Thank you for your valuable feedback! We will use it to improve our product.',
     sections: [
       {
         id: 'b6c7d8e9-f0a1-4234-b567-abcdef012345',
@@ -420,12 +467,12 @@ export const recentForms: IForm[] = [
             order: 1,
             attributes: {
               options: [
-                'Less than 1 month',
-                '1-3 months',
-                '3-6 months',
-                '6-12 months',
-                'More than 1 year',
-                'Just started today',
+                { label: 'Less than 1 month', value: 'less-than-1-month' },
+                { label: '1-3 months', value: '1-3-months' },
+                { label: '3-6 months', value: '3-6-months' },
+                { label: '6-12 months', value: '6-12-months' },
+                { label: 'More than 1 year', value: 'more-than-1-year' },
+                { label: 'Just started today', value: 'just-started-today' },
               ],
               placeholder: 'Select your experience',
               minSelected: 1,
@@ -441,11 +488,11 @@ export const recentForms: IForm[] = [
             order: 2,
             attributes: {
               options: [
-                'Very Satisfied',
-                'Satisfied',
-                'Neutral',
-                'Dissatisfied',
-                'Very Dissatisfied',
+                { label: 'Very Satisfied', value: 'very-satisfied' },
+                { label: 'Satisfied', value: 'satisfied' },
+                { label: 'Neutral', value: 'neutral' },
+                { label: 'Dissatisfied', value: 'dissatisfied' },
+                { label: 'Very Dissatisfied', value: 'very-dissatisfied' },
               ],
               placeholder: 'Select your satisfaction',
               minSelected: 1,
@@ -520,6 +567,12 @@ export const recentForms: IForm[] = [
     id: '7c9e6679-7425-40de-944b-e07fc1f90ae7',
     title: 'Contact Us Form',
     description: 'Get in touch with our team',
+    isActive: true,
+    multiPage: false,
+    allowDrafts: false,
+    requireAuth: false,
+    submitMessage:
+      'Thank you for contacting us! We will get back to you within 24 hours.',
     sections: [
       {
         id: 'e5f6a7b8-c9d0-4123-e456-abcdef012345',
@@ -586,14 +639,14 @@ export const recentForms: IForm[] = [
             order: 1,
             attributes: {
               options: [
-                'General Question',
-                'Sales Inquiry',
-                'Technical Support',
-                'Partnership',
-                'Media Inquiry',
-                'Bug Report',
-                'Feature Request',
-                'Other',
+                { label: 'General Question', value: 'general-question' },
+                { label: 'Sales Inquiry', value: 'sales-inquiry' },
+                { label: 'Technical Support', value: 'technical-support' },
+                { label: 'Partnership', value: 'partnership' },
+                { label: 'Media Inquiry', value: 'media-inquiry' },
+                { label: 'Bug Report', value: 'bug-report' },
+                { label: 'Feature Request', value: 'feature-request' },
+                { label: 'Other', value: 'other' },
               ],
               minSelected: 1,
               maxSelected: 1,
@@ -628,6 +681,13 @@ export const recentForms: IForm[] = [
     title: 'Advanced Form with All Field Types',
     description:
       'Comprehensive form showcasing all available field types and attributes',
+    isActive: true,
+    multiPage: true,
+    allowDrafts: true,
+    requireAuth: true,
+    submitMessage:
+      'Form submitted successfully! Thank you for completing all sections.',
+    redirectUrl: 'https://example.com/advanced-form-success',
     sections: [
       {
         id: 'f1a2b3c4-d5e6-4789-f012-abcdef012345',
@@ -680,11 +740,11 @@ export const recentForms: IForm[] = [
             order: 1,
             attributes: {
               options: [
-                'Option 1',
-                'Option 2',
-                'Option 3',
-                'Option 4',
-                'Option 5',
+                { label: 'Option 1', value: 'option-1' },
+                { label: 'Option 2', value: 'option-2' },
+                { label: 'Option 3', value: 'option-3' },
+                { label: 'Option 4', value: 'option-4' },
+                { label: 'Option 5', value: 'option-5' },
               ],
               minSelected: 1,
               maxSelected: 1,
@@ -792,5 +852,161 @@ export const recentForms: IForm[] = [
     ],
     createdAt: now - 6 * oneDay,
     updatedAt: now - 5 * oneDay,
+  },
+  {
+    id: '6ba7b810-9dad-11d1-80b4-00c04fd430c7',
+    title: 'Customer Feedback Form',
+    description: 'Please help us improve our service by filling out this form',
+    isActive: true,
+    multiPage: false,
+    allowDrafts: true,
+    requireAuth: false,
+    submitMessage:
+      "Thank you for your feedback! We'll review it and get back to you soon.",
+    redirectUrl: 'https://example.com/thank-you',
+    sections: [
+      {
+        id: 'a1b2c3d4-e5f6-4789-a012-3456789abcdf',
+        title: 'Personal Information',
+        description: 'Tell us about yourself',
+        order: 0,
+        showInfo: true,
+        fields: [
+          {
+            id: 'b2c3d4e5-f6a7-4890-b123-456789abcdf0',
+            sectionId: 'a1b2c3d4-e5f6-4789-a012-3456789abcdf',
+            label: 'Full Name',
+            type: 'text',
+            required: true,
+            helperText: 'Enter your first and last name',
+            order: 0,
+            attributes: {
+              placeholder: 'John Doe',
+              maxLength: 100,
+            },
+          },
+          {
+            id: 'c3d4e5f6-a7b8-4901-c234-56789abcdf01',
+            sectionId: 'a1b2c3d4-e5f6-4789-a012-3456789abcdf',
+            label: 'Email Address',
+            type: 'email',
+            required: true,
+            helperText: "We'll use this to contact you if needed",
+            order: 1,
+            attributes: {
+              placeholder: 'john@example.com',
+            },
+          },
+          {
+            id: 'd4e5f6a7-b8c9-4012-d345-6789abcdf012',
+            sectionId: 'a1b2c3d4-e5f6-4789-a012-3456789abcdf',
+            label: 'Phone Number',
+            type: 'text',
+            required: false,
+            helperText: 'Optional - for urgent matters only',
+            order: 2,
+            attributes: {
+              placeholder: '+1 (555) 123-4567',
+            },
+          },
+        ],
+      },
+      {
+        id: 'b2c3d4e5-f6a7-4890-b123-456789abcdf1',
+        title: 'Feedback',
+        description: 'Share your thoughts with us',
+        order: 1,
+        showInfo: true,
+        fields: [
+          {
+            id: 'e5f6a7b8-c9d0-4123-e456-789abcdf0123',
+            sectionId: 'b2c3d4e5-f6a7-4890-b123-456789abcdf1',
+            label: 'How would you rate our service?',
+            type: 'select',
+            required: true,
+            helperText: 'Please select one option',
+            order: 0,
+            attributes: {
+              options: [
+                { label: 'Excellent', value: 'excellent' },
+                { label: 'Good', value: 'good' },
+                { label: 'Average', value: 'average' },
+                { label: 'Poor', value: 'poor' },
+              ],
+              placeholder: 'Select a rating',
+            },
+          },
+          {
+            id: 'f6a7b8c9-d0e1-4234-f567-89abcdf01234',
+            sectionId: 'b2c3d4e5-f6a7-4890-b123-456789abcdf1',
+            label: 'What did you like most?',
+            type: 'checkbox',
+            required: false,
+            helperText: 'Select all that apply',
+            order: 1,
+            attributes: {
+              options:
+                'Fast service, Friendly staff, Clean environment, Good prices, Easy to use website',
+            },
+          },
+          {
+            id: 'a7b8c9d0-e1f2-4345-a678-9abcdf012345',
+            sectionId: 'b2c3d4e5-f6a7-4890-b123-456789abcdf1',
+            label: 'Additional Comments',
+            type: 'textarea',
+            required: false,
+            helperText: "Any other feedback you'd like to share?",
+            order: 2,
+            attributes: {
+              placeholder: 'Tell us more about your experience...',
+              rows: 4,
+              maxLength: 1000,
+            },
+          },
+        ],
+      },
+      {
+        id: 'c3d4e5f6-a7b8-4901-c234-56789abcdf2',
+        title: 'Follow-up',
+        description: 'Help us stay in touch',
+        order: 2,
+        showInfo: true,
+        fields: [
+          {
+            id: 'b8c9d0e1-f2a3-4456-b789-abcdf0123456',
+            sectionId: 'c3d4e5f6-a7b8-4901-c234-56789abcdf2',
+            label: 'Preferred Contact Method',
+            type: 'select',
+            required: false,
+            helperText: 'How would you like us to follow up?',
+            order: 0,
+            attributes: {
+              options: [
+                { label: 'Email', value: 'email' },
+                { label: 'Phone', value: 'phone' },
+                { label: 'No follow-up needed', value: 'no-follow-up' },
+              ],
+              placeholder: 'Select preferred method',
+            },
+          },
+          {
+            id: 'c9d0e1f2-a3b4-4567-c890-bcdf01234567',
+            sectionId: 'c3d4e5f6-a7b8-4901-c234-56789abcdf2',
+            label: 'Best time to contact you',
+            type: 'date',
+            required: false,
+            helperText: 'If you selected phone or email above',
+            order: 1,
+            attributes: {
+              mode: 'single',
+              placeholder: 'Select a date',
+              dateFormat: 'MM/DD/YYYY',
+            },
+          },
+        ],
+      },
+    ],
+    createdAt: now - 1 * oneDay,
+    updatedAt: now - 1 * oneDay,
   },
 ];

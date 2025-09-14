@@ -9,8 +9,8 @@ using Rest;
 namespace LokiForm.Auth {
   @post
   @route("login")
-  @summary("Login")
-  @doc("Authenticates a user with their email and password credentials. Returns the authenticated user's profile information upon successful login. This endpoint is used for user authentication in the form builder application.")
+  @summary("User authentication and login")
+  @doc("Authenticates a user with their email and password credentials. Upon successful authentication, returns the user's complete profile information including personal details, preferences, and authentication status. This endpoint is the primary entry point for user authentication in the LokiForm application.")
   op signIn(
     @body payload: {
       email: string;
@@ -20,8 +20,8 @@ namespace LokiForm.Auth {
 
   @post
   @route("register")
-  @summary("Register an account")
-  @doc("Creates a new user account with the provided personal information and credentials. Returns the authenticated user's profile information upon successful registration. This endpoint is used for user registration in the form builder application.")
+  @summary("Create new user account")
+  @doc("Creates a new user account with the provided personal information and credentials. Validates email uniqueness and password requirements before account creation. Returns the authenticated user's complete profile information upon successful registration. This endpoint enables new users to join the LokiForm platform.")
   op register(
     @body payload: {
       firstName: string;
@@ -34,15 +34,15 @@ namespace LokiForm.Auth {
   @get
   @route("profile")
   @useAuth(Http.BearerAuth)
-  @summary("Get profile")
-  @doc("Retrieves the authenticated user's profile information including personal details and account settings. This endpoint requires a valid authentication token.")
+  @summary("Get authenticated user profile")
+  @doc("Retrieves the authenticated user's complete profile information including personal details, account settings, interface preferences, and role information. This endpoint requires a valid Bearer authentication token and is used to display user information in the application interface.")
   op getProfile(): User;
 
   @put
   @route("profile")
   @useAuth(Http.BearerAuth)
-  @summary("Update profile")
-  @doc("Updates the authenticated user's profile information including personal details, password, interface preferences, and language settings. This endpoint requires a valid authentication token.")
+  @summary("Update user profile information")
+  @doc("Updates the authenticated user's profile information including personal details (name, email), password, interface preferences (theme mode, language), and account settings. All fields are optional and only provided fields will be updated. This endpoint requires a valid Bearer authentication token.")
   op updateProfile(
     @body payload: {
       firstName?: string;
@@ -56,8 +56,8 @@ namespace LokiForm.Auth {
   @post
   @route("change-password")
   @useAuth(Http.BearerAuth)
-  @summary("Change password")
-  @doc("Updates the authenticated user's password by providing the current password and a new password. This endpoint requires a valid authentication token and validates the current password before making the change.")
+  @summary("Change user password")
+  @doc("Updates the authenticated user's password by providing the current password and a new password. Validates the current password for security before applying the new password. This endpoint requires a valid Bearer authentication token and is used for secure password updates.")
   op changePassword(
     @body payload: {
       oldPassword: string;
@@ -67,9 +67,8 @@ namespace LokiForm.Auth {
 
   @post
   @route("forgot-password")
-  @useAuth(Http.BearerAuth)
-  @summary("Reset password")
-  @doc("Initiates a password reset process by sending a reset token to the user's email address. This endpoint is used when users forget their password and need to reset it.")
+  @summary("Initiate password reset process")
+  @doc("Initiates a password reset process by sending a secure reset token to the user's registered email address. This endpoint is used when users forget their password and need to reset it. The reset token is time-limited and can be used with the reset-password endpoint.")
   op forgotPassword(
     @body payload: {
       email: string;
@@ -78,9 +77,8 @@ namespace LokiForm.Auth {
 
   @post
   @route("reset-password")
-  @useAuth(Http.BearerAuth)
-  @summary("Reset password")
-  @doc("Completes the password reset process using a valid reset token and new password. This endpoint is used after the user receives a reset token via email.")
+  @summary("Complete password reset with token")
+  @doc("Completes the password reset process using a valid reset token received via email and a new password. Validates the token's authenticity and expiration before updating the password. This endpoint is used after the user receives a reset token via the forgot-password endpoint.")
   op resetPassword(
     @body payload: {
       token: string;
@@ -90,9 +88,8 @@ namespace LokiForm.Auth {
 
   @post
   @route("refresh")
-  @useAuth(Http.BearerAuth)
-  @summary("Refresh token")
-  @doc("Refreshes an expired authentication token using a valid refresh token. This endpoint is used to maintain user sessions without requiring re-authentication.")
+  @summary("Refresh authentication token")
+  @doc("Refreshes an expired authentication token using a valid refresh token. This endpoint maintains user sessions without requiring re-authentication, providing a seamless user experience. Returns a new access token and refresh token pair upon successful validation.")
   op refresh(
     @body payload: {
       refreshToken: string;
