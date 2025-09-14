@@ -1,8 +1,9 @@
 import { z } from 'zod';
 
 export const signUpFormSchema = z.object({
-  name: z.string().min(1),
-  email: z.email(),
+  firstName: z.string().min(1).max(255),
+  lastName: z.string().min(1).max(255),
+  email: z.email().max(255),
   password: z.string().min(8),
 });
 

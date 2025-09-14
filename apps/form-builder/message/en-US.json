@@ -2,6 +2,69 @@
   "homePage": {
     "title": "Hello world!"
   },
+  "authPage": {
+    "login": {
+      "title": "Welcome back",
+      "suggestion": "Don't have an account?",
+      "form": {
+        "email": {
+          "label": "Email",
+          "placeholder": "m@example.com"
+        },
+        "password": {
+          "label": "Password",
+          "placeholder": "********"
+        }
+      },
+      "actions": {
+        "forgotPassword": "Forgot your password?",
+        "signIn": "Sign In",
+        "signUp": "Sign Up"
+      }
+    },
+    "register": {
+      "title": "Create your Account",
+      "suggestion": "Already have an account?",
+      "form": {
+        "firstName": {
+          "label": "First name",
+          "placeholder": "Enter first name"
+        },
+        "lastName": {
+          "label": "Last name",
+          "placeholder": "Enter last name"
+        },
+        "email": {
+          "label": "Email",
+          "placeholder": "m@example.com"
+        },
+        "password": {
+          "label": "Password",
+          "placeholder": "********"
+        }
+      },
+      "actions": {
+        "forgotPassword": "Forgot your password?",
+        "signIn": "Sign In",
+        "signUp": "Sign Up"
+      }
+    },
+    "forgotPassword": {
+      "title": "Forgot password",
+      "description": "Enter your email to reset your password",
+      "suggestion": "Don't have an account?",
+      "form": {
+        "email": {
+          "label": "Email",
+          "placeholder": "m@example.com"
+        }
+      },
+      "actions": {
+        "resetPassword": "Reset Password",
+        "signUp": "Sign Up"
+      }
+    }
+  },
   "sidebar": {
     "nav": {
       "home": "Home",

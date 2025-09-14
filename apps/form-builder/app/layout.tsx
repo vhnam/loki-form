@@ -8,6 +8,8 @@ import { PropsWithChildren } from 'react';
 
 import { BRAND_DESCRIPTION, BRAND_NAME } from '@/constants/branding';
 
+import { cn } from '@repo/core-ui/lib/utils';
+
 import QueryProvider from '@/providers/query';
 import ThemeProvider from '@/providers/theme';
 
@@ -27,7 +29,11 @@ export default async function RootLayout({ children }: PropsWithChildren) {
   return (
     <html lang={locale} suppressHydrationWarning>
       <body
-        className={`${openSans.className} ${merriweather.className} antialiased`}
+        className={cn(
+          'antialiased',
+          openSans.className,
+          merriweather.className
+        )}
       >
         <QueryProvider>
           <NextIntlClientProvider locale={locale}>

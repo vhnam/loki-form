@@ -2,6 +2,69 @@
   "homePage": {
     "title": "Xin chào!"
   },
+  "authPage": {
+    "login": {
+      "title": "Chào mừng trở lại",
+      "suggestion": "Bạn chưa có tài khoản?",
+      "form": {
+        "email": {
+          "label": "Email",
+          "placeholder": "m@example.com"
+        },
+        "password": {
+          "label": "Mật khẩu",
+          "placeholder": "********"
+        }
+      },
+      "actions": {
+        "forgotPassword": "Quên mật khẩu?",
+        "signIn": "Đăng nhập",
+        "signUp": "Đăng ký"
+      }
+    },
+    "register": {
+      "title": "Tạo tài khoản",
+      "suggestion": "Bạn đã có tài khoản?",
+      "form": {
+        "firstName": {
+          "label": "Tên",
+          "placeholder": "Nhập tên"
+        },
+        "lastName": {
+          "label": "Họ",
+          "placeholder": "Nhập họ"
+        },
+        "email": {
+          "label": "Email",
+          "placeholder": "m@example.com"
+        },
+        "password": {
+          "label": "Mật khẩu",
+          "placeholder": "********"
+        }
+      },
+      "actions": {
+        "forgotPassword": "Quên mật khẩu?",
+        "signIn": "Đăng nhập",
+        "signUp": "Đăng ký"
+      }
+    },
+    "forgotPassword": {
+      "title": "Quên mật khẩu",
+      "description": "Vui lòng nhập email để đặt lại mật khẩu.",
+      "suggestion": "Bạn chưa có tài khoản?",
+      "form": {
+        "email": {
+          "label": "Email",
+          "placeholder": "m@example.com"
+        }
+      },
+      "actions": {
+        "resetPassword": "Đặt lại mật khẩu",
+        "signUp": "Đăng ký"
+      }
+    }
+  },
   "sidebar": {
     "nav": {
       "home": "Trang chủ",

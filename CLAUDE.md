@@ -3,6 +3,7 @@
 ## Technology Stack
 
 ### Frontend
+
 - **Framework**: Next.js 15 with App Router
 - **Language**: TypeScript 5.9.2 (strict mode)
 - **Styling**: TailwindCSS v4, Radix UI components
@@ -16,6 +17,7 @@
 - **Error Handling**: react-error-boundary
 
 ### Backend
+
 - **Framework**: NestJS 10
 - **Language**: TypeScript 5.9.2
 - **Database**: PostgreSQL with Drizzle ORM
@@ -25,12 +27,14 @@
 - **HTTP Client**: Axios
 
 ### API Specification
+
 - **Specification**: TypeSpec (Microsoft's TypeSpec)
 - **Output**: OpenAPI 3.0
 - **Tools**: TypeSpec compiler, TypeSpec HTTP, TypeSpec REST
 - **Visualization**: Scalar
 
 ### Build & Development
+
 - **Package Manager**: pnpm 9.0.0
 - **Build System**: Turbo (Turborepo) 2.5.6
 - **Node Version**: >=22
@@ -40,12 +44,14 @@
 - **Type Checking**: TypeScript 5.9.2
 
 ### Database & ORM
+
 - **Database**: PostgreSQL
 - **ORM**: Drizzle ORM 0.44.5
 - **Migrations**: Drizzle Kit
 - **Studio**: Drizzle Studio for database GUI
 
 ### UI Libraries & Components
+
 - **Base Components**: Radix UI primitives
 - **Design System**: Shadcn UI
 - **Styling**: TailwindCSS v4 with PostCSS

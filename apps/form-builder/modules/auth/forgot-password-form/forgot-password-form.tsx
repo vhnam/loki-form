@@ -1,7 +1,9 @@
 'use client';
 
 import { Loader2Icon } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import Link from 'next/link';
+import React from 'react';
 
 import { PUBLIC_ROUTES } from '@/constants/routes';
 
@@ -27,14 +29,13 @@ import useForgotPasswordFormActions from './forgot-password-form.actions';
 
 const ForgotPasswordForm = () => {
   const { form, onSubmit, isPending } = useForgotPasswordFormActions();
+  const t = useTranslations('authPage');
 
   return (
     <Card>
       <CardHeader className="text-center">
-        <CardTitle className="text-xl">Forgot Password</CardTitle>
-        <CardDescription>
-          Enter your email to reset your password
-        </CardDescription>
+        <CardTitle className="text-xl">{t('forgotPassword.title')}</CardTitle>
+        <CardDescription>{t('forgotPassword.description')}</CardDescription>
       </CardHeader>
       <CardContent>
         <Form {...form}>
@@ -46,9 +47,16 @@ const ForgotPasswordForm = () => {
                   name="email"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Email</FormLabel>
+                      <FormLabel>
+                        {t('forgotPassword.form.email.label')}
+                      </FormLabel>
                       <FormControl>
-                        <Input placeholder="m@example.com" {...field} />
+                        <Input
+                          placeholder={t(
+                            'forgotPassword.form.email.placeholder'
+                          )}
+                          {...field}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -59,17 +67,17 @@ const ForgotPasswordForm = () => {
                 {isPending ? (
                   <Loader2Icon className="size-4 animate-spin" />
                 ) : (
-                  'Reset Password'
+                  t('forgotPassword.actions.resetPassword')
                 )}
               </Button>
             </div>
             <div className="text-center text-sm">
-              Don&apos;t have an account?{' '}
+              {t('forgotPassword.suggestion')}{' '}
               <Link
                 href={PUBLIC_ROUTES.auth.signUp}
                 className="underline underline-offset-4"
               >
-                Sign Up
+                {t('forgotPassword.actions.signUp')}
               </Link>
             </div>
           </form>

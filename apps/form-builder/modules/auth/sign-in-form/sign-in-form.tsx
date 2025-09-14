@@ -1,6 +1,7 @@
 'use client';
 
 import { Loader2Icon } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import React from 'react';
 
@@ -27,11 +28,12 @@ import useSignInFormActions from './sign-in-form.actions';
 
 const SignInForm = () => {
   const { form, onSubmit, isPending } = useSignInFormActions();
+  const t = useTranslations('authPage');
 
   return (
     <Card>
       <CardHeader className="text-center">
-        <CardTitle className="text-xl">Welcome back</CardTitle>
+        <CardTitle className="text-xl">{t('login.title')}</CardTitle>
       </CardHeader>
       <CardContent>
         <Form {...form}>
@@ -44,9 +46,12 @@ const SignInForm = () => {
                     name="email"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Email</FormLabel>
+                        <FormLabel>{t('login.form.email.label')}</FormLabel>
                         <FormControl>
-                          <Input placeholder="m@example.com" {...field} />
+                          <Input
+                            placeholder={t('login.form.email.placeholder')}
+                            {...field}
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -61,10 +66,12 @@ const SignInForm = () => {
                       name="password"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Password</FormLabel>
+                          <FormLabel>
+                            {t('login.form.password.label')}
+                          </FormLabel>
                           <FormControl>
                             <Input
-                              placeholder="********"
+                              placeholder={t('login.form.password.placeholder')}
                               {...field}
                               type="password"
                             />
@@ -77,7 +84,7 @@ const SignInForm = () => {
                       href={PUBLIC_ROUTES.auth.forgotPassword}
                       className="ml-auto text-sm underline-offset-4 hover:underline"
                     >
-                      Forgot your password?
+                      {t('login.actions.forgotPassword')}
                     </Link>
                   </div>
                 </div>
@@ -86,18 +93,18 @@ const SignInForm = () => {
                   {isPending ? (
                     <Loader2Icon className="size-4 animate-spin" />
                   ) : (
-                    'Sign In'
+                    t('login.actions.signIn')
                   )}
                 </Button>
               </div>
 
               <div className="text-center text-sm">
-                Don&apos;t have an account?{' '}
+                {t('login.suggestion')}{' '}
                 <Link
                   href={PUBLIC_ROUTES.auth.signUp}
                   className="underline underline-offset-4"
                 >
-                  Sign Up
+                  {t('login.actions.signUp')}
                 </Link>
               </div>
             </div>

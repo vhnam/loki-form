@@ -25,6 +25,7 @@ Each package/app is 100% [TypeScript](https://www.typescriptlang.org/) with stri
 ## Features
 
 ### Form Building
+
 - **Multiple Field Types**: Text, email, select, checkbox, date, textarea, number, password, radio, and file fields
 - **Conditional Logic**: Create dynamic forms with conditional field visibility
 - **Real-time Preview**: See your form as you build it with live updates
@@ -33,6 +34,7 @@ Each package/app is 100% [TypeScript](https://www.typescriptlang.org/) with stri
 - **Form Validation**: Built-in validation with Zod schemas
 
 ### User Management
+
 - **Authentication**: Secure JWT-based authentication with refresh tokens
 - **User Registration**: Sign up with email and password
 - **Profile Management**: Update user profile and preferences
@@ -41,6 +43,7 @@ Each package/app is 100% [TypeScript](https://www.typescriptlang.org/) with stri
 - **Theme Support**: Light, dark, and system theme modes
 
 ### Technical Features
+
 - **Responsive Design**: Works seamlessly on desktop and mobile devices
 - **Type Safety**: Full TypeScript support with strict mode
 - **API Documentation**: Auto-generated OpenAPI 3.0 documentation
@@ -63,6 +66,7 @@ The form builder supports a comprehensive set of field types:
 - **File Upload**: File input with type and size restrictions
 
 Each field type supports:
+
 - Required/optional validation
 - Custom placeholder text
 - Default values
@@ -73,6 +77,7 @@ Each field type supports:
 ## Architecture & Design Principles
 
 ### Monorepo Structure
+
 This project follows a well-organized monorepo pattern with clear separation of concerns:
 
 - **Applications**: Standalone apps that can be deployed independently
@@ -80,12 +85,14 @@ This project follows a well-organized monorepo pattern with clear separation of 
 - **Shared Configurations**: Consistent tooling and standards across all packages
 
 ### Design System
+
 - **Component Library**: Reusable UI components built with Radix UI primitives
 - **Design Tokens**: Consistent spacing, colors, and typography
 - **Accessibility**: WCAG compliant components with proper ARIA attributes
 - **Theming**: Support for light/dark modes with system preference detection
 
 ### Development Workflow
+
 - **Type Safety**: End-to-end TypeScript with strict mode
 - **Code Quality**: ESLint, Prettier, and automated testing
 - **Build Optimization**: Turbo for fast, cached builds
@@ -279,6 +286,7 @@ pnpm --filter=api-spec preview
 The backend provides a comprehensive REST API with the following main endpoints:
 
 ### Authentication
+
 - `POST /auth/register` - User registration
 - `POST /auth/login` - User login
 - `POST /auth/refresh` - Refresh access token
@@ -290,6 +298,7 @@ The backend provides a comprehensive REST API with the following main endpoints:
 - `POST /auth/reset-password` - Reset password with token
 
 ### Forms (Coming Soon)
+
 - `GET /forms` - List user forms
 - `POST /forms` - Create new form
 - `GET /forms/:id` - Get form details
@@ -298,6 +307,7 @@ The backend provides a comprehensive REST API with the following main endpoints:
 - `POST /forms/:id/submit` - Submit form response
 
 ### Health Check
+
 - `GET /health` - API health status
 
 All endpoints are documented with OpenAPI 3.0 specification and can be explored using the interactive API documentation.
@@ -320,6 +330,7 @@ pnpm --filter=form-builder-server db:studio
 ## Environment Configuration
 
 ### Frontend Environment Variables
+
 Create a `.env.local` file in the `apps/form-builder` directory:
 
 ```env
@@ -333,6 +344,7 @@ NEXT_PUBLIC_SUPPORTED_LOCALES=en-US,vi-VN
 ```
 
 ### Backend Environment Variables
+
 Create a `.env` file in the `apps/form-builder-server` directory:
 
 ```env
@@ -354,7 +366,9 @@ CORS_ORIGIN=http://localhost:3000
 ```
 
 ### Database Configuration
+
 The application uses PostgreSQL with the following default configuration:
+
 - **Host**: localhost
 - **Port**: 5432
 - **Database**: form_builder

@@ -1,7 +1,9 @@
 'use client';
 
 import { Loader2Icon } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import Link from 'next/link';
+import React from 'react';
 
 import { PUBLIC_ROUTES } from '@/constants/routes';
 
@@ -26,11 +28,12 @@ import useSignUpFormActions from './sign-up-form.actions';
 
 const SignUpForm = () => {
   const { form, onSubmit, isPending } = useSignUpFormActions();
+  const t = useTranslations('authPage');
 
   return (
     <Card>
       <CardHeader className="text-center">
-        <CardTitle className="text-xl">Create you Account</CardTitle>
+        <CardTitle className="text-xl">{t('register.title')}</CardTitle>
       </CardHeader>
       <CardContent>
         <Form {...form}>
@@ -40,12 +43,42 @@ const SignUpForm = () => {
                 <div className="grid gap-3">
                   <FormField
                     control={form.control}
-                    name="name"
+                    name="firstName"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Name</FormLabel>
+                        <FormLabel>
+                          {t('register.form.firstName.label')}
+                        </FormLabel>
                         <FormControl>
-                          <Input placeholder="shadcn" {...field} />
+                          <Input
+                            placeholder={t(
+                              'register.form.firstName.placeholder'
+                            )}
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+
+                <div className="grid gap-3">
+                  <FormField
+                    control={form.control}
+                    name="lastName"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>
+                          {t('register.form.lastName.label')}
+                        </FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder={t(
+                              'register.form.lastName.placeholder'
+                            )}
+                            {...field}
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -59,9 +92,12 @@ const SignUpForm = () => {
                     name="email"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Email</FormLabel>
+                        <FormLabel>{t('register.form.email.label')}</FormLabel>
                         <FormControl>
-                          <Input placeholder="m@example.com" {...field} />
+                          <Input
+                            placeholder={t('register.form.email.placeholder')}
+                            {...field}
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -76,10 +112,14 @@ const SignUpForm = () => {
                       name="password"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Password</FormLabel>
+                          <FormLabel>
+                            {t('register.form.password.label')}
+                          </FormLabel>
                           <FormControl>
                             <Input
-                              placeholder="********"
+                              placeholder={t(
+                                'register.form.password.placeholder'
+                              )}
                               {...field}
                               type="password"
                             />
@@ -92,7 +132,7 @@ const SignUpForm = () => {
                       href={PUBLIC_ROUTES.auth.forgotPassword}
                       className="ml-auto text-sm underline-offset-4 hover:underline"
                     >
-                      Forgot your password?
+                      {t('register.actions.forgotPassword')}
                     </Link>
                   </div>
                 </div>
@@ -101,18 +141,18 @@ const SignUpForm = () => {
                   {isPending ? (
                     <Loader2Icon className="size-4 animate-spin" />
                   ) : (
-                    'Sign Up'
+                    t('register.actions.signUp')
                   )}
                 </Button>
               </div>
 
               <div className="text-center text-sm">
-                Already have an account?{' '}
+                {t('register.suggestion')}{' '}
                 <Link
                   href={PUBLIC_ROUTES.auth.signIn}
                   className="underline underline-offset-4"
                 >
-                  Sign In
+                  {t('register.actions.signIn')}
                 </Link>
               </div>
             </div>
