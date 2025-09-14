@@ -1,8 +1,18 @@
 import { FileSlidersIcon, GripVerticalIcon, TrashIcon } from 'lucide-react';
+import React from 'react';
+import { Control } from 'react-hook-form';
 
-import type { IField, IForm } from '@repo/form-ui/types/form';
+import { type QuestionFormDialogSchema } from '@/schemas/form';
+
+import type { IForm } from '@repo/form-ui/types/form';
 
 import { Button } from '@repo/core-ui/components/button';
+import {
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from '@repo/core-ui/components/form';
 import { Input } from '@repo/core-ui/components/input';
 import {
   Tooltip,
@@ -13,23 +23,37 @@ import {
 import QuestionConditionalLogic from './question-conditional-logic';
 
 interface QuestionSelectionOptionProps {
-  question: IField;
-  index?: number;
+  control: Control<QuestionFormDialogSchema>;
+  index: number;
   form: IForm;
+  onRemove: (index: number) => void;
 }
 
 const QuestionSelectionOption = ({
-  question,
-  index = -1,
+  control,
+  index,
   form,
+  onRemove,
 }: QuestionSelectionOptionProps) => {
   return (
     <div className="grid gap-3">
       <div className="flex items-center gap-2">
-        {index > -1 && <GripVerticalIcon className="size-4 cursor-grab" />}
-        <Input
-          id={`${question.id}-option-${index}`}
-          placeholder={`Option ${index > -1 ? index + 1 : ''}`}
+        <GripVerticalIcon className="size-4 cursor-grab" />
+        <FormField
+          control={control}
+          name={`attributes.options.${index}.label`}
+          render={({ field }) => (
+            <FormItem className="flex-1">
+              <FormControl>
+                <Input
+                  placeholder={`Option ${index + 1}`}
+                  value={field.value || ''}
+                  onChange={field.onChange}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
         />
         <Tooltip>
           <TooltipTrigger asChild>
@@ -43,7 +67,11 @@ const QuestionSelectionOption = ({
         </Tooltip>
         <Tooltip>
           <TooltipTrigger asChild>
-            <Button variant="destructive" size="icon">
+            <Button
+              variant="destructive"
+              size="icon"
+              onClick={() => onRemove(index)}
+            >
               <TrashIcon className="size-4" />
             </Button>
           </TooltipTrigger>
@@ -53,7 +81,7 @@ const QuestionSelectionOption = ({
         </Tooltip>
       </div>
 
-      <QuestionConditionalLogic question={question} index={index} form={form} />
+      <QuestionConditionalLogic control={control} index={index} form={form} />
     </div>
   );
 };

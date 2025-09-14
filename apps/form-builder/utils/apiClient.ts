@@ -6,6 +6,12 @@ import { useAuthStore } from '@/stores/auth';
 
 const apiClient = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_ENDPOINT || 'http://localhost:4000',
+  withCredentials: true,
+  headers: {
+    common: {
+      'Content-Type': 'application/json',
+    },
+  },
 });
 
 apiClient.interceptors.request.use((config) => {
@@ -21,7 +27,7 @@ apiClient.interceptors.response.use(
     return response;
   },
   (error) => {
-    if (error.response.status === 401) {
+    if (error.response?.status === 401) {
       useAuthStore.getState().clearAuth();
       window.location.href = PUBLIC_ROUTES.auth.signIn;
     }

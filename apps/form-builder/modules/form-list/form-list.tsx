@@ -9,13 +9,15 @@ import {
 } from '@tanstack/react-table';
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
-import { useCallback, useMemo } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 
 import { PRIVATE_ROUTES } from '@/constants/routes';
 
 import { sortBy, sumBy } from '@repo/core-ui/lib/lodash';
 
-import { type IForm } from '@repo/form-ui/types/form';
+import type { IForm, ISection } from '@repo/form-ui/types/form';
+
+import { useGetFormsQuery } from '@/services/forms';
 
 import FormDeleteDialog from '@/components/form-delete-dialog';
 import TablePagination from '@/components/table-pagination';
@@ -36,22 +38,29 @@ import { PrivateLayoutHeader } from '@/layouts/private';
 import { useFormListColumns } from './form-list-columns';
 import { useFormListActions } from './form-list.actions';
 
-import { recentForms } from '@/mocks/forms';
-
 const FormList = () => {
   const t = useTranslations('formListPage');
 
-  // TODO: update later with real data
+  const [page, setPage] = useState(1);
+
+  const { data } = useGetFormsQuery({
+    page,
+    perPage: 10,
+    sortBy: 'updatedAt',
+    sortOrder: 'desc',
+    query: '',
+  });
+
   const fieldsCountMap = useMemo(() => {
     const map = new Map<string, number>();
-    recentForms.forEach((form) => {
+    data?.data.forEach((form: IForm) => {
       map.set(
         form.id,
-        sumBy(form.sections, (section) => section.fields.length)
+        sumBy(form.sections, (section: ISection) => section.fields.length)
       );
     });
     return map;
-  }, []);
+  }, [data]);
 
   const getFieldsCount = useCallback(
     (form: IForm) => fieldsCountMap.get(form.id) ?? 0,
@@ -61,10 +70,9 @@ const FormList = () => {
   const { handlers, deleteDialog } = useFormListActions();
   const columns = useFormListColumns({ handlers, getFieldsCount });
 
-  // TODO: update later with real data
   const sortedData = useMemo(
-    () => sortBy(recentForms, 'updatedAt').reverse(),
-    []
+    () => sortBy(data?.data ?? [], 'updatedAt').reverse(),
+    [data]
   );
 
   const table = useReactTable<IForm>({
@@ -148,7 +156,11 @@ const FormList = () => {
             </div>
 
             <div className="flex items-center justify-between space-x-2 py-4">
-              <TablePagination table={table} />
+              <TablePagination
+                table={table}
+                totalPages={data?.pagination.totalPages ?? 0}
+                onPageChange={setPage}
+              />
             </div>
           </div>
         </div>

@@ -3,7 +3,7 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { and, asc, count, desc, eq, sql } from 'drizzle-orm';
+import { and, asc, count, desc, eq, ilike, or, sql } from 'drizzle-orm';
 
 import { DatabaseService } from '../database/database.service';
 import {
@@ -62,8 +62,8 @@ export class FormsService {
     pagination?: PaginationDto
   ): Promise<PaginatedResponse<Form>> {
     const page = pagination?.page || 1;
-    const limit = pagination?.limit || 10;
-    const offset = (page - 1) * limit;
+    const perPage = pagination?.perPage || 10;
+    const offset = (page - 1) * perPage;
 
     // Determine sort order
     const sortOrder = pagination?.sortOrder === 'asc' ? asc : desc;
@@ -80,6 +80,16 @@ export class FormsService {
       conditions.push(eq(forms.userId, userId));
     }
 
+    // Add search functionality if query is provided
+    if (pagination?.query) {
+      conditions.push(
+        or(
+          ilike(forms.title, `%${pagination.query}%`),
+          ilike(forms.description, `%${pagination.query}%`)
+        )
+      );
+    }
+
     // Get total count
     const totalCountResult = await this.databaseService.db
       .select({ count: count() })
@@ -93,7 +103,7 @@ export class FormsService {
       .select()
       .from(forms)
       .orderBy(sortOrder(sortColumn))
-      .limit(limit)
+      .limit(perPage)
       .offset(offset);
 
     if (conditions.length > 0) {
@@ -103,7 +113,7 @@ export class FormsService {
     const data = await query;
 
     // Calculate pagination metadata
-    const totalPages = Math.ceil(total / limit);
+    const totalPages = Math.ceil(total / perPage);
     const hasNext = page < totalPages;
     const hasPrev = page > 1;
 
@@ -111,7 +121,7 @@ export class FormsService {
       data,
       pagination: {
         page,
-        limit,
+        perPage,
         total,
         totalPages,
         hasNext,

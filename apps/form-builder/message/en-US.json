@@ -190,5 +190,82 @@
       "title": "Recent forms",
       "description": "Recent forms"
     }
+  },
+  "formBuilderPage": {
+    "header": {
+      "title": {
+        "new": "New form",
+        "edit": "Edit form"
+      },
+      "actions": {
+        "save": "Save",
+        "saving": "Saving...",
+        "cancel": "Cancel"
+      }
+    },
+    "form": {
+      "title": {
+        "label": "Title",
+        "placeholder": "Enter title"
+      },
+      "description": {
+        "label": "Description",
+        "placeholder": "Enter description"
+      },
+      "actions": {
+        "editForm": "Edit form",
+        "addAnotherField": "Add another field",
+        "toggleSection": "Toggle section",
+        "toggleSectionTooltip": "Toggle section",
+        "deleteSection": "Delete section",
+        "deleteSectionTooltip": "Delete section",
+        "editSection": "Edit section",
+        "editSectionTooltip": "Edit section",
+        "addQuestion": "Add question",
+        "addQuestionTooltip": "Add question"
+      }
+    },
+    "question": {
+      "sections": {
+        "description": {
+          "title": {
+            "add": "Add question",
+            "edit": "Edit question"
+          },
+          "description": {
+            "add": "Description",
+            "edit": "Description"
+          }
+        },
+        "settings": {
+          "title": "Settings"
+        }
+      },
+      "section": {
+        "label": "Section",
+        "placeholder": "Select section"
+      },
+      "type": {
+        "label": "Type",
+        "placeholder": "Select type"
+      },
+      "title": {
+        "label": "Title",
+        "placeholder": "Enter title"
+      },
+      "description": {
+        "label": "Description",
+        "placeholder": "Enter description"
+      },
+      "helperText": {
+        "label": "Helper text",
+        "placeholder": "Enter helper text"
+      },
+      "actions": {
+        "delete": "Delete",
+        "cancel": "Cancel",
+        "finish": "Finish"
+      }
+    }
   }
 }

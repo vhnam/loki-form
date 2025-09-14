@@ -7,15 +7,18 @@ import {
   PlusIcon,
   TrashIcon,
 } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import Link from 'next/link';
+import React from 'react';
+import { useWatch } from 'react-hook-form';
 
 import { PRIVATE_ROUTES } from '@/constants/routes';
 
 import { QuestionType } from '@repo/form-ui/enums/question';
 
-import { IForm } from '@repo/form-ui/types/form';
+import { IField, IForm, ISection } from '@repo/form-ui/types/form';
 
-import QuestionEditDialog from '@/components/question-edit-dialog';
+import QuestionFormDialog from '@/components/question-form-dialog';
 
 import { Badge } from '@repo/core-ui/components/badge';
 import { Button } from '@repo/core-ui/components/button';
@@ -33,6 +36,7 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from '@repo/core-ui/components/collapsible';
+import { Form } from '@repo/core-ui/components/form';
 import {
   Tooltip,
   TooltipContent,
@@ -43,24 +47,32 @@ import QuestionTypeBadge from '@repo/form-ui/components/question-type-badge';
 
 import { PrivateLayoutHeader } from '@/layouts/private';
 
-import { recentForms } from '@/mocks/forms';
+import useFormNewActions from './form-new.actions';
 
-const sampleForm = recentForms[recentForms.length - 1] as IForm;
+const sections: ISection[] = [];
 
 const FormNew = () => {
+  const t = useTranslations('formBuilderPage');
+
+  const { form } = useFormNewActions();
+
+  const formData = useWatch({
+    control: form.control,
+  });
+
   return (
-    <>
+    <Form {...form}>
       <PrivateLayoutHeader
-        title="New form"
+        title={t('header.title.new')}
         actions={
           <div className="flex items-center gap-2">
             <Link href={PRIVATE_ROUTES.forms.list}>
               <Button variant="outline" type="button">
-                Cancel
+                {t('header.actions.cancel')}
               </Button>
             </Link>
             <Button type="submit" variant="default">
-              Save
+              {t('header.actions.save')}
             </Button>
           </div>
         }
@@ -69,17 +81,17 @@ const FormNew = () => {
       <div className="mx-auto w-full max-w-4xl p-6">
         <Card>
           <CardHeader>
-            <CardTitle>{sampleForm.title}</CardTitle>
-            <CardDescription>{sampleForm.description}</CardDescription>
+            <CardTitle>{formData.title}</CardTitle>
+            <CardDescription>{formData.description}</CardDescription>
             <CardAction>
               <Button variant="ghost">
-                <EditIcon /> Edit form
+                <EditIcon /> {t('form.actions.editForm')}
               </Button>
             </CardAction>
           </CardHeader>
           <CardContent>
             <div className="space-y-6">
-              {sampleForm.sections.map((section) => (
+              {sections.map((section: ISection) => (
                 <Collapsible
                   open={true}
                   onOpenChange={() => {}}
@@ -105,11 +117,13 @@ const FormNew = () => {
                               className="size-8"
                             >
                               <ChevronsUpDown />
-                              <span className="sr-only">Toggle</span>
+                              <span className="sr-only">
+                                {t('form.actions.toggleSection')}
+                              </span>
                             </Button>
                           </TooltipTrigger>
                           <TooltipContent>
-                            <p>Toggle section</p>
+                            <p>{t('form.actions.toggleSectionTooltip')}</p>
                           </TooltipContent>
                         </Tooltip>
                       </CollapsibleTrigger>
@@ -122,11 +136,13 @@ const FormNew = () => {
                             className="size-8"
                           >
                             <TrashIcon />
-                            <span className="sr-only">Delete section</span>
+                            <span className="sr-only">
+                              {t('form.actions.deleteSection')}
+                            </span>
                           </Button>
                         </TooltipTrigger>
                         <TooltipContent>
-                          <p>Delete section</p>
+                          <p>{t('form.actions.deleteSectionTooltip')}</p>
                         </TooltipContent>
                       </Tooltip>
 
@@ -138,11 +154,13 @@ const FormNew = () => {
                             className="size-8"
                           >
                             <Edit2Icon />
-                            <span className="sr-only">Edit section</span>
+                            <span className="sr-only">
+                              {t('form.actions.editSection')}
+                            </span>
                           </Button>
                         </TooltipTrigger>
                         <TooltipContent>
-                          <p>Edit section</p>
+                          <p>{t('form.actions.editSectionTooltip')}</p>
                         </TooltipContent>
                       </Tooltip>
 
@@ -154,11 +172,13 @@ const FormNew = () => {
                             className="size-8"
                           >
                             <PlusIcon />
-                            <span className="sr-only">Add question</span>
+                            <span className="sr-only">
+                              {t('form.actions.addQuestion')}
+                            </span>
                           </Button>
                         </TooltipTrigger>
                         <TooltipContent>
-                          <p>Add question</p>
+                          <p>{t('form.actions.addQuestionTooltip')}</p>
                         </TooltipContent>
                       </Tooltip>
                     </div>
@@ -166,7 +186,7 @@ const FormNew = () => {
 
                   <CollapsibleContent>
                     <div className="space-y-2">
-                      {section.fields.map((field) => (
+                      {section.fields.map((field: IField) => (
                         <div
                           key={field.id}
                           className="flex items-center border-t border-gray-200 pt-2 text-sm dark:border-gray-700 dark:text-gray-300"
@@ -189,8 +209,8 @@ const FormNew = () => {
                               <Button variant="ghost" size="sm">
                                 Delete
                               </Button>
-                              <QuestionEditDialog
-                                form={sampleForm as IForm}
+                              <QuestionFormDialog
+                                form={formData as IForm}
                                 question={field}
                                 triggerComponent={
                                   <Button variant="ghost" size="sm">
@@ -209,17 +229,22 @@ const FormNew = () => {
             </div>
           </CardContent>
           <CardFooter>
-            <Button
-              variant="outline"
-              className="mt-4 w-full border-2 border-dashed border-gray-300 py-8 text-gray-600 hover:border-blue-400 hover:text-blue-600 dark:border-gray-600 dark:text-gray-400 dark:hover:border-blue-400 dark:hover:text-blue-400"
-            >
-              <PlusIcon className="mr-2 h-5 w-5" />
-              Add another field
-            </Button>
+            <QuestionFormDialog
+              form={formData as IForm}
+              triggerComponent={
+                <Button
+                  variant="outline"
+                  className="mt-4 w-full border-2 border-dashed border-gray-300 py-8 text-gray-600 hover:border-blue-400 hover:text-blue-600 dark:border-gray-600 dark:text-gray-400 dark:hover:border-blue-400 dark:hover:text-blue-400"
+                >
+                  <PlusIcon className="mr-2 h-5 w-5" />
+                  {t('form.actions.addAnotherField')}
+                </Button>
+              }
+            />
           </CardFooter>
         </Card>
       </div>
-    </>
+    </Form>
   );
 };
 
