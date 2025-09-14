@@ -7,13 +7,13 @@ import { toast } from 'sonner';
 import { useGetProfileQuery } from '@/services/auth';
 
 import { ErrorBoundary } from '@/components/error-boundary';
-import { Spinner } from '@/components/spinner';
 
 import { Button } from '@repo/core-ui/components/button';
 
 import { PrivateLayoutHeader } from '@/layouts/private';
 
 import Profile, { type ProfileFormRef } from '@/modules/profile';
+import ProfileFormSkeleton from '@/modules/profile/profile-form.skeleton';
 
 const ProfilePage = () => {
   const profileFormRef = useRef<ProfileFormRef>(null);
@@ -44,7 +44,11 @@ const ProfilePage = () => {
           </Button>
         }
       />
-      {isPending ? <Spinner /> : <Profile ref={profileFormRef} user={data} />}
+      {isPending ? (
+        <ProfileFormSkeleton />
+      ) : (
+        <Profile ref={profileFormRef} user={data} />
+      )}
     </ErrorBoundary>
   );
 };
