@@ -1,7 +1,7 @@
 'use client';
 
 import { Loader2Icon } from 'lucide-react';
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import Link from 'next/link';
 import React from 'react';
 
@@ -26,9 +26,18 @@ import { Input } from '@repo/core-ui/components/input';
 
 import useSignUpFormActions from './sign-up-form.actions';
 
+const orderFields = (fields: string[], locale: string) =>
+  fields.sort(
+    locale === 'en-US'
+      ? (a, b) => a.localeCompare(b) // English: firstName, lastName
+      : (a, b) => b.localeCompare(a) // Vietnamese: lastName, firstName
+  );
+
 const SignUpForm = () => {
   const { form, onSubmit, isPending } = useSignUpFormActions();
   const t = useTranslations('authPage');
+  const locale = useLocale();
+  const nameFields = orderFields(['firstName', 'lastName'], locale);
 
   return (
     <Card>
@@ -40,51 +49,33 @@ const SignUpForm = () => {
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             <div className="grid gap-6">
               <div className="grid gap-6">
-                <div className="grid gap-3">
-                  <FormField
-                    control={form.control}
-                    name="firstName"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>
-                          {t('register.form.firstName.label')}
-                        </FormLabel>
-                        <FormControl>
-                          <Input
-                            placeholder={t(
-                              'register.form.firstName.placeholder'
-                            )}
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-
-                <div className="grid gap-3">
-                  <FormField
-                    control={form.control}
-                    name="lastName"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>
-                          {t('register.form.lastName.label')}
-                        </FormLabel>
-                        <FormControl>
-                          <Input
-                            placeholder={t(
-                              'register.form.lastName.placeholder'
-                            )}
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
+                {nameFields.map((fieldName) => (
+                  <div className="grid gap-3" key={fieldName}>
+                    <FormField
+                      control={form.control}
+                      name={fieldName as 'firstName' | 'lastName'}
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>
+                            {t(`register.form.${fieldName}.label`)}
+                          </FormLabel>
+                          <FormControl>
+                            <Input
+                              placeholder={t(
+                                `register.form.${fieldName}.placeholder`
+                              )}
+                              type={
+                                fieldName === 'password' ? 'password' : 'text'
+                              }
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                ))}
 
                 <div className="grid gap-3">
                   <FormField
