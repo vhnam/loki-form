@@ -177,5 +177,18 @@
     "last": "Last",
     "previous": "Previous",
     "next": "Next"
+  },
+  "dashboardPage": {
+    "header": {
+      "title": "Dashboard"
+    },
+    "newItem": {
+      "title": "Blank Form",
+      "description": "Start from scratch"
+    },
+    "recentItem": {
+      "title": "Recent forms",
+      "description": "Recent forms"
+    }
   }
 }

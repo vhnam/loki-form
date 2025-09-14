@@ -155,7 +155,7 @@
       "questions": "{count} câu hỏi"
     },
     "filter": {
-      "placeholder": "Lọc...",
+      "placeholder": "Filter...",
       "noResults": "Không có kết quả"
     }
   },
@@ -178,5 +178,17 @@
     "last": "Cuối",
     "previous": "Trước",
     "next": "Tiếp"
+  },
+  "dashboardPage": {
+    "header": {
+      "title": "Trang chủ"
+    },
+    "newItem": {
+      "title": "Biểu mẫu trống",
+      "description": "Bắt đầu từ đầu"
+    },
+    "recentItem": {
+      "title": "Biểu mẫu gần đây"
+    }
   }
 }

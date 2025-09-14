@@ -1,6 +1,8 @@
 import { format as dateFnsFormat } from 'date-fns';
 import { enUS, vi } from 'date-fns/locale';
 
+export { dateFnsFormat };
+
 export type AllowedLocales = 'en-US' | 'vi-VN';
 
 export type SupportedFormatStrings = 'MM/dd/yyyy' | 'dd/MM/yyyy';

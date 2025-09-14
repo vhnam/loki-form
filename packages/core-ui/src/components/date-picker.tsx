@@ -12,7 +12,7 @@ import {
   PopoverTrigger,
 } from '@repo/core-ui/components/popover';
 
-import { format } from '@repo/core-ui/lib/day';
+import { dateFnsFormat } from '@repo/core-ui/lib/day';
 
 interface DatePickerProps {
   id: string;
@@ -48,7 +48,7 @@ const DatePicker = ({
     if (!dateFormat) return date.toLocaleDateString();
 
     try {
-      return format(date, dateFormat);
+      return dateFnsFormat(date, dateFormat);
     } catch {
       return date.toLocaleDateString();
     }
