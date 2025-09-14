@@ -31,7 +31,7 @@ export class AuthService {
     private jwtService: JwtService
   ) {}
 
-  async validateUser(email: string, password: string): Promise<any> {
+  private async validateUser(email: string, password: string): Promise<any> {
     const user = await this.usersService.findOne(email);
 
     if (!user) {
@@ -89,26 +89,6 @@ export class AuthService {
         interfaceLanguage: user.interfaceLanguage,
         isActive: user.isActive,
       },
-    };
-  }
-
-  generateTokensForUser(
-    user: {
-      id: string;
-      email: string;
-      role: UserRole;
-    },
-    expiresIn?: string
-  ): { accessToken: string; refreshToken: string } {
-    const payload = {
-      sub: user.id,
-      email: user.email,
-      role: user.role as string,
-    };
-
-    return {
-      accessToken: this.generateAccessToken(payload, expiresIn),
-      refreshToken: this.generateRefreshToken(payload),
     };
   }
 
