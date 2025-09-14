@@ -136,5 +136,47 @@
         "error": "Cập nhật hồ sơ thất bại"
       }
     }
+  },
+  "formListPage": {
+    "header": {
+      "title": "Biểu mẫu",
+      "actions": {
+        "new": "Tạo"
+      }
+    },
+    "columns": {
+      "form": "Biểu mẫu",
+      "statistics": "Thống kê",
+      "createdAt": "Ngày tạo",
+      "actions": "Hành động"
+    },
+    "cell": {
+      "sections": "{count} nhóm",
+      "questions": "{count} câu hỏi"
+    },
+    "filter": {
+      "placeholder": "Lọc...",
+      "noResults": "Không có kết quả"
+    }
+  },
+  "formContextMenu": {
+    "preview": "Xem trước",
+    "edit": "Sửa",
+    "duplicate": "Sao chép",
+    "delete": "Xóa"
+  },
+  "formDeleteDialog": {
+    "title": "Xóa biểu mẫu",
+    "description": "Bạn có chắc chắn muốn xóa biểu mẫu này không? Thao tác này không thể được hoàn tác.",
+    "actions": {
+      "cancel": "Hủy",
+      "delete": "Xóa"
+    }
+  },
+  "pagination": {
+    "first": "Đầu",
+    "last": "Cuối",
+    "previous": "Trước",
+    "next": "Tiếp"
   }
 }

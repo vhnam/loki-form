@@ -1,9 +1,16 @@
 import { FileTextIcon } from 'lucide-react';
+import { useLocale } from 'next-intl';
 import { useRouter } from 'next/navigation';
+import React from 'react';
 
 import { PRIVATE_ROUTES } from '@/constants/routes';
 
-import { format } from '@repo/core-ui/lib/day';
+import {
+  type AllowedLocales,
+  type SupportedFormatStrings,
+  format,
+  formatStrings,
+} from '@repo/core-ui/lib/day';
 
 import { type IForm } from '@repo/form-ui/types/form';
 
@@ -18,6 +25,7 @@ interface RecentItemProps {
 
 const RecentItem = ({ form, onDelete }: RecentItemProps) => {
   const router = useRouter();
+  const locale = useLocale();
 
   const handleDeleteForm = (form: IForm) => {
     onDelete(form);
@@ -36,7 +44,11 @@ const RecentItem = ({ form, onDelete }: RecentItemProps) => {
   };
 
   const formatDate = (dateString: number) => {
-    return format(new Date(dateString), 'MMM d, yyyy');
+    return format(
+      new Date(dateString),
+      formatStrings[locale as AllowedLocales].default as SupportedFormatStrings,
+      locale as AllowedLocales
+    );
   };
 
   return (

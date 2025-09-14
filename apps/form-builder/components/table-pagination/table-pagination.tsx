@@ -1,5 +1,6 @@
 import { Table } from '@tanstack/react-table';
-import { MouseEvent, useCallback } from 'react';
+import { useTranslations } from 'next-intl';
+import React, { type MouseEvent, useCallback } from 'react';
 
 import { cn, getVisiblePages } from '@repo/core-ui/lib/utils';
 
@@ -24,6 +25,8 @@ const TABLE_DISABLED_PAGINATION_ITEM_CLASSNAME =
  * The navigation is handled by the table state, not actual URL routing.
  */
 const TablePagination = <T,>({ table }: TablePaginationProps<T>) => {
+  const t = useTranslations('pagination');
+
   const handlePreviousPage = useCallback(
     (e: MouseEvent<HTMLAnchorElement>) => {
       e.stopPropagation();
@@ -57,6 +60,7 @@ const TablePagination = <T,>({ table }: TablePaginationProps<T>) => {
       <PaginationContent>
         <PaginationItem>
           <PaginationPrevious
+            title={t('previous')}
             onClick={handlePreviousPage}
             className={cn({
               [TABLE_DISABLED_PAGINATION_ITEM_CLASSNAME]:
@@ -83,6 +87,7 @@ const TablePagination = <T,>({ table }: TablePaginationProps<T>) => {
         ))}
         <PaginationItem>
           <PaginationNext
+            title={t('next')}
             onClick={handleNextPage}
             className={cn({
               [TABLE_DISABLED_PAGINATION_ITEM_CLASSNAME]:

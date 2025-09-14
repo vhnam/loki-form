@@ -1,3 +1,4 @@
+import { useTranslations } from 'next-intl';
 import React from 'react';
 
 import {
@@ -22,23 +23,22 @@ const FormDeleteDialog = ({
   onClose,
   onDeleteForm,
 }: FormDeleteDialogProps) => {
+  const t = useTranslations('formDeleteDialog');
+
   return (
     <AlertDialog open={isOpen} onOpenChange={onClose}>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Delete Form</AlertDialogTitle>
-          <AlertDialogDescription>
-            Are you sure you want to delete this form? This action cannot be
-            undone.
-          </AlertDialogDescription>
+          <AlertDialogTitle>{t('title')}</AlertDialogTitle>
+          <AlertDialogDescription>{t('description')}</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogCancel>{t('actions.cancel')}</AlertDialogCancel>
           <AlertDialogAction
             onClick={onDeleteForm}
             className="bg-red-600 hover:bg-red-700 dark:bg-red-600 dark:hover:bg-red-700"
           >
-            Delete
+            {t('actions.delete')}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

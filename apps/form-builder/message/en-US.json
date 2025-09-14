@@ -135,5 +135,47 @@
         "error": "Failed to update profile"
       }
     }
+  },
+  "formListPage": {
+    "header": {
+      "title": "Forms",
+      "actions": {
+        "new": "New"
+      }
+    },
+    "columns": {
+      "form": "Form",
+      "statistics": "Statistics",
+      "createdAt": "Created at",
+      "actions": "Actions"
+    },
+    "filter": {
+      "placeholder": "Filter...",
+      "noResults": "No results"
+    },
+    "cell": {
+      "sections": "{count} sections",
+      "questions": "{count} questions"
+    }
+  },
+  "formContextMenu": {
+    "preview": "Preview",
+    "edit": "Edit",
+    "duplicate": "Duplicate",
+    "delete": "Delete"
+  },
+  "formDeleteDialog": {
+    "title": "Delete form",
+    "description": "Are you sure you want to delete this form? This action cannot be undone.",
+    "actions": {
+      "cancel": "Cancel",
+      "delete": "Delete"
+    }
+  },
+  "pagination": {
+    "first": "First",
+    "last": "Last",
+    "previous": "Previous",
+    "next": "Next"
   }
 }

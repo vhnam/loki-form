@@ -5,6 +5,8 @@ import {
   MoreHorizontalIcon,
   Trash2Icon,
 } from 'lucide-react';
+import { useTranslations } from 'next-intl';
+import React, { type MouseEvent } from 'react';
 
 import { type IForm } from '@repo/form-ui/types/form';
 
@@ -31,6 +33,8 @@ const FormContextMenu = ({
   onDuplicate,
   onDelete,
 }: FormContextMenuProps) => {
+  const t = useTranslations('formContextMenu');
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -41,42 +45,42 @@ const FormContextMenu = ({
       <DropdownMenuContent align="end">
         {onSelect && (
           <DropdownMenuItem
-            onClick={(e) => {
+            onClick={(e: MouseEvent<HTMLDivElement>) => {
               e.stopPropagation();
               onSelect(form);
             }}
           >
             <EyeIcon className="mr-2 size-4" />
-            Preview
+            {t('preview')}
           </DropdownMenuItem>
         )}
         <DropdownMenuItem
-          onClick={(e) => {
+          onClick={(e: MouseEvent<HTMLDivElement>) => {
             e.stopPropagation();
             onEdit(form);
           }}
         >
           <Edit3Icon className="mr-2 size-4" />
-          Edit
+          {t('edit')}
         </DropdownMenuItem>
         <DropdownMenuItem
-          onClick={(e) => {
+          onClick={(e: MouseEvent<HTMLDivElement>) => {
             e.stopPropagation();
             onDuplicate(form);
           }}
         >
           <CopyIcon className="mr-2 size-4" />
-          Duplicate
+          {t('duplicate')}
         </DropdownMenuItem>
         <DropdownMenuItem
-          onClick={(e) => {
+          onClick={(e: MouseEvent<HTMLDivElement>) => {
             e.stopPropagation();
             onDelete(form);
           }}
           className="text-red-600 focus:text-red-600 dark:text-red-400 dark:focus:text-red-400"
         >
           <Trash2Icon className="mr-2 size-4" />
-          Delete
+          {t('delete')}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

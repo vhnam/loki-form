@@ -7,6 +7,7 @@ import {
   getPaginationRowModel,
   useReactTable,
 } from '@tanstack/react-table';
+import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { useCallback, useMemo } from 'react';
 
@@ -38,6 +39,8 @@ import { useFormListActions } from './form-list.actions';
 import { recentForms } from '@/mocks/forms';
 
 const FormList = () => {
+  const t = useTranslations('formListPage');
+
   // TODO: update later with real data
   const fieldsCountMap = useMemo(() => {
     const map = new Map<string, number>();
@@ -79,10 +82,10 @@ const FormList = () => {
   return (
     <>
       <PrivateLayoutHeader
-        title="Forms"
+        title={t('header.title')}
         actions={
           <Link href={PRIVATE_ROUTES.forms.new}>
-            <Button variant="default">New</Button>
+            <Button variant="default">{t('header.actions.new')}</Button>
           </Link>
         }
       />
@@ -92,7 +95,10 @@ const FormList = () => {
           <div className="space-y-6">
             {/* TODO: add filter and sort for Input later */}
             <div className="flex items-center justify-between">
-              <Input placeholder="Filter..." className="max-w-sm" />
+              <Input
+                placeholder={t('filter.placeholder')}
+                className="max-w-sm"
+              />
             </div>
             <div className="rounded-md border">
               <Table>
@@ -133,7 +139,7 @@ const FormList = () => {
                         colSpan={columns.length}
                         className="h-24 text-center"
                       >
-                        No results.
+                        {t('filter.noResults')}
                       </TableCell>
                     </TableRow>
                   )}
