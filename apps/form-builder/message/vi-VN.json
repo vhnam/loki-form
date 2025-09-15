@@ -214,7 +214,7 @@
       },
       "actions": {
         "editForm": "Sửa biểu mẫu",
-        "addAnotherField": "Thêm trường khác",
+        "addSection": "Thêm nhóm",
         "toggleSection": "Ẩn/hiện nhóm",
         "toggleSectionTooltip": "Ẩn/hiện nhóm",
         "deleteSection": "Xóa nhóm",
@@ -249,7 +249,7 @@
         "label": "Loại",
         "placeholder": "Chọn loại"
       },
-      "title": {
+      "label": {
         "label": "Tiêu đề",
         "placeholder": "Nhập tiêu đề"
       },
@@ -265,6 +265,11 @@
         "delete": "Xóa",
         "cancel": "Hủy",
         "finish": "Hoàn thành"
+      },
+      "messages": {
+        "add": "Thêm câu hỏi \"{label}\" thành công",
+        "edit": "Sửa câu hỏi \"{label}\" thành công",
+        "delete": "Xóa câu hỏi \"{label}\" thành công"
       }
     }
   }

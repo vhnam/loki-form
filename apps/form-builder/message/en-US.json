@@ -214,7 +214,7 @@
       },
       "actions": {
         "editForm": "Edit form",
-        "addAnotherField": "Add another field",
+        "addSection": "Add section",
         "toggleSection": "Toggle section",
         "toggleSectionTooltip": "Toggle section",
         "deleteSection": "Delete section",
@@ -249,9 +249,9 @@
         "label": "Type",
         "placeholder": "Select type"
       },
-      "title": {
-        "label": "Title",
-        "placeholder": "Enter title"
+      "label": {
+        "label": "Label",
+        "placeholder": "Enter label"
       },
       "description": {
         "label": "Description",
@@ -265,6 +265,11 @@
         "delete": "Delete",
         "cancel": "Cancel",
         "finish": "Finish"
+      },
+      "messages": {
+        "add": "Add question \"{label}\" successfully",
+        "edit": "Edit question \"{label}\" successfully",
+        "delete": "Delete question \"{label}\" successfully"
       }
     }
   }

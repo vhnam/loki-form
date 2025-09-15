@@ -14,6 +14,7 @@ export default {
           '^@/hooks/(.*)$',
           '^@/utils/(.*)$',
           '^@repo/core-ui/hooks(.*)$',
+          '^@repo/form-ui/utils(.*)$',
           '^@/providers/(.*)$',
           '^@/schemas/(.*)$',
           '^@repo/form-ui/enums(.*)$',

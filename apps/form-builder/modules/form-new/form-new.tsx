@@ -10,13 +10,12 @@ import {
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import React from 'react';
-import { useWatch } from 'react-hook-form';
 
 import { PRIVATE_ROUTES } from '@/constants/routes';
 
 import { QuestionType } from '@repo/form-ui/enums/question';
 
-import { IField, IForm, ISection } from '@repo/form-ui/types/form';
+import { IField, IForm } from '@repo/form-ui/types/form';
 
 import QuestionFormDialog from '@/components/question-form-dialog';
 
@@ -49,16 +48,14 @@ import { PrivateLayoutHeader } from '@/layouts/private';
 
 import useFormNewActions from './form-new.actions';
 
-const sections: ISection[] = [];
-
 const FormNew = () => {
   const t = useTranslations('formBuilderPage');
 
-  const { form } = useFormNewActions();
+  const { form, addQuestion, editQuestion, deleteQuestion } =
+    useFormNewActions();
 
-  const formData = useWatch({
-    control: form.control,
-  });
+  const formData = form.watch();
+  const sectionsData = form.watch('sections');
 
   return (
     <Form {...form}>
@@ -91,7 +88,7 @@ const FormNew = () => {
           </CardHeader>
           <CardContent>
             <div className="space-y-6">
-              {sections.map((section: ISection) => (
+              {sectionsData?.map((section) => (
                 <Collapsible
                   open={true}
                   onOpenChange={() => {}}
@@ -166,16 +163,24 @@ const FormNew = () => {
 
                       <Tooltip>
                         <TooltipTrigger asChild>
-                          <Button
-                            variant="ghost"
-                            size="icon"
-                            className="size-8"
-                          >
-                            <PlusIcon />
-                            <span className="sr-only">
-                              {t('form.actions.addQuestion')}
-                            </span>
-                          </Button>
+                          <QuestionFormDialog
+                            form={formData as unknown as IForm}
+                            onAddQuestion={addQuestion}
+                            onEditQuestion={editQuestion}
+                            onDeleteQuestion={deleteQuestion}
+                            triggerComponent={
+                              <Button
+                                variant="ghost"
+                                size="icon"
+                                className="size-8"
+                              >
+                                <PlusIcon />
+                                <span className="sr-only">
+                                  {t('form.actions.addQuestion')}
+                                </span>
+                              </Button>
+                            }
+                          />
                         </TooltipTrigger>
                         <TooltipContent>
                           <p>{t('form.actions.addQuestionTooltip')}</p>
@@ -186,7 +191,7 @@ const FormNew = () => {
 
                   <CollapsibleContent>
                     <div className="space-y-2">
-                      {section.fields.map((field: IField) => (
+                      {section.fields?.map((field) => (
                         <div
                           key={field.id}
                           className="flex items-center border-t border-gray-200 pt-2 text-sm dark:border-gray-700 dark:text-gray-300"
@@ -210,8 +215,11 @@ const FormNew = () => {
                                 Delete
                               </Button>
                               <QuestionFormDialog
-                                form={formData as IForm}
-                                question={field}
+                                form={formData as unknown as IForm}
+                                question={field as IField}
+                                onAddQuestion={addQuestion}
+                                onEditQuestion={editQuestion}
+                                onDeleteQuestion={deleteQuestion}
                                 triggerComponent={
                                   <Button variant="ghost" size="sm">
                                     Edit
@@ -229,18 +237,13 @@ const FormNew = () => {
             </div>
           </CardContent>
           <CardFooter>
-            <QuestionFormDialog
-              form={formData as IForm}
-              triggerComponent={
-                <Button
-                  variant="outline"
-                  className="mt-4 w-full border-2 border-dashed border-gray-300 py-8 text-gray-600 hover:border-blue-400 hover:text-blue-600 dark:border-gray-600 dark:text-gray-400 dark:hover:border-blue-400 dark:hover:text-blue-400"
-                >
-                  <PlusIcon className="mr-2 h-5 w-5" />
-                  {t('form.actions.addAnotherField')}
-                </Button>
-              }
-            />
+            <Button
+              variant="outline"
+              className="mt-4 w-full border-2 border-dashed border-gray-300 py-8 text-gray-600 hover:border-blue-400 hover:text-blue-600 dark:border-gray-600 dark:text-gray-400 dark:hover:border-blue-400 dark:hover:text-blue-400"
+            >
+              <PlusIcon className="mr-2 h-5 w-5" />
+              {t('form.actions.addSection')}
+            </Button>
           </CardFooter>
         </Card>
       </div>

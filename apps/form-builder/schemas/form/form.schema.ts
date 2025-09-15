@@ -14,11 +14,10 @@ export const selectOptionSchema = z.object({
 
 export const questionFormDialogSchema = z.object({
   id: z.uuidv4(),
-  title: z.string().min(1).max(255),
+  label: z.string().min(1).max(255),
   description: z.string().max(255).optional(),
   sectionId: z.string().min(1).max(255),
   type: z.string().min(1).max(255),
-  label: z.string().min(1).max(255),
   helperText: z.string().max(255).optional(),
   required: z.boolean(),
   order: z.number(),
@@ -34,6 +33,7 @@ export const questionFormDialogSchema = z.object({
       step: z.number().optional(),
       placeholder: z.string().optional(),
       pattern: z.string().optional(),
+      defaultValue: z.string().optional(),
     })
     .optional(),
 });

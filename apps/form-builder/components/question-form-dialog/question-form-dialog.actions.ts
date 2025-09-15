@@ -1,4 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -9,8 +10,7 @@ import {
 
 import { type IField, IForm } from '@repo/form-ui/types/form';
 
-// Helper function to safely extract attributes
-const extractAttributes = (attributes: unknown) => {
+const extractDefaultAttributes = (attributes: unknown) => {
   const attrs = attributes as Record<string, unknown>;
   return {
     options: Array.isArray(attrs?.options) ? attrs.options : [],
@@ -26,6 +26,8 @@ const extractAttributes = (attributes: unknown) => {
     max: typeof attrs?.max === 'number' ? attrs.max : undefined,
     step: typeof attrs?.step === 'number' ? attrs.step : undefined,
     placeholder:
+      typeof attrs?.placeholder === 'string' ? attrs.placeholder : undefined,
+    defaultValue:
       typeof attrs?.placeholder === 'string' ? attrs.placeholder : undefined,
     pattern: typeof attrs?.pattern === 'string' ? attrs.pattern : undefined,
   };
@@ -47,14 +49,13 @@ const useQuestionFormDialogActions = ({
     defaultValues: question
       ? {
           ...question,
-          attributes: extractAttributes(question.attributes),
+          attributes: extractDefaultAttributes(question.attributes),
         }
       : {
           id: uuid,
-          title: '',
           description: '',
           sectionId: form.sections[0]!.id,
-          type: '',
+          type: 'text',
           label: '',
           helperText: '',
           required: false,
@@ -68,11 +69,22 @@ const useQuestionFormDialogActions = ({
             min: undefined,
             max: undefined,
             step: undefined,
-            placeholder: undefined,
+            placeholder: '',
+            defaultValue: '',
             pattern: undefined,
           },
         },
   });
+
+  // Reset form when question changes (for editing)
+  useEffect(() => {
+    if (question) {
+      hookForm.reset({
+        ...question,
+        attributes: extractDefaultAttributes(question.attributes),
+      });
+    }
+  }, [question, hookForm]);
 
   return { hookForm };
 };

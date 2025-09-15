@@ -1,12 +1,16 @@
 import { useTranslations } from 'next-intl';
-import React, { type ReactNode } from 'react';
+import React, { type ReactNode, useState } from 'react';
 import { useWatch } from 'react-hook-form';
+import { toast } from 'sonner';
+import { v4 as uuidv4 } from 'uuid';
+
+import { extractAttributes } from '@repo/form-ui/utils/field';
 
 import { type QuestionFormDialogSchema } from '@/schemas/form';
 
 import { QuestionType } from '@repo/form-ui/enums/question';
 
-import type { IField, IForm } from '@repo/form-ui/types/form';
+import type { IField, IFieldAttributes, IForm } from '@repo/form-ui/types/form';
 
 import { Button } from '@repo/core-ui/components/button';
 import {
@@ -43,20 +47,28 @@ import QuestionCheckboxSettings from './question-checkbox-settings';
 // import QuestionDateSettings from './question-date-settings';
 import useQuestionFormDialogActions from './question-form-dialog.actions';
 import QuestionInputSettings from './question-input-settings';
+import QuestionNumberSettings from './question-number-settings';
 import QuestionSelectionSettings from './question-selection-settings';
 
 interface QuestionFormDialogProps {
   form: IForm;
   question?: IField;
+  onAddQuestion?: (questionData: QuestionFormDialogSchema) => void;
+  onEditQuestion?: (questionData: QuestionFormDialogSchema) => void;
+  onDeleteQuestion?: (questionId: string, sectionId: string) => void;
   triggerComponent: ReactNode;
 }
 
 const QuestionFormDialog = ({
   form,
   question,
+  onAddQuestion,
+  onEditQuestion,
+  onDeleteQuestion,
   triggerComponent,
 }: QuestionFormDialogProps) => {
   const isEdit = !!question;
+  const [open, setOpen] = useState(false);
 
   const t = useTranslations('formBuilderPage.question');
 
@@ -66,15 +78,43 @@ const QuestionFormDialog = ({
     control: hookForm.control,
   });
 
+  const handleOpenDialogChange = (open: boolean) => {
+    setOpen(open);
+
+    if (open && !isEdit) {
+      hookForm.reset();
+    }
+  };
+
   const onSubmit = (data: QuestionFormDialogSchema) => {
-    console.log('Form submitted:', data);
-    // TODO: Implement form submission logic
+    const extractedAttributes = extractAttributes(
+      questionData.type as QuestionType,
+      data.attributes as IFieldAttributes
+    );
+    const questionId = isEdit ? question?.id : uuidv4();
+    const newQuestion: QuestionFormDialogSchema = {
+      ...data,
+      id: questionId,
+      attributes: extractedAttributes as QuestionFormDialogSchema['attributes'],
+    };
+
+    if (isEdit) {
+      onEditQuestion?.(newQuestion);
+      toast.success(t('messages.edit', { label: data.label! }));
+    } else {
+      onAddQuestion?.(newQuestion);
+      toast.success(t('messages.add', { label: data.label! }));
+    }
+
+    setOpen(false);
   };
 
   return (
     <Form {...hookForm}>
-      <Dialog>
-        <DialogTrigger asChild>{triggerComponent}</DialogTrigger>
+      <Dialog open={open} onOpenChange={handleOpenDialogChange}>
+        <DialogTrigger asChild onClick={() => setOpen(true)}>
+          {triggerComponent}
+        </DialogTrigger>
         <DialogContent>
           <DialogHeader>
             <DialogTitle>
@@ -165,13 +205,13 @@ const QuestionFormDialog = ({
                 <div className="grid gap-3">
                   <FormField
                     control={hookForm.control}
-                    name="title"
+                    name="label"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>{t('title.label')}</FormLabel>
+                        <FormLabel>{t('label.label')}</FormLabel>
                         <FormControl>
                           <Input
-                            placeholder={t('title.placeholder')}
+                            placeholder={t('label.placeholder')}
                             {...field}
                           />
                         </FormControl>
@@ -229,9 +269,12 @@ const QuestionFormDialog = ({
                   QuestionType.TEXT,
                   QuestionType.TEXTAREA,
                   QuestionType.EMAIL,
-                  QuestionType.NUMBER,
                 ].includes(questionData.type as QuestionType) && (
                   <QuestionInputSettings control={hookForm.control} />
+                )}
+
+                {questionData.type === QuestionType.NUMBER && (
+                  <QuestionNumberSettings control={hookForm.control} />
                 )}
 
                 {/* {questionData.type === QuestionType.DATE && (
@@ -256,24 +299,28 @@ const QuestionFormDialog = ({
               </div>
             </ScrollArea>
             <DialogFooter className="w-full sm:justify-between">
-              <Button type="button" variant="destructive">
-                {t('actions.delete')}
-              </Button>
+              {isEdit && (
+                <Button
+                  type="button"
+                  variant="destructive"
+                  onClick={() => {
+                    if (question && onDeleteQuestion) {
+                      onDeleteQuestion(question.id, question.sectionId);
+                      // Close dialog after successful deletion
+                      setOpen(false);
+                    }
+                  }}
+                >
+                  {t('actions.delete')}
+                </Button>
+              )}
               <div className="flex items-center gap-2">
                 <DialogClose asChild>
                   <Button type="button" variant="outline">
                     {t('actions.cancel')}
                   </Button>
                 </DialogClose>
-                <Button
-                  type="submit"
-                  onClick={() => {
-                    console.log(questionData);
-                    console.log(hookForm.formState);
-                  }}
-                >
-                  {t('actions.finish')}
-                </Button>
+                <Button type="submit">{t('actions.finish')}</Button>
               </div>
             </DialogFooter>
           </form>
