@@ -222,7 +222,8 @@
         "editSection": "Edit section",
         "editSectionTooltip": "Edit section",
         "addQuestion": "Add question",
-        "addQuestionTooltip": "Add question"
+        "addQuestionTooltip": "Add question",
+        "noQuestions": "No questions"
       }
     },
     "question": {

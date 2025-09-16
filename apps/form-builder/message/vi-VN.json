@@ -222,7 +222,8 @@
         "editSection": "Sửa nhóm",
         "editSectionTooltip": "Sửa nhóm",
         "addQuestion": "Thêm câu hỏi",
-        "addQuestionTooltip": "Thêm câu hỏi"
+        "addQuestionTooltip": "Thêm câu hỏi",
+        "noQuestions": "Không có câu hỏi"
       }
     },
     "question": {

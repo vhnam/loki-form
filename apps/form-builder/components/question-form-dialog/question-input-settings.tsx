@@ -26,7 +26,10 @@ const QuestionInputSettings = ({ control }: QuestionInputSettingsProps) => {
         render={({ field }) => (
           <FormItem className="flex items-center gap-2">
             <FormControl>
-              <Checkbox value={field.value} onCheckedChange={field.onChange} />
+              <Checkbox
+                checked={field.value}
+                onCheckedChange={field.onChange}
+              />
             </FormControl>
             <FormLabel>Required</FormLabel>
             <FormMessage />
@@ -81,7 +84,7 @@ const QuestionInputSettings = ({ control }: QuestionInputSettingsProps) => {
               <div className="flex items-start gap-2">
                 <FormControl>
                   <Checkbox
-                    value={!!field.value}
+                    checked={!!field.value}
                     onCheckedChange={(value: boolean) =>
                       field.onChange(value ? 0 : undefined)
                     }
@@ -112,7 +115,7 @@ const QuestionInputSettings = ({ control }: QuestionInputSettingsProps) => {
               <div className="flex items-start gap-2">
                 <FormControl>
                   <Checkbox
-                    value={!!field.value}
+                    checked={!!field.value}
                     onCheckedChange={(value: boolean) =>
                       field.onChange(value ? 255 : undefined)
                     }

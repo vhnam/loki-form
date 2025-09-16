@@ -5,6 +5,8 @@ import { v4 as uuidv4 } from 'uuid';
 import {
   type FormBuilderSchema,
   type QuestionFormDialogSchema,
+  type SectionFormDialogSchema,
+  type SectionQuestionDialogSchema,
   formBuilderSchema,
 } from '@/schemas/form';
 
@@ -25,7 +27,7 @@ const useFormNewActions = () => {
       sections: [
         {
           id: sectionId,
-          title: 'Untitled',
+          title: 'Section #1',
           description: '',
           fields: [],
           order: 0,
@@ -145,7 +147,54 @@ const useFormNewActions = () => {
     form.setValue('sections', updatedSections);
   };
 
-  return { form, addQuestion, editQuestion, deleteQuestion };
+  const addSection = () => {
+    const currentSections = form.getValues('sections');
+    const newSection: SectionQuestionDialogSchema = {
+      id: uuidv4(),
+      title: `Section #${currentSections.length + 1}`,
+      description: '',
+      fields: [],
+      order: currentSections.length,
+      showInfo: true,
+    };
+
+    const updatedSections = [...currentSections, newSection];
+    form.setValue('sections', updatedSections);
+  };
+
+  const editSection = (sectionData: SectionFormDialogSchema) => {
+    const currentSections = form.getValues('sections');
+    const sectionIndex = currentSections.findIndex(
+      (section) => section.id === sectionData.id
+    );
+
+    if (sectionIndex === -1) {
+      console.error('Section not found:', sectionData.id);
+      return;
+    }
+
+    const updatedSections = [...currentSections];
+    updatedSections[sectionIndex] = sectionData;
+    form.setValue('sections', updatedSections);
+  };
+
+  const deleteSection = (sectionId: string) => {
+    const currentSections = form.getValues('sections');
+    const updatedSections = currentSections.filter(
+      (section) => section.id !== sectionId
+    );
+    form.setValue('sections', updatedSections);
+  };
+
+  return {
+    form,
+    addQuestion,
+    editQuestion,
+    deleteQuestion,
+    addSection,
+    editSection,
+    deleteSection,
+  };
 };
 
 export default useFormNewActions;

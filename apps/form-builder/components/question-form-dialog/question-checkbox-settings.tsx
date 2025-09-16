@@ -54,7 +54,7 @@ const QuestionCheckboxSettings = ({
     <>
       <FormField
         control={control}
-        name="attributes.required"
+        name="required"
         render={({ field }) => (
           <FormItem className="flex items-center gap-2">
             <FormControl>

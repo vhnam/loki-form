@@ -13,7 +13,7 @@ export const selectOptionSchema = z.object({
 });
 
 export const questionFormDialogSchema = z.object({
-  id: z.uuidv4(),
+  id: z.string(),
   label: z.string().min(1).max(255),
   description: z.string().max(255).optional(),
   sectionId: z.string().min(1).max(255),
@@ -38,6 +38,15 @@ export const questionFormDialogSchema = z.object({
     .optional(),
 });
 
+export const sectionFormDialogSchema = z.object({
+  id: z.string(),
+  title: z.string().min(1).max(255),
+  description: z.string().min(1).max(255),
+  fields: z.array(questionFormDialogSchema),
+  order: z.number(),
+  showInfo: z.boolean(),
+});
+
 export const formBuilderSchema = z.object({
   title: z.string().min(1).max(255),
   description: z.string().min(1).max(255),
@@ -48,17 +57,10 @@ export const formBuilderSchema = z.object({
   requireAuth: z.boolean(),
   submitMessage: z.string().min(1).max(255),
   redirectUrl: z.string().min(1).max(255),
-  sections: z.array(
-    z.object({
-      id: z.uuidv4(),
-      title: z.string().min(1).max(255),
-      description: z.string().min(1).max(255),
-      fields: z.array(questionFormDialogSchema),
-      order: z.number(),
-      showInfo: z.boolean(),
-    })
-  ),
+  sections: z.array(sectionFormDialogSchema),
 });
 
 export type FormBuilderSchema = z.infer<typeof formBuilderSchema>;
+export type SectionFormDialogSchema = z.infer<typeof sectionFormDialogSchema>;
+export type SectionQuestionDialogSchema = SectionFormDialogSchema; // Alias for backward compatibility
 export type QuestionFormDialogSchema = z.infer<typeof questionFormDialogSchema>;

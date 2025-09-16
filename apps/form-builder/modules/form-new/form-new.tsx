@@ -9,7 +9,7 @@ import {
 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
-import React from 'react';
+import React, { useState } from 'react';
 
 import { PRIVATE_ROUTES } from '@/constants/routes';
 
@@ -36,11 +36,6 @@ import {
   CollapsibleTrigger,
 } from '@repo/core-ui/components/collapsible';
 import { Form } from '@repo/core-ui/components/form';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from '@repo/core-ui/components/tooltip';
 
 import QuestionTypeBadge from '@repo/form-ui/components/question-type-badge';
 
@@ -51,8 +46,16 @@ import useFormNewActions from './form-new.actions';
 const FormNew = () => {
   const t = useTranslations('formBuilderPage');
 
-  const { form, addQuestion, editQuestion, deleteQuestion } =
-    useFormNewActions();
+  const [openSections, setOpenSections] = useState<Set<string>>(new Set());
+
+  const {
+    form,
+    addQuestion,
+    editQuestion,
+    deleteQuestion,
+    addSection,
+    deleteSection,
+  } = useFormNewActions();
 
   const formData = form.watch();
   const sectionsData = form.watch('sections');
@@ -90,8 +93,18 @@ const FormNew = () => {
             <div className="space-y-6">
               {sectionsData?.map((section) => (
                 <Collapsible
-                  open={true}
-                  onOpenChange={() => {}}
+                  open={openSections.has(section.id)}
+                  onOpenChange={() => {
+                    setOpenSections((prev) => {
+                      const newSet = new Set(prev);
+                      if (newSet.has(section.id)) {
+                        newSet.delete(section.id);
+                      } else {
+                        newSet.add(section.id);
+                      }
+                      return newSet;
+                    });
+                  }}
                   className="flex w-full flex-col gap-2 rounded-md border border-gray-200 p-4 dark:border-gray-700"
                   key={section.id}
                 >
@@ -106,91 +119,74 @@ const FormNew = () => {
                     </div>
                     <div className="flex items-center gap-2">
                       <CollapsibleTrigger asChild>
-                        <Tooltip>
-                          <TooltipTrigger asChild>
-                            <Button
-                              variant="ghost"
-                              size="icon"
-                              className="size-8"
-                            >
-                              <ChevronsUpDown />
-                              <span className="sr-only">
-                                {t('form.actions.toggleSection')}
-                              </span>
-                            </Button>
-                          </TooltipTrigger>
-                          <TooltipContent>
-                            <p>{t('form.actions.toggleSectionTooltip')}</p>
-                          </TooltipContent>
-                        </Tooltip>
+                        <Button variant="ghost" size="icon" className="size-8">
+                          <ChevronsUpDown />
+                          <span className="sr-only">
+                            {t('form.actions.toggleSection')}
+                          </span>
+                        </Button>
                       </CollapsibleTrigger>
 
-                      <Tooltip>
-                        <TooltipTrigger asChild>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="size-8"
+                        disabled={sectionsData.length === 1}
+                        onClick={() => deleteSection(section.id)}
+                      >
+                        <TrashIcon />
+                        <span className="sr-only">
+                          {t('form.actions.deleteSection')}
+                        </span>
+                      </Button>
+
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="size-8"
+                        onClick={() => {
+                          // TODO: Implement section edit dialog
+                          // For now, just log the section ID
+                          console.log('Edit section:', section.id);
+                          // editSection would be called here with updated section data
+                        }}
+                      >
+                        <Edit2Icon />
+                        <span className="sr-only">
+                          {t('form.actions.editSection')}
+                        </span>
+                      </Button>
+
+                      <QuestionFormDialog
+                        form={formData as unknown as IForm}
+                        onAddQuestion={addQuestion}
+                        onEditQuestion={editQuestion}
+                        onDeleteQuestion={deleteQuestion}
+                        triggerComponent={
                           <Button
                             variant="ghost"
                             size="icon"
                             className="size-8"
                           >
-                            <TrashIcon />
+                            <PlusIcon />
                             <span className="sr-only">
-                              {t('form.actions.deleteSection')}
+                              {t('form.actions.addQuestion')}
                             </span>
                           </Button>
-                        </TooltipTrigger>
-                        <TooltipContent>
-                          <p>{t('form.actions.deleteSectionTooltip')}</p>
-                        </TooltipContent>
-                      </Tooltip>
-
-                      <Tooltip>
-                        <TooltipTrigger asChild>
-                          <Button
-                            variant="ghost"
-                            size="icon"
-                            className="size-8"
-                          >
-                            <Edit2Icon />
-                            <span className="sr-only">
-                              {t('form.actions.editSection')}
-                            </span>
-                          </Button>
-                        </TooltipTrigger>
-                        <TooltipContent>
-                          <p>{t('form.actions.editSectionTooltip')}</p>
-                        </TooltipContent>
-                      </Tooltip>
-
-                      <Tooltip>
-                        <TooltipTrigger asChild>
-                          <QuestionFormDialog
-                            form={formData as unknown as IForm}
-                            onAddQuestion={addQuestion}
-                            onEditQuestion={editQuestion}
-                            onDeleteQuestion={deleteQuestion}
-                            triggerComponent={
-                              <Button
-                                variant="ghost"
-                                size="icon"
-                                className="size-8"
-                              >
-                                <PlusIcon />
-                                <span className="sr-only">
-                                  {t('form.actions.addQuestion')}
-                                </span>
-                              </Button>
-                            }
-                          />
-                        </TooltipTrigger>
-                        <TooltipContent>
-                          <p>{t('form.actions.addQuestionTooltip')}</p>
-                        </TooltipContent>
-                      </Tooltip>
+                        }
+                      />
                     </div>
                   </div>
 
                   <CollapsibleContent>
                     <div className="space-y-2">
+                      {section.fields?.length === 0 && (
+                        <div className="flex items-center justify-center">
+                          <p className="text-sm text-gray-500 dark:text-gray-400">
+                            {t('form.actions.noQuestions')}
+                          </p>
+                        </div>
+                      )}
                       {section.fields?.map((field) => (
                         <div
                           key={field.id}
@@ -211,7 +207,13 @@ const FormNew = () => {
                           </div>
                           <div className="w-2/6">
                             <div className="flex items-center justify-end gap-2">
-                              <Button variant="ghost" size="sm">
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => {
+                                  deleteQuestion(field.id, section.id);
+                                }}
+                              >
                                 Delete
                               </Button>
                               <QuestionFormDialog
@@ -240,6 +242,7 @@ const FormNew = () => {
             <Button
               variant="outline"
               className="mt-4 w-full border-2 border-dashed border-gray-300 py-8 text-gray-600 hover:border-blue-400 hover:text-blue-600 dark:border-gray-600 dark:text-gray-400 dark:hover:border-blue-400 dark:hover:text-blue-400"
+              onClick={addSection}
             >
               <PlusIcon className="mr-2 h-5 w-5" />
               {t('form.actions.addSection')}
