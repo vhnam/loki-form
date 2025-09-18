@@ -10,7 +10,9 @@ import {
 
 import { type IField, IForm } from '@repo/form-ui/types/form';
 
-const extractDefaultAttributes = (attributes: unknown) => {
+const extractDefaultAttributes = (
+  attributes: unknown
+): Record<string, unknown> => {
   const attrs = attributes as Record<string, unknown>;
   return {
     options: Array.isArray(attrs?.options) ? attrs.options : [],
@@ -28,7 +30,7 @@ const extractDefaultAttributes = (attributes: unknown) => {
     placeholder:
       typeof attrs?.placeholder === 'string' ? attrs.placeholder : undefined,
     defaultValue:
-      typeof attrs?.placeholder === 'string' ? attrs.placeholder : undefined,
+      typeof attrs?.defaultValue === 'string' ? attrs.defaultValue : undefined,
     pattern: typeof attrs?.pattern === 'string' ? attrs.pattern : undefined,
   };
 };
@@ -49,6 +51,14 @@ const useQuestionFormDialogActions = ({
     defaultValues: question
       ? {
           ...question,
+          type: question.type as
+            | 'text'
+            | 'textarea'
+            | 'email'
+            | 'checkbox'
+            | 'select'
+            | 'date'
+            | 'number',
           attributes: extractDefaultAttributes(question.attributes),
         }
       : {
@@ -81,6 +91,14 @@ const useQuestionFormDialogActions = ({
     if (question) {
       hookForm.reset({
         ...question,
+        type: question.type as
+          | 'text'
+          | 'textarea'
+          | 'email'
+          | 'checkbox'
+          | 'select'
+          | 'date'
+          | 'number',
         attributes: extractDefaultAttributes(question.attributes),
       });
     }

@@ -75,7 +75,7 @@ const QuestionInputSettings = ({ control }: QuestionInputSettingsProps) => {
         />
       </div>
 
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-2 items-start gap-3">
         <FormField
           control={control}
           name="attributes.minLength"
@@ -92,17 +92,19 @@ const QuestionInputSettings = ({ control }: QuestionInputSettingsProps) => {
                 </FormControl>
                 <FormLabel>Min length</FormLabel>
               </div>
-              {field.value !== undefined && (
-                <FormControl>
-                  <Input
-                    type="number"
-                    placeholder="0"
-                    value={field.value || ''}
-                    onChange={(e) => field.onChange(parseInt(e.target.value))}
-                  />
-                </FormControl>
-              )}
-              <FormMessage />
+              <div className="pl-6">
+                {field.value !== undefined && (
+                  <FormControl>
+                    <Input
+                      type="number"
+                      placeholder="0"
+                      value={field.value || ''}
+                      onChange={(e) => field.onChange(parseInt(e.target.value))}
+                    />
+                  </FormControl>
+                )}
+                <FormMessage />
+              </div>
             </FormItem>
           )}
         />
@@ -123,17 +125,19 @@ const QuestionInputSettings = ({ control }: QuestionInputSettingsProps) => {
                 </FormControl>
                 <FormLabel>Max length</FormLabel>
               </div>
-              {field.value !== undefined && (
-                <FormControl>
-                  <Input
-                    type="number"
-                    placeholder="255"
-                    value={field.value || ''}
-                    onChange={(e) => field.onChange(parseInt(e.target.value))}
-                  />
-                </FormControl>
-              )}
-              <FormMessage />
+              <div className="pl-6">
+                {field.value !== undefined && (
+                  <FormControl>
+                    <Input
+                      type="number"
+                      placeholder="255"
+                      value={field.value || ''}
+                      onChange={(e) => field.onChange(parseInt(e.target.value))}
+                    />
+                  </FormControl>
+                )}
+                <FormMessage />
+              </div>
             </FormItem>
           )}
         />

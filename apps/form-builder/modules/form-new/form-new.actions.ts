@@ -1,6 +1,10 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 import { v4 as uuidv4 } from 'uuid';
+
+import { PRIVATE_ROUTES } from '@/constants/routes';
 
 import {
   type FormBuilderSchema,
@@ -10,15 +14,19 @@ import {
   formBuilderSchema,
 } from '@/schemas/form';
 
+import { useCreateFormMutation } from '@/services/forms/forms.mutations';
+
 const useFormNewActions = () => {
-  const sectionId = uuidv4();
+  const router = useRouter();
+
+  const { mutate, isPending } = useCreateFormMutation();
+
   const form = useForm<FormBuilderSchema>({
     resolver: zodResolver(formBuilderSchema),
     defaultValues: {
       title: 'Untitled',
       description: '',
       isActive: true,
-      version: 1,
       multiPage: false,
       allowDrafts: false,
       requireAuth: false,
@@ -26,7 +34,7 @@ const useFormNewActions = () => {
       redirectUrl: '',
       sections: [
         {
-          id: sectionId,
+          id: uuidv4(),
           title: 'Section #1',
           description: '',
           fields: [],
@@ -186,14 +194,28 @@ const useFormNewActions = () => {
     form.setValue('sections', updatedSections);
   };
 
+  const onSubmit = (data: FormBuilderSchema) => {
+    mutate(data, {
+      onSuccess: () => {
+        toast.success('Form created successfully');
+        router.push(PRIVATE_ROUTES.forms.list);
+      },
+      onError: () => {
+        toast.error('Failed to create form');
+      },
+    });
+  };
+
   return {
     form,
+    isPending,
     addQuestion,
     editQuestion,
     deleteQuestion,
     addSection,
     editSection,
     deleteSection,
+    onSubmit,
   };
 };
 

@@ -1,8 +1,12 @@
 import { PlusIcon } from 'lucide-react';
 import React from 'react';
 import { Control, useFormContext, useWatch } from 'react-hook-form';
+import { z } from 'zod';
 
-import { type QuestionFormDialogSchema } from '@/schemas/form';
+import {
+  type QuestionFormDialogSchema,
+  selectOptionSchema,
+} from '@/schemas/form';
 
 import type { IForm } from '@repo/form-ui/types/form';
 
@@ -46,7 +50,9 @@ const QuestionCheckboxSettings = ({
 
   const removeOption = (index: number) => {
     const currentOptions = getValues('attributes.options') || [];
-    const newOptions = currentOptions.filter((_, i) => i !== index);
+    const newOptions = currentOptions.filter(
+      (_: z.infer<typeof selectOptionSchema>, i: number) => i !== index
+    );
     setValue('attributes.options', newOptions);
   };
 
@@ -72,15 +78,17 @@ const QuestionCheckboxSettings = ({
       <h3 className="text-muted-foreground text-sm font-medium">Options</h3>
 
       <div className="grid gap-3">
-        {options?.map((option, index) => (
-          <QuestionSelectionOption
-            key={`option-${index}`}
-            control={control}
-            index={index}
-            form={form}
-            onRemove={removeOption}
-          />
-        ))}
+        {options?.map(
+          (option: z.infer<typeof selectOptionSchema>, index: number) => (
+            <QuestionSelectionOption
+              key={`option-${index}`}
+              control={control}
+              index={index}
+              form={form}
+              onRemove={removeOption}
+            />
+          )
+        )}
       </div>
 
       <Button

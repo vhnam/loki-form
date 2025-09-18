@@ -17,46 +17,39 @@ export const questionFormDialogSchema = z.object({
   label: z.string().min(1).max(255),
   description: z.string().max(255).optional(),
   sectionId: z.string().min(1).max(255),
-  type: z.string().min(1).max(255),
-  helperText: z.string().max(255).optional(),
-  required: z.boolean(),
-  order: z.number(),
-  attributes: z
-    .object({
-      options: z.array(selectOptionSchema).optional(),
-      minSelected: z.number().optional(),
-      maxSelected: z.number().optional(),
-      minLength: z.number().optional(),
-      maxLength: z.number().optional(),
-      min: z.number().optional(),
-      max: z.number().optional(),
-      step: z.number().optional(),
-      placeholder: z.string().optional(),
-      pattern: z.string().optional(),
-      defaultValue: z.string().optional(),
-    })
-    .optional(),
+  type: z.enum([
+    'text',
+    'textarea',
+    'email',
+    'checkbox',
+    'select',
+    'date',
+    'number',
+  ]),
+  helperText: z.string().max(500).optional(),
+  required: z.boolean().optional(),
+  order: z.number().optional(),
+  attributes: z.record(z.string(), z.any()).optional(),
 });
 
 export const sectionFormDialogSchema = z.object({
   id: z.string(),
   title: z.string().min(1).max(255),
-  description: z.string().min(1).max(255),
+  description: z.string().max(255).optional(),
   fields: z.array(questionFormDialogSchema),
-  order: z.number(),
+  order: z.number().optional(),
   showInfo: z.boolean(),
 });
 
 export const formBuilderSchema = z.object({
   title: z.string().min(1).max(255),
-  description: z.string().min(1).max(255),
-  isActive: z.boolean(),
-  version: z.number(),
-  multiPage: z.boolean(),
-  allowDrafts: z.boolean(),
-  requireAuth: z.boolean(),
-  submitMessage: z.string().min(1).max(255),
-  redirectUrl: z.string().min(1).max(255),
+  description: z.string().max(255).optional(),
+  isActive: z.boolean().optional(),
+  multiPage: z.boolean().optional(),
+  allowDrafts: z.boolean().optional(),
+  requireAuth: z.boolean().optional(),
+  submitMessage: z.string().optional(),
+  redirectUrl: z.string().max(500).optional(),
   sections: z.array(sectionFormDialogSchema),
 });
 

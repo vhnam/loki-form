@@ -53,19 +53,19 @@ import QuestionSelectionSettings from './question-selection-settings';
 interface QuestionFormDialogProps {
   form: IForm;
   question?: IField;
+  triggerComponent: ReactNode;
   onAddQuestion?: (questionData: QuestionFormDialogSchema) => void;
   onEditQuestion?: (questionData: QuestionFormDialogSchema) => void;
   onDeleteQuestion?: (questionId: string, sectionId: string) => void;
-  triggerComponent: ReactNode;
 }
 
 const QuestionFormDialog = ({
   form,
   question,
+  triggerComponent,
   onAddQuestion,
   onEditQuestion,
   onDeleteQuestion,
-  triggerComponent,
 }: QuestionFormDialogProps) => {
   const isEdit = !!question;
   const [open, setOpen] = useState(false);
@@ -133,7 +133,7 @@ const QuestionFormDialog = ({
 
           <form onSubmit={hookForm.handleSubmit(onSubmit)}>
             <ScrollArea className="-mr-6 h-[50vh] pr-6">
-              <div className="grid gap-6">
+              <div className="grid gap-6 pb-6">
                 <div className="grid gap-3">
                   <FormField
                     control={hookForm.control}
@@ -143,6 +143,7 @@ const QuestionFormDialog = ({
                         <FormLabel>{t('section.label')}</FormLabel>
                         <FormControl>
                           <Select
+                            disabled={!isEdit}
                             value={field.value}
                             onValueChange={field.onChange}
                           >
@@ -298,23 +299,24 @@ const QuestionFormDialog = ({
                 )}
               </div>
             </ScrollArea>
-            <DialogFooter className="w-full sm:justify-between">
-              {isEdit && (
-                <Button
-                  type="button"
-                  variant="destructive"
-                  onClick={() => {
-                    if (question && onDeleteQuestion) {
-                      onDeleteQuestion(question.id, question.sectionId);
-                      // Close dialog after successful deletion
-                      setOpen(false);
-                    }
-                  }}
-                >
-                  {t('actions.delete')}
-                </Button>
-              )}
-              <div className="flex items-center gap-2">
+            <DialogFooter className="w-full pt-6 sm:justify-between">
+              <div>
+                {isEdit && (
+                  <Button
+                    type="button"
+                    variant="destructive"
+                    onClick={() => {
+                      if (question && onDeleteQuestion) {
+                        onDeleteQuestion(question.id, question.sectionId);
+                        setOpen(false);
+                      }
+                    }}
+                  >
+                    {t('actions.delete')}
+                  </Button>
+                )}
+              </div>
+              <div className="flex items-center justify-end gap-2">
                 <DialogClose asChild>
                   <Button type="button" variant="outline">
                     {t('actions.cancel')}
