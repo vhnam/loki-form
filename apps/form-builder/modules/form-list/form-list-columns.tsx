@@ -63,10 +63,14 @@ export const useFormListColumns = ({
         cell: ({ row }: CellContext<IForm, ReactNode>) => (
           <>
             <Badge variant="secondary" className="mx-1">
-              {t('cell.sections', { count: row.original.sections.length })}
+              {t('cell.sections', {
+                count: row.original.sections?.length ?? 0,
+              })}
             </Badge>
             <Badge variant="secondary" className="mx-1">
-              {t('cell.questions', { count: getFieldsCount(row.original) })}
+              {t('cell.questions', {
+                count: getFieldsCount(row.original) ?? 0,
+              })}
             </Badge>
           </>
         ),

@@ -5,6 +5,7 @@ import {
   Post,
   Put,
   Request,
+  UnauthorizedException,
   UseGuards,
 } from '@nestjs/common';
 
@@ -33,7 +34,16 @@ export class AuthController {
 
   @Post('login')
   async login(@Body() loginDto: LoginDto) {
-    return await this.authService.login(loginDto);
+    try {
+      return await this.authService.login(loginDto);
+    } catch (error) {
+      // Handle authentication errors specifically
+      if (error instanceof UnauthorizedException) {
+        throw new UnauthorizedException('Invalid credentials');
+      }
+      // Re-throw other errors to be handled by the global exception filter
+      throw error;
+    }
   }
 
   @Post('register')

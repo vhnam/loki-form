@@ -16,6 +16,8 @@ import {
 
 interface TablePaginationProps<T> {
   table: Table<T>;
+  totalPages: number;
+  onPageChange: (page: number) => void;
 }
 
 const TABLE_DISABLED_PAGINATION_ITEM_CLASSNAME =
@@ -24,7 +26,11 @@ const TABLE_DISABLED_PAGINATION_ITEM_CLASSNAME =
 /**
  * The navigation is handled by the table state, not actual URL routing.
  */
-const TablePagination = <T,>({ table }: TablePaginationProps<T>) => {
+const TablePagination = <T,>({
+  table,
+  totalPages,
+  onPageChange,
+}: TablePaginationProps<T>) => {
   const t = useTranslations('pagination');
 
   const handlePreviousPage = useCallback(
@@ -32,9 +38,10 @@ const TablePagination = <T,>({ table }: TablePaginationProps<T>) => {
       e.stopPropagation();
       if (table.getCanPreviousPage()) {
         table.previousPage();
+        onPageChange(table.getState().pagination.pageIndex - 1);
       }
     },
-    [table]
+    [table, onPageChange]
   );
 
   const handleNextPage = useCallback(
@@ -42,9 +49,10 @@ const TablePagination = <T,>({ table }: TablePaginationProps<T>) => {
       e.stopPropagation();
       if (table.getCanNextPage()) {
         table.nextPage();
+        onPageChange(table.getState().pagination.pageIndex + 1);
       }
     },
-    [table]
+    [table, onPageChange]
   );
 
   const handlePageClick = useCallback(
@@ -54,6 +62,8 @@ const TablePagination = <T,>({ table }: TablePaginationProps<T>) => {
     },
     [table]
   );
+
+  if (totalPages <= 1) return null;
 
   return (
     <Pagination className="justify-end">

@@ -190,5 +190,88 @@
       "title": "Recent forms",
       "description": "Recent forms"
     }
+  },
+  "formBuilderPage": {
+    "header": {
+      "title": {
+        "new": "New form",
+        "edit": "Edit form"
+      },
+      "actions": {
+        "save": "Save",
+        "saving": "Saving...",
+        "cancel": "Cancel"
+      }
+    },
+    "form": {
+      "title": {
+        "label": "Title",
+        "placeholder": "Enter title"
+      },
+      "description": {
+        "label": "Description",
+        "placeholder": "Enter description"
+      },
+      "actions": {
+        "editForm": "Edit form",
+        "addSection": "Add section",
+        "toggleSection": "Toggle section",
+        "toggleSectionTooltip": "Toggle section",
+        "deleteSection": "Delete section",
+        "deleteSectionTooltip": "Delete section",
+        "editSection": "Edit section",
+        "editSectionTooltip": "Edit section",
+        "addQuestion": "Add question",
+        "addQuestionTooltip": "Add question",
+        "noQuestions": "No questions"
+      }
+    },
+    "question": {
+      "sections": {
+        "description": {
+          "title": {
+            "add": "Add question",
+            "edit": "Edit question"
+          },
+          "description": {
+            "add": "Description",
+            "edit": "Description"
+          }
+        },
+        "settings": {
+          "title": "Settings"
+        }
+      },
+      "section": {
+        "label": "Section",
+        "placeholder": "Select section"
+      },
+      "type": {
+        "label": "Type",
+        "placeholder": "Select type"
+      },
+      "label": {
+        "label": "Label",
+        "placeholder": "Enter label"
+      },
+      "description": {
+        "label": "Description",
+        "placeholder": "Enter description"
+      },
+      "helperText": {
+        "label": "Helper text",
+        "placeholder": "Enter helper text"
+      },
+      "actions": {
+        "delete": "Delete",
+        "cancel": "Cancel",
+        "finish": "Finish"
+      },
+      "messages": {
+        "add": "Add question \"{label}\" successfully",
+        "edit": "Edit question \"{label}\" successfully",
+        "delete": "Delete question \"{label}\" successfully"
+      }
+    }
   }
 }

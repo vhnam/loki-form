@@ -16,8 +16,8 @@ export class UsersService {
       .where(eq(users.email, emailOrId))
       .limit(1);
 
-    // If not found by email, try by ID
-    if (!result[0]) {
+    // If not found by email, try by ID only if it looks like a UUID
+    if (!result[0] && this.isValidUUID(emailOrId)) {
       result = await this.databaseService.db
         .select()
         .from(users)
@@ -26,6 +26,12 @@ export class UsersService {
     }
 
     return result[0];
+  }
+
+  private isValidUUID(uuid: string): boolean {
+    const uuidRegex =
+      /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+    return uuidRegex.test(uuid);
   }
 
   async findByEmail(email: string): Promise<User | undefined> {

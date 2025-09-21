@@ -190,5 +190,88 @@
     "recentItem": {
       "title": "Biểu mẫu gần đây"
     }
+  },
+  "formBuilderPage": {
+    "header": {
+      "title": {
+        "new": "Biểu mẫu mới",
+        "edit": "Sửa biểu mẫu"
+      },
+      "actions": {
+        "save": "Lưu",
+        "saving": "Đang lưu...",
+        "cancel": "Hủy"
+      }
+    },
+    "form": {
+      "title": {
+        "label": "Tiêu đề",
+        "placeholder": "Nhập tiêu đề"
+      },
+      "description": {
+        "label": "Mô tả",
+        "placeholder": "Nhập mô tả"
+      },
+      "actions": {
+        "editForm": "Sửa biểu mẫu",
+        "addSection": "Thêm nhóm",
+        "toggleSection": "Ẩn/hiện nhóm",
+        "toggleSectionTooltip": "Ẩn/hiện nhóm",
+        "deleteSection": "Xóa nhóm",
+        "deleteSectionTooltip": "Xóa nhóm",
+        "editSection": "Sửa nhóm",
+        "editSectionTooltip": "Sửa nhóm",
+        "addQuestion": "Thêm câu hỏi",
+        "addQuestionTooltip": "Thêm câu hỏi",
+        "noQuestions": "Không có câu hỏi"
+      }
+    },
+    "question": {
+      "sections": {
+        "description": {
+          "title": {
+            "add": "Thêm câu hỏi",
+            "edit": "Sửa câu hỏi"
+          },
+          "description": {
+            "add": "Mô tả",
+            "edit": "Mô tả"
+          }
+        },
+        "settings": {
+          "title": "Settings"
+        }
+      },
+      "section": {
+        "label": "Nhóm",
+        "placeholder": "Chọn nhóm"
+      },
+      "type": {
+        "label": "Loại",
+        "placeholder": "Chọn loại"
+      },
+      "label": {
+        "label": "Tiêu đề",
+        "placeholder": "Nhập tiêu đề"
+      },
+      "description": {
+        "label": "Mô tả",
+        "placeholder": "Nhập mô tả"
+      },
+      "helperText": {
+        "label": "Văn bản trợ giúp",
+        "placeholder": "Nhập văn bản trợ giúp"
+      },
+      "actions": {
+        "delete": "Xóa",
+        "cancel": "Hủy",
+        "finish": "Hoàn thành"
+      },
+      "messages": {
+        "add": "Thêm câu hỏi \"{label}\" thành công",
+        "edit": "Sửa câu hỏi \"{label}\" thành công",
+        "delete": "Xóa câu hỏi \"{label}\" thành công"
+      }
+    }
   }
 }

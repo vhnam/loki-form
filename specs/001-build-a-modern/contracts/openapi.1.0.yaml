@@ -1,0 +1,1144 @@
+openapi: 3.1.0
+info:
+  title: LokiForm API
+  summary: LokiForm API - A comprehensive form builder service that enables users to create, manage, and publish dynamic forms with advanced features including conditional logic, multiple field types, real-time validation, and submission management.
+  description: LokiForm is a modern, feature-rich form builder API built with Next.js and TypeScript in a Turborepo monorepo architecture. The API provides complete form lifecycle management including creation, editing, publishing, and submission handling. Key features include drag-and-drop form building, multiple field types (text, email, select, checkbox, date, number), conditional logic, form validation, user authentication, role-based access control, and comprehensive submission management with pagination support.
+  version: '1.0'
+tags:
+  - name: Auth
+  - name: Forms
+  - name: Form submissions
+  - name: Health
+paths:
+  /auth/change-password:
+    post:
+      operationId: Auth_changePassword
+      summary: Change user password
+      description: Updates the authenticated user's password by providing the current password and a new password. Validates the current password for security before applying the new password. This endpoint requires a valid Bearer authentication token and is used for secure password updates.
+      parameters: []
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+      tags:
+        - Auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                oldPassword:
+                  type: string
+                newPassword:
+                  type: string
+              required:
+                - oldPassword
+                - newPassword
+      security:
+        - BearerAuth: []
+  /auth/forgot-password:
+    post:
+      operationId: Auth_forgotPassword
+      summary: Initiate password reset process
+      description: Initiates a password reset process by sending a secure reset token to the user's registered email address. This endpoint is used when users forget their password and need to reset it. The reset token is time-limited and can be used with the reset-password endpoint.
+      parameters: []
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+      tags:
+        - Auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+              required:
+                - email
+  /auth/login:
+    post:
+      operationId: Auth_signIn
+      summary: User authentication and login
+      description: Authenticates a user with their email and password credentials. Upon successful authentication, returns the user's complete profile information including personal details, preferences, and authentication status. This endpoint is the primary entry point for user authentication in the LokiForm application.
+      parameters: []
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+      tags:
+        - Auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+              required:
+                - email
+                - password
+  /auth/profile:
+    get:
+      operationId: Auth_getProfile
+      summary: Get authenticated user profile
+      description: Retrieves the authenticated user's complete profile information including personal details, account settings, interface preferences, and role information. This endpoint requires a valid Bearer authentication token and is used to display user information in the application interface.
+      parameters: []
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+      tags:
+        - Auth
+      security:
+        - BearerAuth: []
+    put:
+      operationId: Auth_updateProfile
+      summary: Update user profile information
+      description: Updates the authenticated user's profile information including personal details (name, email), password, interface preferences (theme mode, language), and account settings. All fields are optional and only provided fields will be updated. This endpoint requires a valid Bearer authentication token.
+      parameters: []
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+      tags:
+        - Auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                firstName:
+                  type: string
+                lastName:
+                  type: string
+                password:
+                  type: string
+                interfaceMode:
+                  type: string
+                  enum:
+                    - light
+                    - dark
+                    - system
+                interfaceLanguage:
+                  type: string
+                  enum:
+                    - en-US
+                    - vi-VN
+      security:
+        - BearerAuth: []
+  /auth/refresh:
+    post:
+      operationId: Auth_refresh
+      summary: Refresh authentication token
+      description: Refreshes an expired authentication token using a valid refresh token. This endpoint maintains user sessions without requiring re-authentication, providing a seamless user experience. Returns a new access token and refresh token pair upon successful validation.
+      parameters: []
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+      tags:
+        - Auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                refreshToken:
+                  type: string
+              required:
+                - refreshToken
+  /auth/register:
+    post:
+      operationId: Auth_register
+      summary: Create new user account
+      description: Creates a new user account with the provided personal information and credentials. Validates email uniqueness and password requirements before account creation. Returns the authenticated user's complete profile information upon successful registration. This endpoint enables new users to join the LokiForm platform.
+      parameters: []
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+      tags:
+        - Auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                firstName:
+                  type: string
+                lastName:
+                  type: string
+                email:
+                  type: string
+                password:
+                  type: string
+              required:
+                - firstName
+                - lastName
+                - email
+                - password
+  /auth/reset-password:
+    post:
+      operationId: Auth_resetPassword
+      summary: Complete password reset with token
+      description: Completes the password reset process using a valid reset token received via email and a new password. Validates the token's authenticity and expiration before updating the password. This endpoint is used after the user receives a reset token via the forgot-password endpoint.
+      parameters: []
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+      tags:
+        - Auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                token:
+                  type: string
+                newPassword:
+                  type: string
+              required:
+                - token
+                - newPassword
+  /forms:
+    get:
+      operationId: Forms_getForms
+      summary: Get paginated list of user forms
+      description: Retrieves a paginated list of forms created by the authenticated user. Supports filtering by form properties, sorting by various fields, and pagination to efficiently manage large collections of forms. Returns form metadata including title, description, status, and creation date.
+      parameters:
+        - name: filter
+          in: query
+          required: false
+          schema:
+            type: string
+          explode: false
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - data
+                  - pagination
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Form'
+                    description: Array of data items for the current page
+                  pagination:
+                    allOf:
+                      - $ref: '#/components/schemas/Pagination'
+                    description: Pagination metadata including page information, totals, and navigation state
+                description: Paginated response model containing an array of data items along with comprehensive pagination metadata for managing large datasets efficiently
+      tags:
+        - Forms
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                page:
+                  type: integer
+                  format: int32
+                  default: 1
+                perPage:
+                  type: integer
+                  format: int32
+                  default: 10
+                sortBy:
+                  type: string
+                sortOrder:
+                  $ref: '#/components/schemas/sortOrder'
+      security:
+        - BearerAuth: []
+    post:
+      operationId: Forms_createForm
+      summary: Create new form
+      description: Creates a new form with the provided configuration including title, description, sections, and fields. The form will be associated with the authenticated user and supports various field types (text, email, select, checkbox, date, number). Returns the created form with generated ID and timestamps.
+      parameters: []
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Form'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                anyOf:
+                  - $ref: '#/components/schemas/ValidationError'
+                  - $ref: '#/components/schemas/UnauthorizedError'
+      tags:
+        - Forms
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Form'
+      security:
+        - BearerAuth: []
+  /forms/{formId}:
+    get:
+      operationId: Forms_getForm
+      summary: Get form by ID
+      description: Retrieves a single form by its unique identifier. Returns the complete form definition including all sections, fields, field attributes, validation rules, and form configuration. This endpoint is used for form editing and detailed form viewing.
+      parameters:
+        - name: formId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Form'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundError'
+      tags:
+        - Forms
+      security:
+        - BearerAuth: []
+    put:
+      operationId: Forms_updateForm
+      summary: Update existing form
+      description: Updates an existing form with new configuration. All form properties including sections, fields, validation rules, and settings can be modified. The form version will be automatically incremented to track changes. Only the form owner can update their forms.
+      parameters:
+        - name: formId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Form'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                anyOf:
+                  - $ref: '#/components/schemas/ValidationError'
+                  - $ref: '#/components/schemas/UnauthorizedError'
+                  - $ref: '#/components/schemas/NotFoundError'
+                  - $ref: '#/components/schemas/InternalServerError'
+      tags:
+        - Forms
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Form'
+      security:
+        - BearerAuth: []
+    delete:
+      operationId: Forms_deleteForm
+      summary: Delete form permanently
+      description: Permanently deletes a form and all associated data including form submissions and responses. This action cannot be undone and should be used with caution. Only the form owner can delete their forms. All related data will be permanently removed from the system.
+      parameters:
+        - name: formId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: 'There is no content to send for this request, but the headers may be useful. '
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                anyOf:
+                  - $ref: '#/components/schemas/NotFoundError'
+                  - $ref: '#/components/schemas/UnauthorizedError'
+                  - $ref: '#/components/schemas/InternalServerError'
+      tags:
+        - Forms
+      security:
+        - BearerAuth: []
+  /forms/{formId}/publish:
+    post:
+      operationId: Forms_publishForm
+      summary: Publish form for public access
+      description: Publishes a form, making it publicly accessible for submissions without authentication. Returns a public URL that can be shared with users to access and submit the form. Once published, the form becomes available for public submissions and can be accessed by anyone with the URL.
+      parameters:
+        - name: formId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  publicUrl:
+                    type: string
+                required:
+                  - publicUrl
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                anyOf:
+                  - $ref: '#/components/schemas/ValidationError'
+                  - $ref: '#/components/schemas/UnauthorizedError'
+      tags:
+        - Forms
+      security:
+        - BearerAuth: []
+  /forms/{formId}/submissions:
+    get:
+      operationId: FormSubmission_getResponses
+      summary: Get paginated form submissions
+      description: Retrieves a paginated list of submissions for a specific form. Allows form owners to view all submissions with pagination support for managing large numbers of submissions. Returns submission data including field values, submission timestamps, and metadata.
+      parameters:
+        - name: formId
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/uuid'
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - data
+                  - pagination
+                properties:
+                  data:
+                    type: array
+                    description: Array of data items for the current page
+                  pagination:
+                    allOf:
+                      - $ref: '#/components/schemas/Pagination'
+                    description: Pagination metadata including page information, totals, and navigation state
+                description: Paginated response model containing an array of data items along with comprehensive pagination metadata for managing large datasets efficiently
+      tags:
+        - Form submissions
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                page:
+                  type: integer
+                  format: int32
+                  default: 1
+                perPage:
+                  type: integer
+                  format: int32
+                  default: 10
+      security:
+        - BearerAuth: []
+    post:
+      operationId: FormSubmission_createResponse
+      summary: Submit form response
+      description: Submits a new response to a published form. Validates all required fields, field types, and constraints before storing the submission data. This endpoint is typically used by end users filling out forms and can be called without authentication for published forms.
+      parameters:
+        - name: formId
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/uuid'
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema: {}
+      tags:
+        - Form submissions
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {}
+      security:
+        - BearerAuth: []
+  /forms/{formId}/submissions/{formSubmissionId}:
+    get:
+      operationId: FormSubmission_getResponse
+      summary: Get form submission by ID
+      description: Retrieves a single form submission by its unique identifier. Returns the complete submission data including all field values, submission timestamp, and associated form metadata. This endpoint is used for detailed submission review and analysis.
+      parameters:
+        - name: formId
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/uuid'
+        - name: formSubmissionId
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/uuid'
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema: {}
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundError'
+      tags:
+        - Form submissions
+      security:
+        - BearerAuth: []
+  /health:
+    get:
+      operationId: Health_checkServerHealth
+      summary: Check server health status
+      description: Returns the current health status, uptime, environment information, and timestamp of the LokiForm server. This endpoint is used for monitoring, load balancer health checks, and system diagnostics to ensure the application is running properly. Provides essential metrics for system monitoring and alerting.
+      parameters: []
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerHealth'
+      tags:
+        - Health
+  /health/database:
+    get:
+      operationId: Health_checkDatabaseHealth
+      summary: Check database connectivity
+      description: Returns the current health status, timestamp, and database connection information for the LokiForm database. This endpoint is used for monitoring database connectivity, ensuring data persistence is available, and diagnosing database-related issues in the application. Essential for database monitoring and troubleshooting.
+      parameters: []
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerHealth'
+      tags:
+        - Health
+components:
+  schemas:
+    CheckboxFieldAttributes:
+      type: object
+      required:
+        - options
+      properties:
+        options:
+          type: string
+          description: Comma-separated list of checkbox options
+        minSelected:
+          type: integer
+          format: int32
+          description: Minimum number of options that must be selected
+        maxSelected:
+          type: integer
+          format: int32
+          description: Maximum number of options that can be selected
+      allOf:
+        - $ref: '#/components/schemas/FieldAttributes'
+      description: Configuration attributes for checkbox fields, including available options and selection constraints.
+    DateFieldAttributes:
+      type: object
+      required:
+        - options
+      properties:
+        options:
+          type: string
+          description: Date picker configuration options
+        beforeDate:
+          type: integer
+          format: int32
+          description: Unix timestamp - dates before this value are not selectable
+        afterDate:
+          type: integer
+          format: int32
+          description: Unix timestamp - dates after this value are not selectable
+        placeholder:
+          type: string
+          description: Placeholder text shown when the field is empty
+        defaultValue:
+          type: string
+          description: Default date value
+        dateFormat:
+          type: string
+          description: Date format for display and input (e.g., 'MM/DD/YYYY', 'DD-MM-YYYY')
+        mode:
+          allOf:
+            - $ref: '#/components/schemas/DateMode'
+          description: Date selection mode (single date, multiple dates, or date range)
+      allOf:
+        - $ref: '#/components/schemas/FieldAttributes'
+      description: Configuration attributes for date input fields, including date constraints, format options, and selection modes.
+    DateMode:
+      type: string
+      enum:
+        - single
+        - multiple
+        - range
+      description: Defines the different modes for date field selection, controlling how users can interact with date inputs.
+    EmailFieldAttributes:
+      type: object
+      properties:
+        placeholder:
+          type: string
+          description: Placeholder text shown when the field is empty
+        minLength:
+          type: integer
+          format: int32
+          description: Minimum number of characters required
+        maxLength:
+          type: integer
+          format: int32
+          description: Maximum number of characters allowed
+        defaultValue:
+          type: string
+          description: Default email value for the field
+      allOf:
+        - $ref: '#/components/schemas/FieldAttributes'
+      description: Configuration attributes for email input fields, including validation constraints and default values.
+    FieldAttributes:
+      type: object
+      description: Base class for all field attribute configurations. Provides common properties that can be extended by specific field types.
+    FieldType:
+      type: string
+      enum:
+        - text
+        - textarea
+        - email
+        - checkbox
+        - select
+        - date
+        - number
+      description: Defines the available field types that can be used in forms. Each type has specific validation rules and UI components.
+    Form:
+      type: object
+      required:
+        - id
+        - title
+        - description
+        - sections
+        - userId
+        - isActive
+        - version
+        - multiPage
+        - allowDrafts
+        - requireAuth
+        - submitMessage
+      properties:
+        id:
+          allOf:
+            - $ref: '#/components/schemas/uuid'
+          description: Unique identifier for the form
+          readOnly: true
+        title:
+          type: string
+          minLength: 1
+          maxLength: 255
+          description: Title of the form displayed to users
+        description:
+          type: string
+          minLength: 0
+          maxLength: 255
+          description: Description or instructions for the form
+        sections:
+          type: array
+          items:
+            $ref: '#/components/schemas/Section'
+          description: Array of sections containing the form fields
+        userId:
+          allOf:
+            - $ref: '#/components/schemas/uuid'
+          description: ID of the user who created this form
+        isActive:
+          type: boolean
+          description: Whether the form is currently active and accepting responses
+        version:
+          type: integer
+          format: int32
+          description: Version number of the form for tracking changes
+        multiPage:
+          type: boolean
+          description: Whether the form spans multiple pages
+        allowDrafts:
+          type: boolean
+          description: Whether users can save drafts before submitting
+        requireAuth:
+          type: boolean
+          description: Whether authentication is required to submit the form
+        submitMessage:
+          type: string
+          description: Message shown to users after successful form submission
+        redirectUrl:
+          type: string
+          description: Optional URL to redirect users to after form submission
+      description: Represents a complete form definition with all its sections, fields, configuration, and metadata. Forms are the main entities in the LokiForm system.
+    InterfaceLanguage:
+      type: string
+      enum:
+        - en-US
+        - vi-VN
+      description: Defines the available language options for the user interface localization.
+    InterfaceMode:
+      type: string
+      enum:
+        - light
+        - dark
+        - system
+      description: Defines the available interface mode options for user interface theming preferences.
+    InternalServerError:
+      type: object
+      allOf:
+        - type: object
+          required:
+            - code
+            - message
+          properties:
+            code:
+              type: string
+              enum:
+                - INTERNAL_SERVER_ERROR
+            message:
+              type: string
+          description: A template for a standard API error with a unique code and a message.
+      description: Error returned when an unexpected server error occurs, indicating a problem with the server's internal processing
+    NotFoundError:
+      type: object
+      allOf:
+        - type: object
+          required:
+            - code
+            - message
+          properties:
+            code:
+              type: string
+              enum:
+                - NOT_FOUND
+            message:
+              type: string
+          description: A template for a standard API error with a unique code and a message.
+      description: Error returned when the requested resource could not be found or does not exist
+    NumberFieldAttributes:
+      type: object
+      properties:
+        placeholder:
+          type: string
+          description: Placeholder text shown when the field is empty
+        min:
+          type: integer
+          format: int32
+          description: Minimum numeric value allowed
+        max:
+          type: integer
+          format: int32
+          description: Maximum numeric value allowed
+        defaultValue:
+          type: integer
+          format: int32
+          description: Default numeric value for the field
+      allOf:
+        - $ref: '#/components/schemas/FieldAttributes'
+      description: Configuration attributes for number input fields, including validation constraints and default values.
+    Pagination:
+      type: object
+      required:
+        - page
+        - perPage
+        - total
+        - totalPages
+        - hasPrev
+        - hasNext
+      properties:
+        page:
+          type: integer
+          format: int32
+          description: Current page number (1-based indexing)
+        perPage:
+          type: integer
+          format: int32
+          description: Number of items per page
+        total:
+          type: integer
+          format: int32
+          description: Total number of items across all pages
+        totalPages:
+          type: integer
+          format: int32
+          description: Total number of pages available
+        hasPrev:
+          type: boolean
+          description: Whether there is a previous page available
+        hasNext:
+          type: boolean
+          description: Whether there is a next page available
+      description: Pagination metadata model containing information about the current page, total items, and navigation state for paginated API responses
+    Role:
+      type: string
+      enum:
+        - user
+        - admin
+        - superadmin
+      description: Defines the available user roles in the LokiForm system, determining access levels and permissions for different types of users.
+    Section:
+      type: object
+      required:
+        - id
+        - title
+        - description
+        - fields
+      properties:
+        id:
+          allOf:
+            - $ref: '#/components/schemas/uuid'
+          description: Unique identifier for the section
+          readOnly: true
+        title:
+          type: string
+          minLength: 1
+          maxLength: 255
+          description: Title of the section displayed to users
+        description:
+          type: string
+          minLength: 0
+          maxLength: 255
+          description: Description or instructions for the section
+        fields:
+          type: array
+          items:
+            type: object
+            required:
+              - id
+              - sectionId
+              - type
+              - label
+              - required
+              - order
+              - attributes
+            properties:
+              id:
+                allOf:
+                  - $ref: '#/components/schemas/uuid'
+                description: Unique identifier for the field
+                readOnly: true
+              sectionId:
+                type: string
+                description: ID of the section this field belongs to
+              type:
+                allOf:
+                  - $ref: '#/components/schemas/FieldType'
+                description: Type of the field (text, email, select, etc.)
+              label:
+                type: string
+                description: Display label for the field
+              required:
+                type: boolean
+                description: Whether this field is required for form submission
+              helperText:
+                type: string
+                description: Optional helper text to guide users
+              order:
+                type: integer
+                format: int32
+                description: Order of the field within its section
+              attributes:
+                allOf:
+                  - $ref: '#/components/schemas/FieldAttributes'
+                description: Type-specific attributes and configuration for the field
+            description: A generic field model that represents a form input field with type-specific attributes. Fields are the building blocks of forms and can be of various types like text, email, select, etc.
+          description: Array of fields contained within this section
+      description: Represents a section within a form that groups related fields together. Sections help organize complex forms and can be used for multi-page layouts.
+    SelectFieldAttributes:
+      type: object
+      required:
+        - options
+      properties:
+        options:
+          type: array
+          items:
+            $ref: '#/components/schemas/SelectOption'
+          description: Array of available options for selection
+        minSelected:
+          type: integer
+          format: int32
+          description: Minimum number of options that must be selected
+        maxSelected:
+          type: integer
+          format: int32
+          description: Maximum number of options that can be selected
+        placeholder:
+          type: string
+          description: Placeholder text shown when no option is selected
+        defaultValue:
+          type: string
+          description: Default selected value
+        multiple:
+          type: boolean
+          description: Whether multiple selections are allowed
+        searchable:
+          type: boolean
+          description: Whether the select field supports search/filtering
+      allOf:
+        - $ref: '#/components/schemas/FieldAttributes'
+      description: Configuration attributes for select/dropdown fields, including options, selection constraints, and display options.
+    SelectOption:
+      type: object
+      required:
+        - label
+        - value
+      properties:
+        label:
+          type: string
+          description: Display text for the option
+        value:
+          type: string
+          description: Value submitted when this option is selected
+        disabled:
+          type: boolean
+          description: Whether this option is disabled and cannot be selected
+      description: Represents a single option in a select field, with display label, value, and optional disabled state.
+    ServerHealth:
+      type: object
+      required:
+        - environment
+        - status
+        - uptime
+        - timestamp
+      properties:
+        environment:
+          type: string
+          description: The deployment environment (e.g., 'development', 'staging', 'production')
+        status:
+          type: string
+          description: Current server status (e.g., 'healthy', 'unhealthy', 'degraded')
+        uptime:
+          type: string
+          description: Server uptime duration in a human-readable format
+        timestamp:
+          type: integer
+          format: int32
+          description: Unix timestamp when the health check was performed
+      description: Represents the health status of the LokiForm server, including environment information, current status, uptime, and timestamp for monitoring and diagnostics.
+    TextFieldAttributes:
+      type: object
+      properties:
+        placeholder:
+          type: string
+          description: Placeholder text shown when the field is empty
+        minLength:
+          type: integer
+          format: int32
+          description: Minimum number of characters required
+        maxLength:
+          type: integer
+          format: int32
+          description: Maximum number of characters allowed
+        defaultValue:
+          type: string
+          description: Default value for the field
+      allOf:
+        - $ref: '#/components/schemas/FieldAttributes'
+      description: Configuration attributes for text input fields, including validation constraints and default values.
+    TextareaFieldAttributes:
+      type: object
+      properties:
+        placeholder:
+          type: string
+          description: Placeholder text shown when the field is empty
+        minLength:
+          type: integer
+          format: int32
+          description: Minimum number of characters required
+        maxLength:
+          type: integer
+          format: int32
+          description: Maximum number of characters allowed
+        defaultValue:
+          type: string
+          description: Default value for the field
+        rows:
+          type: integer
+          format: int32
+          description: Number of visible text lines for the textarea
+      allOf:
+        - $ref: '#/components/schemas/FieldAttributes'
+      description: Configuration attributes for textarea fields, including validation constraints, default values, and display options.
+    UnauthorizedError:
+      type: object
+      allOf:
+        - type: object
+          required:
+            - code
+            - message
+          properties:
+            code:
+              type: string
+              enum:
+                - UNAUTHORIZED
+            message:
+              type: string
+          description: A template for a standard API error with a unique code and a message.
+      description: Error returned when the request lacks valid authentication credentials or the user is not authorized to access the resource
+    User:
+      type: object
+      required:
+        - id
+        - firstName
+        - lastName
+        - email
+        - role
+        - interfaceMode
+        - interfaceLanguage
+        - isActive
+      properties:
+        id:
+          allOf:
+            - $ref: '#/components/schemas/uuid'
+          description: Unique identifier for the user
+          readOnly: true
+        firstName:
+          type: string
+          minLength: 1
+          maxLength: 255
+          description: First name of the user
+        lastName:
+          type: string
+          minLength: 1
+          maxLength: 255
+          description: Last name of the user
+        email:
+          type: string
+          minLength: 1
+          maxLength: 255
+          description: Email address of the user, used for authentication and communication
+        role:
+          allOf:
+            - $ref: '#/components/schemas/Role'
+          readOnly: true
+        interfaceMode:
+          allOf:
+            - $ref: '#/components/schemas/InterfaceMode'
+          description: User's preferred interface theme mode
+        interfaceLanguage:
+          allOf:
+            - $ref: '#/components/schemas/InterfaceLanguage'
+          description: User's preferred interface language
+        isActive:
+          type: boolean
+          description: Whether the user account is active and can access the system
+      description: Represents a user account in the LokiForm system with authentication credentials and profile information.
+    ValidationError:
+      type: object
+      required:
+        - details
+      properties:
+        details:
+          type: array
+          items:
+            type: string
+          description: Array of specific validation error messages describing what went wrong
+      allOf:
+        - type: object
+          required:
+            - code
+            - message
+          properties:
+            code:
+              type: string
+              enum:
+                - VALIDATION_ERROR
+            message:
+              type: string
+          description: A template for a standard API error with a unique code and a message.
+      description: Error returned when request validation fails, containing specific details about validation errors
+    sortOrder:
+      type: string
+      enum:
+        - asc
+        - desc
+      description: Defines the available sort order options for API endpoints that support sorting functionality.
+    uuid:
+      type: string
+      format: uuid
+      description: Representing a universally unique identifier (UUID).
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: Bearer
+servers:
+  - url: http://localhost:4000
+    description: Development API endpoint
+    variables: {}

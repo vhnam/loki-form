@@ -1,3 +1,5 @@
+import React from 'react';
+
 import { type IField } from '@repo/form-ui/types/form';
 
 import { Checkbox } from '@repo/core-ui/components/checkbox';

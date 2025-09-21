@@ -1,3 +1,5 @@
+import { QuestionType } from '@repo/form-ui/enums/question';
+
 import { z } from 'zod';
 
 import type { IField, IFieldAttributes } from '@repo/form-ui/types/form';
@@ -5,9 +7,12 @@ import type { IField, IFieldAttributes } from '@repo/form-ui/types/form';
 import { type ICheckboxAttributes } from '@repo/form-ui/schemas/checkbox';
 import { type IDateAttributes } from '@repo/form-ui/schemas/date';
 import { type IEmailAttributes } from '@repo/form-ui/schemas/email';
+import { type INumberFieldAttributes } from '@repo/form-ui/schemas/number';
 import { type ISelectAttributes } from '@repo/form-ui/schemas/select';
 import { type ITextFieldAttributes } from '@repo/form-ui/schemas/text';
 import { type ITextareaAttributes } from '@repo/form-ui/schemas/textarea';
+
+import { pick } from '@repo/core-ui/lib/lodash';
 
 import FormCheckbox from '@repo/form-ui/components/form-checkbox';
 import FormDate from '@repo/form-ui/components/form-date';
@@ -48,4 +53,56 @@ export const getFieldAttributes = <T extends IFieldAttributes>(
     return null;
   }
   return result;
+};
+
+export const extractAttributes = (
+  questionType: QuestionType,
+  attributes: IFieldAttributes
+) => {
+  switch (questionType) {
+    case QuestionType.TEXT:
+      return pick(attributes, [
+        'placeholder',
+        'minLength',
+        'maxLength',
+        'defaultValue',
+      ]) as ITextFieldAttributes;
+    case QuestionType.TEXTAREA:
+      return pick(attributes, [
+        'placeholder',
+        'minLength',
+        'maxLength',
+        'defaultValue',
+      ]) as ITextareaAttributes;
+    case QuestionType.EMAIL:
+      return pick(attributes, [
+        'placeholder',
+        'minLength',
+        'maxLength',
+        'defaultValue',
+      ]) as IEmailAttributes;
+    case QuestionType.NUMBER:
+      return pick(attributes, [
+        'placeholder',
+        'min',
+        'max',
+        'defaultValue',
+      ]) as INumberFieldAttributes;
+    case QuestionType.CHECKBOX:
+      return pick(attributes, [
+        'options',
+        'minSelected',
+        'maxSelected',
+      ]) as ICheckboxAttributes;
+    case QuestionType.SELECT:
+      return pick(attributes, [
+        'options',
+        'placeholder',
+        'defaultValue',
+        'minSelected',
+        'maxSelected',
+      ]) as ISelectAttributes;
+    default:
+      return null;
+  }
 };

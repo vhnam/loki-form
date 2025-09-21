@@ -1,0 +1,63 @@
+# Form Builder Development Rules
+
+## Current Feature Context
+**Feature**: 001-build-a-modern - Modern Section-Based Form Builder  
+**Branch**: 001-build-a-modern  
+**Status**: Planning Complete - Ready for Implementation  
+
+## Technology Stack
+- **Language**: TypeScript 5.9+ with strict mode
+- **Frontend**: Next.js 15, React 19+, TailwindCSS v4, Radix UI
+- **Backend**: NestJS 10+, PostgreSQL, Drizzle ORM
+- **State Management**: React Query, Zustand
+- **Forms**: React Hook Form + Zod validation
+- **Testing**: Vitest (frontend), Jest (backend), TDD approach
+- **Architecture**: Turborepo monorepo
+
+## Project Structure
+```
+apps/
+├── form-builder/        # Next.js 15 frontend
+└── form-builder-server/ # NestJS backend
+
+packages/
+├── core-ui/            # Design system
+├── form-ui/            # Form components
+└── api-spec/           # TypeSpec API spec
+```
+
+## Key Implementation Details
+- **Authentication**: JWT with refresh tokens, 15min access/7d refresh
+- **Database**: PostgreSQL with Drizzle ORM, normalized schema with JSON fields
+- **Real-time**: WebSocket collaboration with optimistic updates
+- **i18n**: next-intl with English/Vietnamese support
+- **Versioning**: Auto-increment with manual version control
+- **Analytics**: Comprehensive tracking with privacy compliance
+
+## Recent Changes
+- Created comprehensive feature specification
+- Completed technical research and architecture decisions
+- Designed data model with 6 core entities
+- Generated OpenAPI contracts for all endpoints
+- Defined test scenarios and quickstart validation
+
+## Development Guidelines
+- Follow TDD approach for all business logic
+- Maintain 80%+ test coverage for critical paths
+- Use server components where possible, client components for interactivity
+- Implement proper error boundaries and loading states
+- Ensure WCAG accessibility compliance
+- Support light/dark theme modes
+
+## Performance Targets
+- FCP < 1.5s, LCP < 2.5s, CLS < 0.1
+- API p95 < 200ms, DB p95 < 50ms
+- Bundle size < 250KB per route
+- Support 1000+ concurrent users
+
+## Security Requirements
+- Input sanitization with Zod schemas
+- JWT authentication with proper expiration
+- HTTPS mandatory in production
+- No secrets in code or environment files
+- GDPR-compliant data handling
