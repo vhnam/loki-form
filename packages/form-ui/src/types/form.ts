@@ -1,17 +1,28 @@
 import { type ICheckboxAttributes } from '@repo/form-ui/schemas/checkbox';
 import { type IDateAttributes } from '@repo/form-ui/schemas/date';
 import { type IEmailAttributes } from '@repo/form-ui/schemas/email';
+import { type INumberFieldAttributes } from '@repo/form-ui/schemas/number';
 import { type ISelectAttributes } from '@repo/form-ui/schemas/select';
 import { type ITextFieldAttributes } from '@repo/form-ui/schemas/text';
 import { type ITextareaAttributes } from '@repo/form-ui/schemas/textarea';
 
 export type IFieldAttributes =
-  | ITextFieldAttributes
-  | ITextareaAttributes
-  | IEmailAttributes
   | ICheckboxAttributes
+  | IDateAttributes
+  | IEmailAttributes
+  | INumberFieldAttributes
   | ISelectAttributes
-  | IDateAttributes;
+  | ITextareaAttributes
+  | ITextFieldAttributes;
+
+export type FieldType =
+  | 'checkbox'
+  | 'date'
+  | 'email'
+  | 'number'
+  | 'select'
+  | 'text'
+  | 'textarea';
 
 export interface IForm {
   id: string;
@@ -40,7 +51,7 @@ export interface ISection {
 export interface IField<T extends IFieldAttributes = IFieldAttributes> {
   id: string;
   sectionId: string;
-  type: string;
+  type: FieldType;
   label: string;
   helperText?: string;
   required: boolean;

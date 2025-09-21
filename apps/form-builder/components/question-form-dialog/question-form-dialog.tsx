@@ -5,13 +5,14 @@ import type { Control, UseFormSetValue } from 'react-hook-form';
 import { toast } from 'sonner';
 import { v4 as uuidv4 } from 'uuid';
 
+import {
+  generateCreateFormValues,
+  generateEditFormValues,
+} from '@/constants/forms';
+
 import { extractAttributes } from '@repo/form-ui/utils/field';
 
-import type {
-  FormBuilderSchema,
-  QuestionFormSchema,
-  SectionFormSchema,
-} from '@/schemas/form';
+import type { FormBuilderSchema, QuestionFormSchema } from '@/schemas/form';
 
 import { QuestionType } from '@repo/form-ui/enums/question';
 
@@ -88,7 +89,6 @@ const QuestionFormDialog = ({
 
   const questionId = useMemo(() => question?.id || uuidv4(), [question?.id]);
 
-  // Watch the current question data from the root form
   const questionData = useWatch({
     control,
     name: `sections.${section.id}.fields.${questionId}`,
@@ -98,44 +98,15 @@ const QuestionFormDialog = ({
     setOpen(open);
 
     if (open && !isEdit) {
-      // Set default values in root form for new question
-      setValue(`sections.${section.id}.fields.${questionId}`, {
-        id: questionId,
-        description: '',
-        sectionId: form.sections[0]!.id,
-        type: 'text',
-        label: '',
-        helperText: '',
-        required: false,
-        order: 0,
-        attributes: {
-          options: [],
-          minSelected: undefined,
-          maxSelected: undefined,
-          minLength: undefined,
-          maxLength: undefined,
-          min: undefined,
-          max: undefined,
-          step: undefined,
-          placeholder: '',
-          defaultValue: '',
-          pattern: undefined,
-        },
-      });
+      setValue(
+        `sections.${section.id}.fields.${questionId}`,
+        generateCreateFormValues({ section, questionId })
+      );
     } else if (open && isEdit && question) {
-      // Set question values in root form for editing
-      setValue(`sections.${section.id}.fields.${questionId}`, {
-        ...question,
-        type: question.type as
-          | 'text'
-          | 'textarea'
-          | 'email'
-          | 'checkbox'
-          | 'select'
-          | 'date'
-          | 'number',
-        attributes: question.attributes || {},
-      });
+      setValue(
+        `sections.${section.id}.fields.${questionId}`,
+        generateEditFormValues({ question })
+      );
     }
   };
 
@@ -206,7 +177,7 @@ const QuestionFormDialog = ({
                             />
                           </SelectTrigger>
                           <SelectContent>
-                            {form.sections.map((section) => (
+                            {Object.values(form.sections).map((section) => (
                               <SelectItem key={section.id} value={section.id}>
                                 {section.title}
                               </SelectItem>

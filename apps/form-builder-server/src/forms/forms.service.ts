@@ -1,9 +1,5 @@
-import {
-  ForbiddenException,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
-import { and, asc, count, desc, eq, ilike, or, sql } from 'drizzle-orm';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { and, asc, count, desc, eq, ilike, or } from 'drizzle-orm';
 
 import { DatabaseService } from '../database/database.service';
 import {
@@ -420,10 +416,11 @@ export class FormsService {
 
       const [createdForm] = await tx.insert(forms).values(newForm).returning();
 
-      // Create sections and fields
+      // Create sections with custom IDs from frontend
       const sectionsWithFields = await Promise.all(
         createCompleteFormDto.sections.map(async (sectionDto, sectionIndex) => {
           const newSection: NewSection = {
+            id: sectionDto.id, // Use the provided section ID
             formId: createdForm.id,
             title: sectionDto.title,
             description: sectionDto.description || '',
@@ -435,11 +432,12 @@ export class FormsService {
             .values(newSection)
             .returning();
 
-          // Create fields for this section
+          // Create fields for this section using the provided sectionId
           const createdFields = await Promise.all(
             sectionDto.fields.map(async (fieldDto, fieldIndex) => {
               const newField: NewField = {
-                sectionId: createdSection.id,
+                id: fieldDto.id, // Use the provided field ID
+                sectionId: fieldDto.sectionId, // Use the provided sectionId
                 label: fieldDto.label,
                 type: fieldDto.type,
                 required: fieldDto.required ?? false,

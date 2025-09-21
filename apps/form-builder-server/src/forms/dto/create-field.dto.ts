@@ -1,4 +1,4 @@
-import { Type } from 'class-transformer';
+import type { IFieldAttributes } from '@repo/form-ui/types/form';
 import {
   IsBoolean,
   IsEnum,
@@ -8,16 +8,28 @@ import {
   IsString,
   IsUUID,
   MaxLength,
-  ValidateNested,
 } from 'class-validator';
 
 import type { FieldType } from '../../database/schema/forms';
 
 export class CreateFieldDto {
   @IsNotEmpty()
+  @IsUUID()
+  id: string;
+
+  @IsNotEmpty()
   @IsString()
   @MaxLength(255)
   label: string;
+
+  @IsOptional()
+  @IsString()
+  @MaxLength(255)
+  description?: string;
+
+  @IsNotEmpty()
+  @IsUUID()
+  sectionId: string;
 
   @IsNotEmpty()
   @IsEnum(['text', 'textarea', 'email', 'checkbox', 'select', 'date', 'number'])
@@ -37,5 +49,5 @@ export class CreateFieldDto {
   order?: number;
 
   @IsOptional()
-  attributes?: Record<string, any>;
+  attributes?: IFieldAttributes;
 }

@@ -14,27 +14,32 @@ import {
   formBuilderSchema,
 } from '@/schemas/form';
 
+import { CreateCompleteFormRequest } from '@/types/form/forms.request';
+
 import { useCreateFormMutation } from '@/services/forms/forms.mutations';
 
-const DEFAULT_FORM_VALUES: FormBuilderSchema = {
-  title: 'Untitled',
-  description: '',
-  isActive: true,
-  multiPage: false,
-  allowDrafts: false,
-  requireAuth: false,
-  submitMessage: '',
-  redirectUrl: '',
-  sections: {
-    [uuidv4()]: {
-      id: uuidv4(),
-      title: 'Section #1',
-      description: '',
-      fields: {},
-      order: 0,
-      showInfo: true,
+const getDefaultFormValues = () => {
+  const sectionId = uuidv4();
+  return {
+    title: 'Untitled',
+    description: '',
+    isActive: true,
+    multiPage: false,
+    allowDrafts: false,
+    requireAuth: false,
+    submitMessage: '',
+    redirectUrl: '',
+    sections: {
+      [sectionId]: {
+        id: sectionId,
+        title: 'Section #1',
+        description: '',
+        fields: {},
+        order: 0,
+        showInfo: true,
+      },
     },
-  },
+  };
 };
 
 const useFormNewActions = () => {
@@ -44,7 +49,7 @@ const useFormNewActions = () => {
 
   const form = useForm<FormBuilderSchema>({
     resolver: zodResolver(formBuilderSchema),
-    defaultValues: DEFAULT_FORM_VALUES,
+    defaultValues: getDefaultFormValues(),
   });
 
   const addQuestion = (questionData: QuestionFormSchema) => {
@@ -223,7 +228,27 @@ const useFormNewActions = () => {
   };
 
   const onSubmit = (data: FormBuilderSchema) => {
-    mutate(data, {
+    const formattedData: CreateCompleteFormRequest = {
+      ...data,
+      sections: Object.values(data.sections).map((section) => ({
+        ...section,
+        order: section.order ?? 0,
+        showInfo: section.showInfo ?? true,
+        description: section.description || '',
+        fields: Object.values(section.fields).map((field) => ({
+          id: field.id,
+          sectionId: field.sectionId,
+          type: field.type,
+          label: field.label,
+          description: field.description || '',
+          required: field.required ?? false,
+          order: field.order ?? 0,
+          helperText: field.helperText || '',
+          attributes: field.attributes || {},
+        })),
+      })),
+    };
+    mutate(formattedData, {
       onSuccess: () => {
         toast.success('Form created successfully');
         router.push(PRIVATE_ROUTES.forms.list);
