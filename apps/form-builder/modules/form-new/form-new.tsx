@@ -18,7 +18,7 @@ import { type FormBuilderSchema } from '@/schemas/form';
 
 import { QuestionType } from '@repo/form-ui/enums/question';
 
-import type { IField, IForm } from '@repo/form-ui/types/form';
+import type { IField, IForm, ISection } from '@repo/form-ui/types/form';
 
 import QuestionFormDialog from '@/components/question-form-dialog';
 
@@ -63,7 +63,7 @@ const FormNew = () => {
   } = useFormNewActions();
 
   const formData = form.watch();
-  const sectionsData = form.watch('sections');
+  const sectionsData = Object.values(form.watch('sections') || {});
 
   const handleFormSubmit = (data: FormBuilderSchema) => {
     onSubmit(data);
@@ -174,6 +174,9 @@ const FormNew = () => {
 
                           <QuestionFormDialog
                             form={formData as unknown as IForm}
+                            section={section as unknown as ISection}
+                            control={form.control}
+                            setValue={form.setValue}
                             onAddQuestion={addQuestion}
                             onEditQuestion={editQuestion}
                             onDeleteQuestion={deleteQuestion}
@@ -195,14 +198,14 @@ const FormNew = () => {
 
                       <CollapsibleContent>
                         <div className="space-y-2">
-                          {section.fields?.length === 0 && (
+                          {Object.values(section.fields || {}).length === 0 && (
                             <div className="flex items-center justify-center">
                               <p className="text-sm text-gray-500 dark:text-gray-400">
                                 {t('form.actions.noQuestions')}
                               </p>
                             </div>
                           )}
-                          {section.fields?.map((field) => (
+                          {Object.values(section.fields || {}).map((field) => (
                             <div
                               key={field.id}
                               className="flex items-center border-t border-gray-200 pt-2 text-sm dark:border-gray-700 dark:text-gray-300"
@@ -233,7 +236,10 @@ const FormNew = () => {
                                   </Button>
                                   <QuestionFormDialog
                                     form={formData as unknown as IForm}
-                                    question={field as IField}
+                                    section={section as unknown as ISection}
+                                    question={field as unknown as IField}
+                                    control={form.control}
+                                    setValue={form.setValue}
                                     onAddQuestion={addQuestion}
                                     onEditQuestion={editQuestion}
                                     onDeleteQuestion={deleteQuestion}

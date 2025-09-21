@@ -1,6 +1,6 @@
 # Loki Form Builder
 
-A modern, form builder application built with Next.js and TypeScript, organized as a Turborepo monorepo. Create dynamic forms with various field types, conditional logic, and real-time preview capabilities.
+A modern, section-based form builder application built with Next.js 15 and TypeScript, organized as a Turborepo monorepo. Create dynamic forms with multiple field types, organized sections, comprehensive question management, and real-time form building capabilities. The application features a complete authentication system, multi-language support, and a robust backend API built with NestJS.
 
 ## What's inside?
 
@@ -24,55 +24,85 @@ Each package/app is 100% [TypeScript](https://www.typescriptlang.org/) with stri
 
 ## Features
 
-### Form Building
+### Form Building (✅ Implemented)
 
-- **Multiple Field Types**: Text, email, select, checkbox, date, textarea, number, password, radio, and file fields
-- **Conditional Logic**: Create dynamic forms with conditional field visibility
-- **Real-time Preview**: See your form as you build it with live updates
-- **Form Management**: Create, edit, delete, and organize your forms
-- **Drag & Drop Interface**: Intuitive form builder with drag-and-drop functionality
-- **Form Validation**: Built-in validation with Zod schemas
+- **Section-based Architecture**: Organize questions into collapsible sections with custom titles and descriptions
+- **Multiple Field Types**: Text, email, select, checkbox, date, textarea, and number fields with type-specific badges
+- **Interactive Question Management**: Add, edit, and delete questions with real-time form state updates
+- **Collapsible Section Interface**: Expandable/collapsible sections with intuitive toggle controls
+- **Form Configuration**: Set form properties like title, description, multi-page mode, and submission settings
+- **Real-time Form Builder**: Interactive form creation with live state management and validation
+- **Question Attributes**: Customize field behavior with placeholders, default values, helper text, and validation rules
+- **Section Management**: Add, edit, and delete sections with automatic ordering and field preservation
+- **Form State Management**: Comprehensive form state handling with React Hook Form and Zod validation
 
-### User Management
+### User Management (✅ Implemented)
 
-- **Authentication**: Secure JWT-based authentication with refresh tokens
-- **User Registration**: Sign up with email and password
-- **Profile Management**: Update user profile and preferences
-- **Password Management**: Change password, forgot password, and reset password
-- **Multi-language Support**: English and Vietnamese interface
-- **Theme Support**: Light, dark, and system theme modes
+- **Authentication**: Secure JWT-based authentication with access and refresh tokens
+- **User Registration**: Sign up with first name, last name, email, and password
+- **User Login**: Sign in with email and password
+- **Password Recovery**: Forgot password functionality with email reset
+- **Profile Management**: User profile with interface mode preferences
+- **Multi-language Support**: English and Vietnamese interface with locale-aware field ordering
+- **Theme Support**: Light, dark, and system theme modes with user preference storage
 
-### Technical Features
+### Technical Features (✅ Implemented)
 
-- **Responsive Design**: Works seamlessly on desktop and mobile devices
-- **Type Safety**: Full TypeScript support with strict mode
-- **API Documentation**: Auto-generated OpenAPI 3.0 documentation
-- **Database Management**: PostgreSQL with Drizzle ORM and migrations
-- **Error Handling**: Comprehensive error boundaries and user feedback
+- **Responsive Design**: Mobile-first design that works seamlessly across all devices
+- **Type Safety**: End-to-end TypeScript with strict mode and comprehensive type definitions
+- **API Documentation**: Auto-generated OpenAPI 3.0 documentation with TypeSpec
+- **Database Management**: PostgreSQL with Drizzle ORM, migrations, and database studio
+- **Error Handling**: Comprehensive error boundaries, form validation, and user feedback
+- **State Management**: Zustand for client state and React Query for server state
+- **Form Handling**: React Hook Form with Zod validation for optimal performance
 
-## Supported Field Types
+## Supported Field Types (✅ Currently Implemented)
 
-The form builder supports a comprehensive set of field types:
+The form builder currently supports the following field types:
 
-- **Text Fields**: Single-line text input with validation
-- **Email Fields**: Email input with built-in email validation
-- **Textarea**: Multi-line text input for longer content
-- **Number Fields**: Numeric input with min/max validation
-- **Password Fields**: Secure password input
-- **Date Fields**: Date picker with customizable date ranges
-- **Select Fields**: Dropdown selection with single or multiple options
-- **Radio Buttons**: Single selection from multiple options
-- **Checkboxes**: Multiple selection with custom validation rules
-- **File Upload**: File input with type and size restrictions
+### Available Field Types
+
+- **Text Fields**: Single-line text input with custom placeholder and default values
+- **Email Fields**: Email input with built-in email validation and custom attributes
+- **Textarea**: Multi-line text input with configurable rows and character limits
+- **Number Fields**: Numeric input with min/max validation and step controls
+- **Date Fields**: Date picker with single date selection and custom date ranges
+- **Select Fields**: Dropdown selection with single or multiple options and custom option labels
+- **Checkbox Fields**: Multiple selection with custom validation rules and option management
+
+### Field Configuration Options
 
 Each field type supports:
 
-- Required/optional validation
-- Custom placeholder text
-- Default values
-- Conditional logic rules
-- Custom validation messages
-- Accessibility features
+- **Required/Optional Validation**: Mark fields as required with visual badges and validation messages
+- **Custom Placeholder Text**: Set helpful placeholder text for better user experience
+- **Default Values**: Pre-populate fields with default values
+- **Helper Text**: Add descriptive text to guide users
+- **Custom Attributes**: Field-specific configuration (min/max values, character limits, etc.)
+- **Order Management**: Control the display order of fields within sections
+- **Type-specific Badges**: Visual indicators showing field types (text, email, select, etc.)
+- **Section Organization**: Fields are organized within collapsible sections for better structure
+- **Accessibility Features**: Proper labeling and ARIA attributes for screen readers
+
+### Form Builder Interface (✅ Implemented)
+
+The form builder provides an intuitive interface for creating and managing forms:
+
+- **Section-based Layout**: Forms are organized into collapsible sections for better structure
+- **Interactive Section Management**: Add, edit, and delete sections with automatic numbering
+- **Question Management**: Add questions to sections with dedicated dialog interfaces
+- **Real-time State Updates**: Form state is updated immediately when adding, editing, or deleting questions
+- **Visual Question Display**: Questions are displayed with type badges, labels, and required/optional indicators
+- **Section Collapse/Expand**: Sections can be collapsed or expanded for better organization
+- **Form Header Actions**: Save and cancel actions with proper navigation and loading states
+- **Empty State Handling**: Clear messaging when sections have no questions
+
+### Planned Field Types (🚧 Coming Soon)
+
+- **Password Fields**: Secure password input with strength validation
+- **Radio Buttons**: Single selection from multiple options
+- **File Upload**: File input with type and size restrictions
+- **Conditional Logic**: Show/hide fields based on other field values
 
 ## Architecture & Design Principles
 
@@ -281,36 +311,60 @@ pnpm --filter=api-spec preview
 # View documentation at http://localhost:1234
 ```
 
-## API Endpoints
+## API Endpoints (✅ Currently Implemented)
 
-The backend provides a comprehensive REST API with the following main endpoints:
+The backend provides a comprehensive REST API with the following implemented endpoints:
 
-### Authentication
+### Authentication (✅ Implemented)
 
-- `POST /auth/register` - User registration
-- `POST /auth/login` - User login
-- `POST /auth/refresh` - Refresh access token
-- `POST /auth/logout` - User logout
-- `GET /auth/profile` - Get user profile
-- `PUT /auth/profile` - Update user profile
-- `POST /auth/change-password` - Change password
-- `POST /auth/forgot-password` - Request password reset
-- `POST /auth/reset-password` - Reset password with token
+- `POST /auth/register` - User registration with email and password
+- `POST /auth/login` - User login with JWT token generation
+- `POST /auth/refresh` - Refresh access token using refresh token
+- `POST /auth/logout` - User logout and token invalidation
+- `GET /auth/profile` - Get authenticated user profile
+- `PUT /auth/profile` - Update user profile information
+- `POST /auth/change-password` - Change user password
+- `POST /auth/forgot-password` - Request password reset via email
+- `POST /auth/reset-password` - Reset password with verification token
 
-### Forms (Coming Soon)
+### Forms (✅ Implemented)
 
-- `GET /forms` - List user forms
-- `POST /forms` - Create new form
-- `GET /forms/:id` - Get form details
-- `PUT /forms/:id` - Update form
-- `DELETE /forms/:id` - Delete form
-- `POST /forms/:id/submit` - Submit form response
+- `GET /forms` - List user forms with pagination support
+- `POST /forms` - Create new form with basic configuration
+- `POST /forms/complete` - Create complete form with sections and fields
+- `GET /forms/:id` - Get detailed form information
+- `PUT /forms/:id` - Update form configuration
+- `DELETE /forms/:id` - Delete form and all associated data
+- `GET /forms/:id/sections` - Get form sections
+- `POST /forms/:id/sections` - Add new section to form
+- `PUT /forms/:id/sections/:sectionId` - Update section details
+- `DELETE /forms/:id/sections/:sectionId` - Delete section and its fields
+- `GET /forms/:id/sections/:sectionId/fields` - Get section fields
+- `POST /forms/:id/sections/:sectionId/fields` - Add new field to section
+- `PUT /forms/:id/sections/:sectionId/fields/:fieldId` - Update field configuration
+- `DELETE /forms/:id/sections/:sectionId/fields/:fieldId` - Delete field from section
 
-### Health Check
+### Users (✅ Implemented)
 
-- `GET /health` - API health status
+- `GET /users` - List users (admin only)
+- `GET /users/:id` - Get user details
+- `PUT /users/:id` - Update user information
+- `DELETE /users/:id` - Delete user account
 
-All endpoints are documented with OpenAPI 3.0 specification and can be explored using the interactive API documentation.
+### Health Check (✅ Implemented)
+
+- `GET /health` - API health status and system information
+
+### API Features
+
+- **JWT Authentication**: All form endpoints require valid JWT tokens
+- **Request Validation**: Comprehensive input validation using class-validator
+- **Error Handling**: Structured error responses with proper HTTP status codes
+- **Pagination**: Built-in pagination support for list endpoints
+- **Type Safety**: Full TypeScript support with auto-generated DTOs
+- **OpenAPI Documentation**: Auto-generated API documentation with TypeSpec
+
+All endpoints are documented with OpenAPI 3.0 specification and can be explored using the interactive API documentation at `/api/docs` when the server is running.
 
 ## Database Setup
 

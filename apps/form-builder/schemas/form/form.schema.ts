@@ -12,7 +12,7 @@ export const selectOptionSchema = z.object({
   conditionalLogic: conditionalLogicSchema.optional(),
 });
 
-export const questionFormDialogSchema = z.object({
+export const questionFormSchema = z.object({
   id: z.string(),
   label: z.string().min(1).max(255),
   description: z.string().max(255).optional(),
@@ -32,11 +32,11 @@ export const questionFormDialogSchema = z.object({
   attributes: z.record(z.string(), z.any()).optional(),
 });
 
-export const sectionFormDialogSchema = z.object({
+export const sectionFormSchema = z.object({
   id: z.string(),
   title: z.string().min(1).max(255),
   description: z.string().max(255).optional(),
-  fields: z.array(questionFormDialogSchema),
+  fields: z.record(z.string(), questionFormSchema),
   order: z.number().optional(),
   showInfo: z.boolean(),
 });
@@ -50,10 +50,10 @@ export const formBuilderSchema = z.object({
   requireAuth: z.boolean().optional(),
   submitMessage: z.string().optional(),
   redirectUrl: z.string().max(500).optional(),
-  sections: z.array(sectionFormDialogSchema),
+  sections: z.record(z.string(), sectionFormSchema),
 });
 
 export type FormBuilderSchema = z.infer<typeof formBuilderSchema>;
-export type SectionFormDialogSchema = z.infer<typeof sectionFormDialogSchema>;
-export type SectionQuestionDialogSchema = SectionFormDialogSchema; // Alias for backward compatibility
-export type QuestionFormDialogSchema = z.infer<typeof questionFormDialogSchema>;
+export type SectionFormSchema = z.infer<typeof sectionFormSchema>;
+export type SectionQuestionSchema = SectionFormSchema; // Alias for backward compatibility
+export type QuestionFormSchema = z.infer<typeof questionFormSchema>;

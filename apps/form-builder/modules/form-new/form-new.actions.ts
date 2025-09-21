@@ -8,13 +8,34 @@ import { PRIVATE_ROUTES } from '@/constants/routes';
 
 import {
   type FormBuilderSchema,
-  type QuestionFormDialogSchema,
-  type SectionFormDialogSchema,
-  type SectionQuestionDialogSchema,
+  type QuestionFormSchema,
+  type SectionFormSchema,
+  type SectionQuestionSchema,
   formBuilderSchema,
 } from '@/schemas/form';
 
 import { useCreateFormMutation } from '@/services/forms/forms.mutations';
+
+const DEFAULT_FORM_VALUES: FormBuilderSchema = {
+  title: 'Untitled',
+  description: '',
+  isActive: true,
+  multiPage: false,
+  allowDrafts: false,
+  requireAuth: false,
+  submitMessage: '',
+  redirectUrl: '',
+  sections: {
+    [uuidv4()]: {
+      id: uuidv4(),
+      title: 'Section #1',
+      description: '',
+      fields: {},
+      order: 0,
+      showInfo: true,
+    },
+  },
+};
 
 const useFormNewActions = () => {
   const router = useRouter();
@@ -23,35 +44,21 @@ const useFormNewActions = () => {
 
   const form = useForm<FormBuilderSchema>({
     resolver: zodResolver(formBuilderSchema),
-    defaultValues: {
-      title: 'Untitled',
-      description: '',
-      isActive: true,
-      multiPage: false,
-      allowDrafts: false,
-      requireAuth: false,
-      submitMessage: '',
-      redirectUrl: '',
-      sections: [
-        {
-          id: uuidv4(),
-          title: 'Section #1',
-          description: '',
-          fields: [],
-          order: 0,
-          showInfo: true,
-        },
-      ],
-    },
+    defaultValues: DEFAULT_FORM_VALUES,
   });
 
-  const addQuestion = (questionData: QuestionFormDialogSchema) => {
+  const addQuestion = (questionData: QuestionFormSchema) => {
     const currentSections = form.getValues('sections');
-    const sectionIndex = currentSections.findIndex(
-      (section) => section.id === questionData.sectionId
+    if (!currentSections) {
+      console.error('No sections found');
+      return;
+    }
+
+    const sectionKey = Object.keys(currentSections).find(
+      (key) => currentSections[key]?.id === questionData.sectionId
     );
 
-    if (sectionIndex === -1) {
+    if (!sectionKey) {
       console.error('Section not found:', questionData.sectionId);
       return;
     }
@@ -68,60 +75,58 @@ const useFormNewActions = () => {
       attributes: questionData.attributes || {},
     };
 
-    const updatedSections = [...currentSections];
-    const currentSection = updatedSections[sectionIndex];
+    const updatedSections = { ...currentSections };
+    const currentSection = updatedSections[sectionKey];
     if (currentSection) {
-      updatedSections[sectionIndex] = {
+      updatedSections[sectionKey] = {
         ...currentSection,
-        fields: [...(currentSection.fields || []), newQuestion],
+        fields: {
+          ...currentSection.fields,
+          [questionData.id]: newQuestion,
+        },
       };
     }
 
     form.setValue('sections', updatedSections);
   };
 
-  const editQuestion = (questionData: QuestionFormDialogSchema) => {
+  const editQuestion = (questionData: QuestionFormSchema) => {
     const currentSections = form.getValues('sections');
-    const sectionIndex = currentSections.findIndex(
-      (section) => section.id === questionData.sectionId
+    if (!currentSections) {
+      console.error('No sections found');
+      return;
+    }
+
+    const sectionKey = Object.keys(currentSections).find(
+      (key) => currentSections[key]?.id === questionData.sectionId
     );
 
-    if (sectionIndex === -1) {
+    if (!sectionKey) {
       console.error('Section not found:', questionData.sectionId);
       return;
     }
 
-    const updatedSections = [...currentSections];
-    const currentSection = updatedSections[sectionIndex];
+    const updatedSections = { ...currentSections };
+    const currentSection = updatedSections[sectionKey];
 
-    if (currentSection) {
-      const fieldIndex = currentSection.fields?.findIndex(
-        (field) => field.id === questionData.id
-      );
+    if (currentSection && currentSection.fields) {
+      const updatedFields = { ...currentSection.fields };
+      updatedFields[questionData.id] = {
+        id: questionData.id,
+        sectionId: questionData.sectionId,
+        type: questionData.type,
+        label: questionData.label,
+        description: questionData.description,
+        helperText: questionData.helperText,
+        required: questionData.required,
+        order: questionData.order,
+        attributes: questionData.attributes || {},
+      };
 
-      if (
-        fieldIndex !== undefined &&
-        fieldIndex !== -1 &&
-        currentSection.fields
-      ) {
-        const updatedFields = [...currentSection.fields];
-        updatedFields[fieldIndex] = {
-          id: questionData.id,
-          sectionId: questionData.sectionId,
-          type: questionData.type,
-          label: questionData.label,
-          description: questionData.description,
-          helperText: questionData.helperText,
-          required: questionData.required,
-          order: questionData.order,
-          attributes: questionData.attributes || {},
-        };
-
-        updatedSections[sectionIndex] = {
-          ...currentSection,
-          fields: updatedFields,
-        };
-      }
+      updatedSections[sectionKey] = {
+        ...currentSection,
+        fields: updatedFields,
+      };
     }
 
     form.setValue('sections', updatedSections);
@@ -129,24 +134,28 @@ const useFormNewActions = () => {
 
   const deleteQuestion = (questionId: string, sectionId: string) => {
     const currentSections = form.getValues('sections');
-    const sectionIndex = currentSections.findIndex(
-      (section) => section.id === sectionId
+    if (!currentSections) {
+      console.error('No sections found');
+      return;
+    }
+
+    const sectionKey = Object.keys(currentSections).find(
+      (key) => currentSections[key]?.id === sectionId
     );
 
-    if (sectionIndex === -1) {
+    if (!sectionKey) {
       console.error('Section not found:', sectionId);
       return;
     }
 
-    const updatedSections = [...currentSections];
-    const currentSection = updatedSections[sectionIndex];
+    const updatedSections = { ...currentSections };
+    const currentSection = updatedSections[sectionKey];
 
     if (currentSection && currentSection.fields) {
-      const updatedFields = currentSection.fields.filter(
-        (field) => field.id !== questionId
-      );
+      const updatedFields = { ...currentSection.fields };
+      delete updatedFields[questionId];
 
-      updatedSections[sectionIndex] = {
+      updatedSections[sectionKey] = {
         ...currentSection,
         fields: updatedFields,
       };
@@ -157,40 +166,59 @@ const useFormNewActions = () => {
 
   const addSection = () => {
     const currentSections = form.getValues('sections');
-    const newSection: SectionQuestionDialogSchema = {
-      id: uuidv4(),
-      title: `Section #${currentSections.length + 1}`,
+    const sectionId = uuidv4();
+    const newSection: SectionQuestionSchema = {
+      id: sectionId,
+      title: `Section #${Object.keys(currentSections).length + 1}`,
       description: '',
-      fields: [],
-      order: currentSections.length,
+      fields: {},
+      order: Object.keys(currentSections).length,
       showInfo: true,
     };
 
-    const updatedSections = [...currentSections, newSection];
+    const updatedSections = { ...currentSections, [sectionId]: newSection };
     form.setValue('sections', updatedSections);
   };
 
-  const editSection = (sectionData: SectionFormDialogSchema) => {
+  const editSection = (sectionData: SectionFormSchema) => {
     const currentSections = form.getValues('sections');
-    const sectionIndex = currentSections.findIndex(
-      (section) => section.id === sectionData.id
+    if (!currentSections) {
+      console.error('No sections found');
+      return;
+    }
+
+    const sectionKey = Object.keys(currentSections).find(
+      (key) => currentSections[key]?.id === sectionData.id
     );
 
-    if (sectionIndex === -1) {
+    if (!sectionKey) {
       console.error('Section not found:', sectionData.id);
       return;
     }
 
-    const updatedSections = [...currentSections];
-    updatedSections[sectionIndex] = sectionData;
+    const updatedSections = { ...currentSections };
+    updatedSections[sectionKey] = sectionData;
     form.setValue('sections', updatedSections);
   };
 
   const deleteSection = (sectionId: string) => {
     const currentSections = form.getValues('sections');
-    const updatedSections = currentSections.filter(
-      (section) => section.id !== sectionId
+    if (!currentSections) {
+      console.error('No sections found');
+      return;
+    }
+
+    const sectionKey = Object.keys(currentSections).find(
+      (key) => currentSections[key]?.id === sectionId
     );
+
+    if (!sectionKey) {
+      console.error('Section not found:', sectionId);
+      return;
+    }
+
+    const updatedSections = { ...currentSections };
+    delete updatedSections[sectionKey];
     form.setValue('sections', updatedSections);
   };
 
