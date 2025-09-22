@@ -30,7 +30,6 @@ const QuestionCheckboxSettings = ({
 }: QuestionCheckboxSettingsProps) => {
   const { setValue, getValues } = useFormContext<QuestionFormSchema>();
 
-  // Get options from React Hook Form values
   const options = useWatch({
     control,
     name: 'attributes.options',
@@ -48,7 +47,8 @@ const QuestionCheckboxSettings = ({
   const removeOption = (index: number) => {
     const currentOptions = getValues('attributes.options') || [];
     const newOptions = currentOptions.filter(
-      (_: z.infer<typeof selectOptionSchema>, i: number) => i !== index
+      (_: z.infer<typeof selectOptionSchema>, indexOption: number) =>
+        indexOption !== index
     );
     setValue('attributes.options', newOptions);
   };

@@ -177,6 +177,7 @@ const FormNew = () => {
                             section={section as unknown as ISection}
                             control={form.control}
                             setValue={form.setValue}
+                            trigger={form.trigger}
                             onAddQuestion={addQuestion}
                             onEditQuestion={editQuestion}
                             onDeleteQuestion={deleteQuestion}
@@ -240,6 +241,7 @@ const FormNew = () => {
                                     question={field as unknown as IField}
                                     control={form.control}
                                     setValue={form.setValue}
+                                    trigger={form.trigger}
                                     onAddQuestion={addQuestion}
                                     onEditQuestion={editQuestion}
                                     onDeleteQuestion={deleteQuestion}

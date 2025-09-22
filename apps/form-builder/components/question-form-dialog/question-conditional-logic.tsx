@@ -42,9 +42,9 @@ const QuestionConditionalLogic = ({
               If option is selected
             </FormLabel>
             <FormControl>
-              <Select value={field.value} onValueChange={field.onChange}>
+              <Select>
                 <SelectTrigger className="w-full">
-                  <SelectValue placeholder="Select an action" />
+                  <SelectValue placeholder="Select an action" {...field} />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="visible">Show section</SelectItem>
@@ -67,12 +67,12 @@ const QuestionConditionalLogic = ({
               Target section
             </FormLabel>
             <FormControl>
-              <Select value={field.value} onValueChange={field.onChange}>
+              <Select>
                 <SelectTrigger className="w-full">
-                  <SelectValue placeholder="Target section" />
+                  <SelectValue placeholder="Target section" {...field} />
                 </SelectTrigger>
                 <SelectContent>
-                  {form.sections.map((section) => (
+                  {Object.values(form.sections).map((section) => (
                     <SelectItem key={section.id} value={section.id}>
                       {section.title}
                     </SelectItem>

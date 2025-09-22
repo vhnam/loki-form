@@ -1,7 +1,7 @@
 import { useTranslations } from 'next-intl';
 import React, { type ReactNode, useMemo, useState } from 'react';
 import { useWatch } from 'react-hook-form';
-import type { Control, UseFormSetValue } from 'react-hook-form';
+import type { Control, UseFormSetValue, UseFormTrigger } from 'react-hook-form';
 import { toast } from 'sonner';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -66,6 +66,7 @@ interface QuestionFormDialogProps {
   triggerComponent: ReactNode;
   control: Control<FormBuilderSchema>;
   setValue: UseFormSetValue<FormBuilderSchema>;
+  trigger: UseFormTrigger<FormBuilderSchema>;
   onAddQuestion?: (questionData: QuestionFormSchema) => void;
   onEditQuestion?: (questionData: QuestionFormSchema) => void;
   onDeleteQuestion?: (questionId: string, sectionId: string) => void;
@@ -78,6 +79,7 @@ const QuestionFormDialog = ({
   triggerComponent,
   control,
   setValue,
+  trigger,
   onAddQuestion,
   onEditQuestion,
   onDeleteQuestion,
@@ -110,8 +112,51 @@ const QuestionFormDialog = ({
     }
   };
 
-  const handleSubmit = () => {
+  const questionSettings = useMemo(() => {
+    if (!questionData?.type) return null;
+
+    const controlAsQuestionForm =
+      control as unknown as Control<QuestionFormSchema>;
+
+    switch (questionData.type as QuestionType) {
+      case QuestionType.TEXT:
+      case QuestionType.TEXTAREA:
+      case QuestionType.EMAIL:
+        return <QuestionInputSettings control={controlAsQuestionForm} />;
+      case QuestionType.NUMBER:
+        return <QuestionNumberSettings control={controlAsQuestionForm} />;
+      case QuestionType.DATE:
+        return <QuestionDateSettings control={controlAsQuestionForm} />;
+      case QuestionType.CHECKBOX:
+        return (
+          <QuestionCheckboxSettings
+            control={controlAsQuestionForm}
+            form={form}
+          />
+        );
+      case QuestionType.RADIO:
+      case QuestionType.SELECT:
+        return (
+          <QuestionSelectionSettings
+            control={controlAsQuestionForm}
+            form={form}
+          />
+        );
+      default:
+        return null;
+    }
+  }, [questionData?.type, control, form]);
+
+  const handleSubmit = async () => {
     if (!questionData) return;
+
+    // Trigger validation for the specific question field
+    const fieldPath = `sections.${section.id}.fields.${questionId}` as const;
+    const isValid = await trigger(fieldPath);
+
+    if (!isValid) {
+      return; // Don't submit if validation fails
+    }
 
     const extractedAttributes = extractAttributes(
       questionData.type as QuestionType,
@@ -288,43 +333,7 @@ const QuestionFormDialog = ({
                 {t('sections.settings.title')}
               </h3>
 
-              {[
-                QuestionType.TEXT,
-                QuestionType.TEXTAREA,
-                QuestionType.EMAIL,
-              ].includes(questionData?.type as QuestionType) && (
-                <QuestionInputSettings
-                  control={control as unknown as Control<QuestionFormSchema>}
-                />
-              )}
-
-              {questionData?.type === QuestionType.NUMBER && (
-                <QuestionNumberSettings
-                  control={control as unknown as Control<QuestionFormSchema>}
-                />
-              )}
-
-              {questionData?.type === QuestionType.DATE && (
-                <QuestionDateSettings
-                  control={control as unknown as Control<QuestionFormSchema>}
-                />
-              )}
-
-              {questionData?.type === QuestionType.CHECKBOX && (
-                <QuestionCheckboxSettings
-                  control={control as unknown as Control<QuestionFormSchema>}
-                  form={form}
-                />
-              )}
-
-              {[QuestionType.RADIO, QuestionType.SELECT].includes(
-                questionData?.type as QuestionType
-              ) && (
-                <QuestionSelectionSettings
-                  control={control as unknown as Control<QuestionFormSchema>}
-                  form={form}
-                />
-              )}
+              {questionSettings}
             </div>
           </ScrollArea>
           <DialogFooter className="w-full pt-6 sm:justify-between">
