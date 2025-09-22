@@ -2,7 +2,7 @@ import { PlusIcon } from 'lucide-react';
 import React from 'react';
 import { Control, useFieldArray } from 'react-hook-form';
 
-import { type QuestionFormDialogSchema } from '@/schemas/form';
+import { type QuestionFormSchema } from '@/schemas/form';
 
 import type { IForm } from '@repo/form-ui/types/form';
 
@@ -20,7 +20,7 @@ import { Input } from '@repo/core-ui/components/input';
 import QuestionSelectionOption from './question-selection-option';
 
 interface QuestionSelectionSettingsProps {
-  control: Control<QuestionFormDialogSchema>;
+  control: Control<QuestionFormSchema>;
   form: IForm;
 }
 

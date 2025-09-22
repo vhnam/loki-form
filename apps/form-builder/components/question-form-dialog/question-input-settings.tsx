@@ -1,7 +1,7 @@
 import React from 'react';
 import { Control } from 'react-hook-form';
 
-import { type QuestionFormDialogSchema } from '@/schemas/form';
+import { type QuestionFormSchema } from '@/schemas/form';
 
 import { Checkbox } from '@repo/core-ui/components/checkbox';
 import {
@@ -14,7 +14,7 @@ import {
 import { Input } from '@repo/core-ui/components/input';
 
 interface QuestionInputSettingsProps {
-  control: Control<QuestionFormDialogSchema>;
+  control: Control<QuestionFormSchema>;
 }
 
 const QuestionInputSettings = ({ control }: QuestionInputSettingsProps) => {

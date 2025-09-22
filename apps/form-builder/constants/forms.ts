@@ -39,6 +39,10 @@ export const generateCreateFormValues = ({
       placeholder: '',
       defaultValue: '',
       pattern: undefined,
+      beforeDate: undefined,
+      afterDate: undefined,
+      mode: 'single',
+      dateFormat: 'MM/DD/YYYY',
     },
   } as IField<IFieldAttributes>;
 };

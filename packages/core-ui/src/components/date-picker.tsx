@@ -15,7 +15,7 @@ import {
 import { dateFnsFormat } from '@repo/core-ui/lib/day';
 
 interface DatePickerProps {
-  id: string;
+  id?: string;
   placeholder?: string;
   defaultValue?: Date | Date[] | DateRange;
   disabled?: Matcher | Matcher[] | undefined;

@@ -3,10 +3,7 @@ import React from 'react';
 import { Control, useFormContext, useWatch } from 'react-hook-form';
 import { z } from 'zod';
 
-import {
-  type QuestionFormDialogSchema,
-  selectOptionSchema,
-} from '@/schemas/form';
+import { type QuestionFormSchema, selectOptionSchema } from '@/schemas/form';
 
 import type { IForm } from '@repo/form-ui/types/form';
 
@@ -23,7 +20,7 @@ import {
 import QuestionSelectionOption from './question-selection-option';
 
 interface QuestionCheckboxSettingsProps {
-  control: Control<QuestionFormDialogSchema>;
+  control: Control<QuestionFormSchema>;
   form: IForm;
 }
 
@@ -31,7 +28,7 @@ const QuestionCheckboxSettings = ({
   control,
   form,
 }: QuestionCheckboxSettingsProps) => {
-  const { setValue, getValues } = useFormContext<QuestionFormDialogSchema>();
+  const { setValue, getValues } = useFormContext<QuestionFormSchema>();
 
   // Get options from React Hook Form values
   const options = useWatch({

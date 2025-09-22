@@ -54,7 +54,7 @@ import { Separator } from '@repo/core-ui/components/separator';
 import { Textarea } from '@repo/core-ui/components/textarea';
 
 import QuestionCheckboxSettings from './question-checkbox-settings';
-// import QuestionDateSettings from './question-date-settings';
+import QuestionDateSettings from './question-date-settings';
 import QuestionInputSettings from './question-input-settings';
 import QuestionNumberSettings from './question-number-settings';
 import QuestionSelectionSettings from './question-selection-settings';
@@ -304,9 +304,11 @@ const QuestionFormDialog = ({
                 />
               )}
 
-              {/* {questionData?.type === QuestionType.DATE && (
-                <QuestionDateSettings question={question} />
-              )} */}
+              {questionData?.type === QuestionType.DATE && (
+                <QuestionDateSettings
+                  control={control as unknown as Control<QuestionFormSchema>}
+                />
+              )}
 
               {questionData?.type === QuestionType.CHECKBOX && (
                 <QuestionCheckboxSettings

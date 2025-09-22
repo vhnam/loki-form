@@ -2,7 +2,7 @@ import { FileSlidersIcon, GripVerticalIcon, TrashIcon } from 'lucide-react';
 import React from 'react';
 import { Control } from 'react-hook-form';
 
-import { type QuestionFormDialogSchema } from '@/schemas/form';
+import { type QuestionFormSchema } from '@/schemas/form';
 
 import type { IForm } from '@repo/form-ui/types/form';
 
@@ -23,7 +23,7 @@ import {
 import QuestionConditionalLogic from './question-conditional-logic';
 
 interface QuestionSelectionOptionProps {
-  control: Control<QuestionFormDialogSchema>;
+  control: Control<QuestionFormSchema>;
   index: number;
   form: IForm;
   onRemove: (index: number) => void;

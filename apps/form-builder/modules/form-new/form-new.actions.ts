@@ -6,6 +6,8 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { PRIVATE_ROUTES } from '@/constants/routes';
 
+import { pick } from '@repo/core-ui/lib/lodash';
+
 import {
   type FormBuilderSchema,
   type QuestionFormSchema,
@@ -68,17 +70,17 @@ const useFormNewActions = () => {
       return;
     }
 
-    const newQuestion = {
-      id: questionData.id,
-      sectionId: questionData.sectionId,
-      type: questionData.type,
-      label: questionData.label,
-      description: questionData.description,
-      helperText: questionData.helperText,
-      required: questionData.required,
-      order: questionData.order,
-      attributes: questionData.attributes || {},
-    };
+    const newQuestion = pick(questionData, [
+      'id',
+      'sectionId',
+      'type',
+      'label',
+      'description',
+      'helperText',
+      'required',
+      'order',
+      'attributes',
+    ]);
 
     const updatedSections = { ...currentSections };
     const currentSection = updatedSections[sectionKey];
@@ -116,17 +118,17 @@ const useFormNewActions = () => {
 
     if (currentSection && currentSection.fields) {
       const updatedFields = { ...currentSection.fields };
-      updatedFields[questionData.id] = {
-        id: questionData.id,
-        sectionId: questionData.sectionId,
-        type: questionData.type,
-        label: questionData.label,
-        description: questionData.description,
-        helperText: questionData.helperText,
-        required: questionData.required,
-        order: questionData.order,
-        attributes: questionData.attributes || {},
-      };
+      updatedFields[questionData.id] = pick(questionData, [
+        'id',
+        'sectionId',
+        'type',
+        'label',
+        'description',
+        'helperText',
+        'required',
+        'order',
+        'attributes',
+      ]);
 
       updatedSections[sectionKey] = {
         ...currentSection,
@@ -240,10 +242,10 @@ const useFormNewActions = () => {
           sectionId: field.sectionId,
           type: field.type,
           label: field.label,
-          description: field.description || '',
+          description: field.description,
           required: field.required ?? false,
           order: field.order ?? 0,
-          helperText: field.helperText || '',
+          helperText: field.helperText,
           attributes: field.attributes || {},
         })),
       })),
