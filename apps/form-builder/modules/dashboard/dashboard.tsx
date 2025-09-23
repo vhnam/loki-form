@@ -23,7 +23,7 @@ const Dashboard = () => {
       <div className="flex flex-1">
         <div className="flex-1 p-6">
           <div className="mb-8">
-            <h3 className="font-display mb-4 text-lg font-semibold text-gray-900 dark:text-gray-100">
+            <h3 className="mb-4 font-serif text-lg font-semibold text-gray-900 dark:text-gray-100">
               {t('newItem.title')}
             </h3>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-6 lg:grid-cols-4">
@@ -33,7 +33,7 @@ const Dashboard = () => {
 
           {recentForms.length > 0 && (
             <div>
-              <h3 className="font-display mb-4 text-lg font-semibold text-gray-900 dark:text-gray-100">
+              <h3 className="mb-4 font-serif text-lg font-semibold text-gray-900 dark:text-gray-100">
                 {t('recentItem.title')}
               </h3>
               <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 lg:gap-6 xl:grid-cols-4">

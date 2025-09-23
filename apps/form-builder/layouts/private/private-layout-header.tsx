@@ -32,7 +32,7 @@ const PrivateLayoutHeader = ({ title, actions }: PrivateLayoutHeaderProps) => {
           orientation="vertical"
           className="mr-2 data-[orientation=vertical]:h-4"
         />
-        <strong className="font-display text-lg text-gray-900 dark:text-gray-100">
+        <strong className="font-serif text-lg text-gray-900 dark:text-gray-100">
           {title}
         </strong>
       </div>

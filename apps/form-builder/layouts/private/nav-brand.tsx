@@ -28,7 +28,7 @@ const NavBrand = () => {
               />
             </div>
             <div className="flex flex-col gap-0.5 leading-none">
-              <span className="font-display text-lg font-medium">
+              <span className="font-serif text-lg font-medium">
                 {BRAND_NAME}
               </span>
             </div>

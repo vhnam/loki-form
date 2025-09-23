@@ -3,7 +3,7 @@ import '@repo/core-ui/globals.css';
 import type { Metadata } from 'next';
 import { NextIntlClientProvider } from 'next-intl';
 import { getLocale } from 'next-intl/server';
-import { Merriweather, Open_Sans } from 'next/font/google';
+import { Inter, JetBrains_Mono, Merriweather } from 'next/font/google';
 import { PropsWithChildren } from 'react';
 
 import { BRAND_DESCRIPTION, BRAND_NAME } from '@/constants/branding';
@@ -15,8 +15,9 @@ import ThemeProvider from '@/providers/theme';
 
 import { Toaster } from '@repo/core-ui/components/sonner';
 
+const jetBrainsMono = JetBrains_Mono({ subsets: ['latin'] });
 const merriweather = Merriweather({ subsets: ['latin'] });
-const openSans = Open_Sans({ subsets: ['latin'] });
+const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
   title: BRAND_NAME,
@@ -31,8 +32,9 @@ export default async function RootLayout({ children }: PropsWithChildren) {
       <body
         className={cn(
           'antialiased',
-          openSans.className,
-          merriweather.className
+          jetBrainsMono.className,
+          merriweather.className,
+          inter.className
         )}
       >
         <QueryProvider>

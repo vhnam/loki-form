@@ -68,7 +68,7 @@ const RecentItem = ({ form, onDelete }: RecentItemProps) => {
             onDelete={handleDeleteForm}
           />
         </div>
-        <h4 className="font-display mb-1 truncate font-medium text-gray-900 dark:text-gray-100">
+        <h4 className="mb-1 truncate font-serif font-medium text-gray-900 dark:text-gray-100">
           {form.title}
         </h4>
         <p className="text-xs text-gray-600 dark:text-gray-400">

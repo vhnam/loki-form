@@ -19,7 +19,7 @@ const FormRenderer = ({ data }: FormRendererProps) => {
 
   return (
     <div className="mx-auto w-full max-w-2xl px-12 py-8">
-      <div className="font-display mb-8">
+      <div className="mb-8 font-serif">
         <h1 className="text-2xl font-bold">{data.title}</h1>
         <p className="text-sm text-gray-500">{data.description}</p>
       </div>
@@ -27,7 +27,7 @@ const FormRenderer = ({ data }: FormRendererProps) => {
         {orderedSections.map((section) => (
           <div key={section.id}>
             {section.showInfo && (
-              <div className="font-display mb-3">
+              <div className="mb-3 font-serif">
                 <h2 className="text-base font-medium">{section.title}</h2>
                 {section.description && (
                   <p className="text-sm text-gray-500">{section.description}</p>
