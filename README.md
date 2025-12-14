@@ -1,14 +1,6 @@
-# Turborepo starter
+# Loki Form
 
-This Turborepo starter is maintained by the Turborepo core team.
-
-## Using this example
-
-Run the following command:
-
-```sh
-npx create-turbo@latest
-```
+A Turborepo monorepo with TanStack Start applications.
 
 ## What's inside?
 
@@ -16,13 +8,53 @@ This Turborepo includes the following packages/apps:
 
 ### Apps and Packages
 
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
-
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
+```markdown
+.
+├── packages/
+│   ├── loki-form/                  # ✅ publish to NPM
+│   │   ├── src/
+│   │   │   ├── schema/              # JSON schema, types
+│   │   │   ├── runtime/             # resolve, normalize, condition
+│   │   │   ├── validation/          # optional
+│   │   │   ├── renderer/            # renderer contracts
+│   │   │   ├── adapters/
+│   │   │   │   └── react/            # React adapter (NO UI)
+│   │   │   └── index.ts
+│   │   └── package.json
+│
+│   ├── tokens/                      # Design tokens (Terrazzo)
+│   │   ├── tokens.json
+│   │   └── dist/
+│   │       └── tokens.css
+│
+│   ├── ui-core/                     # 🔒 internal design system
+│   │   ├── src/
+│   │   │   ├── primitives/           # ButtonBase, InputBase (wrap shadcn)
+│   │   │   ├── components/           # Button, TextField, SelectField
+│   │   │   ├── patterns/             # Layouts, Tables, Filters
+│   │   │   └── index.ts
+│   │   └── styles/
+│   │       └── base.css              # Tailwind v4 layers
+│
+│   ├── ui-form/                     # 🔑 glue: loki-form ↔ ui-core
+│   │   ├── src/
+│   │   │   ├── field-map.ts
+│   │   │   ├── FormRenderer.tsx
+│   │   │   └── index.ts
+│   │   └── package.json
+│
+│   ├── ui-theme/                    # Theme variants
+│   │   ├── web.css
+│   │   └── dashboard.css
+│
+│   └── storybook/                   # Internal DS playground
+│
+├── apps/
+│   ├── web/
+│   └── dashboard/
+│
+└── turbo.json
+```
 
 ### Utilities
 
@@ -37,8 +69,6 @@ This Turborepo has some additional tools already setup for you:
 To build all apps and packages, run the following command:
 
 ```
-cd my-turborepo
-
 # With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
 turbo build
 
@@ -52,12 +82,12 @@ You can build a specific package by using a [filter](https://turborepo.com/docs/
 
 ```
 # With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo build --filter=docs
+turbo build --filter=web
 
 # Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo build --filter=docs
-yarn exec turbo build --filter=docs
-pnpm exec turbo build --filter=docs
+npx turbo build --filter=web
+yarn exec turbo build --filter=web
+pnpm exec turbo build --filter=web
 ```
 
 ### Develop
@@ -65,8 +95,6 @@ pnpm exec turbo build --filter=docs
 To develop all apps and packages, run the following command:
 
 ```
-cd my-turborepo
-
 # With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
 turbo dev
 
@@ -98,8 +126,6 @@ Turborepo can use a technique known as [Remote Caching](https://turborepo.com/do
 By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
 
 ```
-cd my-turborepo
-
 # With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
 turbo login
 
@@ -121,6 +147,35 @@ turbo link
 npx turbo link
 yarn exec turbo link
 pnpm exec turbo link
+```
+
+## Using Shared Configurations
+
+### TypeScript Configuration
+
+For TanStack Start applications, extend the shared TypeScript configuration:
+
+```json
+{
+  "extends": "@repo/typescript-config/tanstack-start.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  }
+}
+```
+
+### ESLint Configuration
+
+For TanStack Start applications, use the shared ESLint configuration:
+
+```js
+// eslint.config.js
+import { config } from '@repo/eslint-config/tanstack-start'
+
+export default config
 ```
 
 ## Useful Links

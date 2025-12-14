@@ -1,0 +1,22 @@
+{
+  "name": "tokens",
+  "version": "1.0.0",
+  "main": "dist/tailwind-theme.css",
+  "type": "module",
+  "scripts": {
+    "build": "tz build",
+    "dev": "tz dev",
+    "sync": "tsx scripts/sync-figma.ts"
+  },
+  "devDependencies": {
+    "@repo/typescript-config": "workspace:*",
+    "@terrazzo/cli": "^0.10.5",
+    "@terrazzo/plugin-css": "^0.10.4",
+    "@terrazzo/plugin-tailwind": "^0.3.3",
+    "@types/culori": "^4.0.1",
+    "@types/node": "^22.10.2",
+    "culori": "^4.0.2",
+    "tsx": "^4.19.2",
+    "typescript": "^5.9.2"
+  }
+}
