@@ -10,6 +10,7 @@ import Header from '../components/Header'
 
 import TanStackQueryDevtools from '../integrations/tanstack-query/devtools'
 
+import '@repo/ui-core/styles?url';
 import appCss from '../styles.css?url'
 
 import type { QueryClient } from '@tanstack/react-query'

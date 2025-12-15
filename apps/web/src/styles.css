@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "@repo/tokens/tailwind-theme";
 
 body {
   @apply m-0;

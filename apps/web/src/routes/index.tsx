@@ -8,6 +8,8 @@ import {
   Sparkles,
 } from 'lucide-react'
 
+import { Button } from '@repo/ui-core/button';
+
 export const Route = createFileRoute('/')({ component: App })
 
 function App() {
@@ -77,15 +79,16 @@ function App() {
             safety.
           </p>
           <div className="flex flex-col items-center gap-4">
-            <a
+            {/* <a
               href="https://tanstack.com/start"
               target="_blank"
               rel="noopener noreferrer"
               className="px-8 py-3 bg-cyan-500 hover:bg-cyan-600 text-white font-semibold rounded-lg transition-colors shadow-lg shadow-cyan-500/50"
             >
               Documentation
-            </a>
-            <p className="text-gray-400 text-sm mt-2">
+            </a> */}
+            <Button appName="web">Documentation</Button>
+            <p className="text-grape-5 text-sm mt-2">
               Begin your TanStack Start journey by editing{' '}
               <code className="px-2 py-1 bg-slate-700 rounded text-cyan-400">
                 /src/routes/index.tsx

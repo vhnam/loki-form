@@ -1,9 +1,10 @@
 {
-  "name": "@repo/ui",
+  "name": "@repo/ui-core",
   "version": "0.0.0",
   "private": true,
   "exports": {
-    "./*": "./src/*.tsx"
+    "./*": "./src/*.tsx",
+    "./styles": "./styles/base.css"
   },
   "scripts": {
     "lint": "eslint . --max-warnings 0",
@@ -12,6 +13,7 @@
   },
   "devDependencies": {
     "@repo/eslint-config": "workspace:*",
+    "@repo/tokens": "workspace:*",
     "@repo/typescript-config": "workspace:*",
     "@types/node": "^22.15.3",
     "@types/react": "^19.2.3",
