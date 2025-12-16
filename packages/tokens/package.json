@@ -4,7 +4,10 @@
   "main": "dist/tailwind-theme.css",
   "type": "module",
   "exports": {
-    "./tailwind-theme": "./dist/tailwind-theme.css"
+    "./tailwind-theme": "./dist/tailwind-theme.css",
+    "./tailwind-theme.css": {
+      "style": "./dist/tailwind-theme.css"
+    }
   },
   "scripts": {
     "build": "tsx scripts/build.ts"

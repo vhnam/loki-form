@@ -8,9 +8,9 @@ import {
   Sparkles,
 } from 'lucide-react'
 
-export const Route = createFileRoute('/')({ component: App })
+export const Route = createFileRoute('/')({ component: LandingPage })
 
-function App() {
+function LandingPage() {
   const features = [
     {
       icon: <Zap className="w-12 h-12 text-cyan-400" />,
