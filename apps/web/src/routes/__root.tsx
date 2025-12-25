@@ -8,7 +8,6 @@ import { type PropsWithChildren } from 'react'
 
 import Header from '@/components/Header'
 
-import '@repo/ui-core/styles?url'
 import appCss from '@/styles.css?url'
 
 export interface RouterContext {

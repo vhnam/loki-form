@@ -1,6 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
 
-import { Button } from '@repo/ui-core/button'
+import { Button } from '@repo/ui-core/primitives'
 
 export const Route = createFileRoute('/')({ component: LandingPage })
 
@@ -19,8 +19,8 @@ function LandingPage() {
           cover you in any situation
         </p>
         <div className="flex items-center gap-2">
-          <Button appName="loki-form">Get started</Button>
-          <Button appName="loki-form">GitHub</Button>
+          <Button variant="light">Get started</Button>
+          <Button variant="outline">GitHub</Button>
         </div>
       </div>
     </div>

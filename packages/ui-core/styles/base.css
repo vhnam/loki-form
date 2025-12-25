@@ -1,1 +1,6 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+
 @import "@repo/tokens/tailwind-theme.css";
+
+@source "../../src/**/*.{js,ts,jsx,tsx}";
