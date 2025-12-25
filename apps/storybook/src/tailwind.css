@@ -1,0 +1,5 @@
+@import "@repo/ui-core/styles/fonts.css";
+@import "@repo/ui-core/styles/base.css";
+
+@source "../src/**/*.{js,ts,jsx,tsx}";
+@source "../.storybook/**/*.{js,ts,jsx,tsx}";

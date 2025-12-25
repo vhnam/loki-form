@@ -1,136 +1,108 @@
-import fs from "fs";
-import { fileURLToPath } from "url";
-import { dirname, join } from "path";
+/**
+ * Utility functions for token transformation
+ */
 
-// ============================================================================
-// Types
-// ============================================================================
-
-export interface Tokens {
-  color?: ColorTokens;
-  radius?: RadiusTokens;
-  shadow?: ShadowTokens;
-  spacing?: SpacingTokens;
-  [key: string]: unknown;
-}
-
-export interface ColorTokens {
-  palette?: Record<string, ColorToken>;
-  [key: string]: ColorToken | Record<string, ColorToken> | undefined;
-}
-
-export interface ColorToken {
-  $type: "color";
-  $value: ColorValue;
-}
-
-export interface ColorValue {
-  colorSpace: string;
-  components: [number, number, number];
-  alpha: number;
-  hex: string;
-}
-
-export interface RadiusTokens {
-  [key: string]: RadiusToken;
-}
-
-export interface RadiusToken {
-  $type: "dimension";
-  $value: string;
-}
-
-export interface ShadowTokens {
-  [key: string]: ShadowToken;
-}
-
-export interface ShadowToken {
-  $type: "shadow";
-  $value: ShadowLayer[];
-}
-
-export interface ShadowLayer {
-  color: ColorValue;
-  offsetX: { value: number; unit: "rem" };
-  offsetY: { value: number; unit: "rem" };
-  blur: { value: number; unit: "rem" };
-  spread: { value: number; unit: "rem" };
-}
-
-export interface SpacingTokens {
-  [key: string]: SpacingToken;
-}
-
-export interface SpacingToken {
-  $type: "dimension";
-  $value: string;
-}
-
-// ============================================================================
-// Constants
-// ============================================================================
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-export const TOKENS_PATH = join(__dirname, "../src/tokens.json");
-
-// ============================================================================
-// Helper Functions
-// ============================================================================
+import { converter, parse } from "culori";
+import { type Shadow } from "./types";
 
 /**
- * Reads tokens.json from disk, or creates a new one if it doesn't exist
- * @returns Parsed tokens object
+ * formats a number to a given precision
  */
-export function readTokens(): Tokens {
-  try {
-    // Check if file exists
-    if (!fs.existsSync(TOKENS_PATH)) {
-      console.log("tokens.json not found, creating new file...");
-      return {};
-    }
+const formatNumber = (value: number, precision: number): string =>
+  parseFloat(value.toFixed(precision)).toString();
 
-    const content = fs.readFileSync(TOKENS_PATH, "utf8");
-    const tokens = JSON.parse(content) as Tokens;
+/**
+ * Converts RGB value to Tailwind v4 color() format
+ */
+export function rgbToTailwindColor(value: string): string {
+  const toOklch = converter("oklch");
+  const oklch = toOklch(parse(value));
 
-    return tokens;
-  } catch (error) {
-    // If file exists but is invalid JSON, create a new one
-    if (
-      error &&
-      typeof error === "object" &&
-      "code" in error &&
-      error.code === "ENOENT"
-    ) {
-      console.log("tokens.json not found, creating new file...");
-      return {};
-    }
-
-    // If JSON is invalid, warn and create new
-    if (error instanceof SyntaxError) {
-      console.warn(
-        `Warning: tokens.json contains invalid JSON. Creating new file...`
-      );
-      return {};
-    }
-
-    throw new Error(
-      `Failed to read tokens.json: ${error instanceof Error ? error.message : String(error)}`
-    );
+  if (!oklch) {
+    throw new Error(`Failed to parse RGBA color ${value} to OKLCH`);
   }
+
+  return `oklch(${formatNumber(oklch.l, 4)} ${formatNumber(oklch.c ?? 0, 4)} ${formatNumber(oklch.h ?? 0, 2)}${oklch.alpha ? ` / ${formatNumber(oklch.alpha, 2)}` : ""})`;
 }
 
 /**
- * Writes tokens to tokens.json
- * @param tokens - The tokens object to write
+ * Converts a shadow value to a Tailwind shadow value
  */
-export function writeTokens(tokens: Tokens): void {
-  try {
-    const content = JSON.stringify(tokens, null, 2) + "\n";
-    fs.writeFileSync(TOKENS_PATH, content, "utf8");
-  } catch (error) {
-    throw new Error(
-      `Failed to write tokens.json: ${error instanceof Error ? error.message : String(error)}`
-    );
+export function shadowToTailwindShadow(value: Shadow[]): string {
+  return `${value.map((shadow) => `${pxToRem(shadow.offsetX)} ${pxToRem(shadow.offsetY)} ${pxToRem(shadow.blur)} ${pxToRem(shadow.spread)} ${rgbToTailwindColor(shadow.color)}`).join(", ")}`;
+}
+
+/**
+ * Converts a value in pixels to a value in rem
+ */
+export function pxToRem(value: string): string {
+  return value === "0px" ? "0" : `${Number(value.replace("px", "")) / 16}rem`;
+}
+
+/**
+ * Resolves token references like {color.primitives..white} or {color.semantic..dark.filled}
+ */
+export function resolveReference(ref: string): string {
+  // Convert {color.primitives..gray.3} to var(--color-gray-3)
+  // Convert {color.semantic..dark.filled} to var(--color-dark-filled)
+  // Handle double dots (..) which means "parent" in the path
+  let path = ref.replace(/[{}]/g, "");
+
+  // Split by dots and filter out empty strings (from double dots)
+  const parts = path.split(".").filter(Boolean);
+
+  // Remove the first "color" part since we'll add it in the var name
+  // If the second part is "semantic" or "primitives", also remove it
+  // The path structure is:
+  // - color.primitives..gray.3 -> gray-3
+  // - color.semantic..dark.filled -> dark-filled
+  let pathWithoutPrefix = parts.slice(1);
+  if (
+    pathWithoutPrefix[0] === "semantic" ||
+    pathWithoutPrefix[0] === "primitives"
+  ) {
+    pathWithoutPrefix = pathWithoutPrefix.slice(1);
   }
+
+  // Convert to kebab-case and create variable name
+  const varName = pathWithoutPrefix.map((part) => part.toLowerCase()).join("-");
+
+  return `var(--color-${varName})`;
+}
+
+/**
+ * Processes a token value, handling references and direct values
+ */
+export function processTokenValue(value: any, type?: string): string {
+  if (typeof value === "string") {
+    // Check if it's a reference
+    if (value.startsWith("{") && value.endsWith("}")) {
+      return resolveReference(value);
+    }
+
+    // Check if it's a color value
+    if (type === "color" || value.startsWith("rgb")) {
+      return rgbToTailwindColor(value);
+    }
+
+    return value;
+  }
+
+  // Check if it's a shadow value
+  if (type === "shadow") {
+    return shadowToTailwindShadow(value as Shadow[]);
+  }
+
+  return String(value);
+}
+
+/**
+ * Converts a path array to a CSS variable name
+ * Uses lowercase with hyphens for consistency
+ */
+export function pathToVarName(path: string[]): string {
+  return `--${path
+    .map((part) => part.replace(/([A-Z])/g, "-$1").toLowerCase())
+    .join("-")
+    .replace(/^-+/, "")}`;
 }

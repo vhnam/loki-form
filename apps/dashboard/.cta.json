@@ -10,7 +10,6 @@
   "framework": "react-cra",
   "chosenAddOns": [
     "eslint",
-    "netlify",
     "start",
     "t3env",
     "tanstack-query"

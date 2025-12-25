@@ -1,0 +1,21 @@
+{
+  "extends": "@repo/typescript-config/react-library.json",
+  "compilerOptions": {
+    "rootDir": "src",
+    "outDir": "dist",
+    "noEmit": false,
+    "allowImportingTsExtensions": false,
+    "verbatimModuleSyntax": false,
+    "allowJs": true,
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "baseUrl": ".",
+    "paths": {
+      "@repo/ui-core/primitives": ["./src/primitives/index.ts"],
+      "@repo/ui-core/utils": ["./src/utils/index.ts"],
+      "@repo/ui-core/hooks": ["./src/hooks/index.ts"]
+    }
+  },
+  "include": ["src"],
+  "exclude": ["node_modules", "dist"]
+}
