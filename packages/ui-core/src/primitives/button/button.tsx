@@ -17,19 +17,25 @@ const buttonVariants = cva(
           "text-blue-outline border-blue-outline hover:bg-blue-outline-hover",
           "aria-expanded:bg-muted aria-expanded:text-foreground"
         ),
-        subtle:
-          "bg-secondary text-secondary-foreground hover:bg-secondary/80 aria-expanded:bg-secondary aria-expanded:text-secondary-foreground",
-        transparent:
-          "hover:bg-muted hover:text-foreground dark:hover:bg-muted/50 aria-expanded:bg-muted aria-expanded:text-foreground",
-        white:
-          "bg-destructive/10 hover:bg-destructive/20 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/20 text-destructive focus-visible:border-destructive/40 dark:hover:bg-destructive/30",
+        subtle: cn(
+          "text-primary-color-light-color hover:bg-primary-color-light-hover bg-transparent",
+          "aria-expanded:bg-primary-color-light aria-expanded:text-primary-color-light-color"
+        ),
+        transparent: cn(
+          "text-primary-color-light-color bg-transparent",
+          "aria-expanded:bg-muted aria-expanded:text-foreground"
+        ),
+        white: cn(
+          "text-primary-color-light-color bg-white",
+          "aria-expanded:bg-muted aria-expanded:text-foreground"
+        ),
       },
       size: {
-        xs: "h-5 gap-1 rounded-sm px-2 text-[0.625rem] has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 [&_svg:not([class*='size-'])]:size-2.5",
-        sm: "h-6 gap-1 px-2 text-xs/relaxed has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 [&_svg:not([class*='size-'])]:size-3",
-        md: "px-4 py-2 text-sm/relaxed",
-        lg: "h-8 gap-1 px-2.5 text-xs/relaxed has-data-[icon=inline-end]:pr-2 has-data-[icon=inline-start]:pl-2 [&_svg:not([class*='size-'])]:size-4",
-        xl: "h-10 gap-1 px-3 text-xs/relaxed has-data-[icon=inline-end]:pr-2.5 has-data-[icon=inline-start]:pl-2.5 [&_svg:not([class*='size-'])]:size-5",
+        xs: "px-xs py-1 text-xs/relaxed",
+        sm: "px-sm py-1 text-sm/relaxed",
+        md: "px-md py-1 text-md/relaxed",
+        lg: "px-lg py-1 text-lg/relaxed",
+        xl: "px-xl py-1 text-xl/relaxed",
       },
       radius: {
         xs: "rounded-xs",
@@ -41,8 +47,8 @@ const buttonVariants = cva(
     },
     defaultVariants: {
       variant: "filled",
-      size: "md",
-      radius: "md",
+      size: "sm",
+      radius: "sm",
     },
   }
 );
