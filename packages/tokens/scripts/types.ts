@@ -2,7 +2,7 @@
  * Type definitions for design tokens
  */
 
-export type TokenType = "color" | "dimension" | "shadow";
+export type TokenType = 'color' | 'dimension' | 'shadow';
 
 export type Mode = {
   dark: string;
@@ -42,13 +42,13 @@ export type DesignTokens = {
   };
   typography?: {
     primitives?: {
-      "font-sizes": Record<string, Token>;
-      "line-heights": Record<string, Token>;
-      "font-weights": Record<string, Token>;
-      "letter-spacings": Record<string, Token>;
-      "font-families": Record<string, Token>;
+      'font-sizes': Record<string, Token>;
+      'line-heights': Record<string, Token>;
+      'font-weights': Record<string, Token>;
+      'letter-spacings': Record<string, Token>;
+      'font-families': Record<string, Token>;
     };
     semantic?: Record<string, Record<string, Token>>;
   };
-  shadow?: Record<string, { $type: "shadow"; $value: Shadow[] }>;
+  shadow?: Record<string, { $type: 'shadow'; $value: Shadow[] }>;
 };

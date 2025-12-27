@@ -1,10 +1,7 @@
-import type { ComponentType } from "react";
-import * as Icons from "lucide-react";
+import type { ComponentType } from 'react';
+import * as Icons from 'lucide-react';
 
-const iconList = Icons as unknown as Record<
-  string,
-  ComponentType<{ size?: number; className?: string }>
->;
+const iconList = Icons as unknown as Record<string, ComponentType<{ size?: number; className?: string }>>;
 
 type IconName = keyof typeof iconList;
 
@@ -16,17 +13,16 @@ type IconProps = {
 
 function Icon({ name, size = 16, className }: IconProps) {
   const LucideIcon = iconList[name];
-  if (typeof LucideIcon !== "function" && typeof LucideIcon !== "object")
-    return null;
+  if (typeof LucideIcon !== 'function' && typeof LucideIcon !== 'object') return null;
 
   // For lucide-react, some exports are { default, ... }, etc. Handle if LucideIcon has a 'default' property which is a component.
   const IconComponent =
-    typeof LucideIcon === "function" || (LucideIcon && "render" in LucideIcon)
+    typeof LucideIcon === 'function' || (LucideIcon && 'render' in LucideIcon)
       ? LucideIcon
       : LucideIcon &&
-          typeof LucideIcon === "object" &&
-          "default" in LucideIcon &&
-          typeof (LucideIcon as Record<string, unknown>).default === "function"
+          typeof LucideIcon === 'object' &&
+          'default' in LucideIcon &&
+          typeof (LucideIcon as Record<string, unknown>).default === 'function'
         ? ((LucideIcon as Record<string, unknown>).default as ComponentType<{
             size?: number;
             className?: string;

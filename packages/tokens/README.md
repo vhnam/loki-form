@@ -72,4 +72,3 @@ Tokens follow the [DTCG (Design Tokens Community Group)](https://design-tokens.g
 - **Color families**: dark, pink, indigo, teal, yellow, gray, grape, blue, green, orange, red, violet, cyan, lime
 
 Each color family includes variants: text, filled, filled-hover, light, light-hover, light-color, outline, outline-hover.
-

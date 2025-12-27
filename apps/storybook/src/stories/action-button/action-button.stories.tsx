@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/react-vite";
+import type { Meta, StoryObj } from '@storybook/react-vite';
 
 import {
   ActionButton,
@@ -7,31 +7,25 @@ import {
   type ActionButtonRadius,
   type ActionButtonSize,
   type ActionButtonVariant,
-} from "@repo/ui-core/primitives";
+} from '@repo/ui-core/primitives';
 
-const actionButtonSizes: ActionButtonSize[] = ["xs", "sm", "md", "lg", "xl"];
+const actionButtonSizes: ActionButtonSize[] = ['xs', 'sm', 'md', 'lg', 'xl'];
 const actionButtonVariants: ActionButtonVariant[] = [
-  "default",
-  "filled",
-  "light",
-  "outline",
-  "subtle",
-  "transparent",
-  "white",
+  'default',
+  'filled',
+  'light',
+  'outline',
+  'subtle',
+  'transparent',
+  'white',
 ];
-const actionButtonRadiuses: ActionButtonRadius[] = [
-  "xs",
-  "sm",
-  "md",
-  "lg",
-  "xl",
-];
+const actionButtonRadiuses: ActionButtonRadius[] = ['xs', 'sm', 'md', 'lg', 'xl'];
 
 const meta = {
-  title: "Primitives/ActionButton",
+  title: 'Primitives/ActionButton',
   component: ActionButton,
   parameters: {
-    layout: "centered",
+    layout: 'centered',
   },
   argTypes: {
     children: {
@@ -40,30 +34,30 @@ const meta = {
       },
     },
     disabled: {
-      control: "boolean",
+      control: 'boolean',
     },
     fullWidth: {
-      control: "boolean",
+      control: 'boolean',
     },
     radius: {
-      control: "select",
+      control: 'select',
       options: actionButtonRadiuses,
     },
     size: {
-      control: "select",
+      control: 'select',
       options: actionButtonSizes,
     },
     variant: {
-      control: "select",
+      control: 'select',
       options: actionButtonVariants,
     },
   },
   args: {
     disabled: false,
     fullWidth: false,
-    radius: "sm",
-    size: "md",
-    variant: "filled",
+    radius: 'sm',
+    size: 'md',
+    variant: 'filled',
   },
 } satisfies Meta<ActionButtonProps>;
 
@@ -72,14 +66,14 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  name: "Default",
+  name: 'Default',
   args: {
     children: <Icon name="Plus" className="size-4" />,
   },
 };
 
 export const Variants: Story = {
-  name: "Variants & Sizes",
+  name: 'Variants & Sizes',
   render: () => (
     <div className="flex flex-row gap-4">
       {actionButtonVariants.map((variant) => (

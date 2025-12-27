@@ -6,4 +6,4 @@ export {
   type ButtonSize,
   type ButtonRadius,
   type ButtonFullWidth,
-} from "./button";
+} from './button';

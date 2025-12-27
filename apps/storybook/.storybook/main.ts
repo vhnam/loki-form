@@ -1,13 +1,13 @@
-import type { StorybookConfig } from "@storybook/react-vite";
-import remarkGfm from "remark-gfm";
+import type { StorybookConfig } from '@storybook/react-vite';
+import remarkGfm from 'remark-gfm';
 
 const config: StorybookConfig = {
-  stories: ["../src/**/*.mdx", "../src/**/*.stories.@(ts|tsx)"],
+  stories: ['../src/**/*.mdx', '../src/**/*.stories.@(ts|tsx)'],
   addons: [
-    "@chromatic-com/storybook",
-    "@storybook/addon-a11y",
+    '@chromatic-com/storybook',
+    '@storybook/addon-a11y',
     {
-      name: "@storybook/addon-docs",
+      name: '@storybook/addon-docs',
       options: {
         mdxPluginOptions: {
           mdxCompileOptions: {
@@ -16,9 +16,9 @@ const config: StorybookConfig = {
         },
       },
     },
-    "@storybook/addon-vitest",
+    '@storybook/addon-vitest',
   ],
-  framework: "@storybook/react-vite",
+  framework: '@storybook/react-vite',
 };
 
 export default config;

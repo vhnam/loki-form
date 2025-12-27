@@ -11,48 +11,41 @@ This Turborepo includes the following packages/apps:
 ```markdown
 .
 ├── packages/
-│   ├── loki-form/                  # ✅ publish to NPM
-│   │   ├── src/
-│   │   │   ├── schema/              # JSON schema, types
-│   │   │   ├── runtime/             # resolve, normalize, condition
-│   │   │   ├── validation/          # optional
-│   │   │   ├── renderer/            # renderer contracts
-│   │   │   ├── adapters/
-│   │   │   │   └── react/            # React adapter (NO UI)
-│   │   │   └── index.ts
-│   │   └── package.json
-│
-│   ├── tokens/                      # Design tokens (Terrazzo)
-│   │   ├── tokens.json
-│   │   └── dist/
-│   │       └── tokens.css
-│
-│   ├── ui-core/                     # 🔒 internal design system
-│   │   ├── src/
-│   │   │   ├── primitives/           # ButtonBase, InputBase (wrap shadcn)
-│   │   │   ├── components/           # Button, TextField, SelectField
-│   │   │   ├── patterns/             # Layouts, Tables, Filters
-│   │   │   └── index.ts
-│   │   └── styles/
-│   │       └── base.css              # Tailwind v4 layers
-│
-│   ├── ui-form/                     # 🔑 glue: loki-form ↔ ui-core
-│   │   ├── src/
-│   │   │   ├── field-map.ts
-│   │   │   ├── FormRenderer.tsx
-│   │   │   └── index.ts
-│   │   └── package.json
-│
-│   ├── ui-theme/                    # Theme variants
-│   │   ├── web.css
-│   │   └── dashboard.css
-│
-│   └── storybook/                   # Internal DS playground
-│
+│ ├── loki-form/ # ✅ publish to NPM
+│ │ ├── src/
+│ │ │ ├── schema/ # JSON schema, types
+│ │ │ ├── runtime/ # resolve, normalize, condition
+│ │ │ ├── validation/ # optional
+│ │ │ ├── renderer/ # renderer contracts
+│ │ │ ├── adapters/
+│ │ │ │ └── react/ # React adapter (NO UI)
+│ │ │ └── index.ts
+│ │ └── package.json
+│ ├── tokens/ # Design tokens (Terrazzo)
+│ │ ├── tokens.json
+│ │ └── dist/
+│ │ └── tokens.css
+│ ├── ui-core/ # 🔒 internal design system
+│ │ ├── src/
+│ │ │ ├── primitives/ # ButtonBase, InputBase (wrap shadcn)
+│ │ │ ├── components/ # Button, TextField, SelectField
+│ │ │ ├── patterns/ # Layouts, Tables, Filters
+│ │ │ └── index.ts
+│ │ └── styles/
+│ │ └── base.css # Tailwind v4 layers
+│ ├── ui-form/ # 🔑 glue: loki-form ↔ ui-core
+│ │ ├── src/
+│ │ │ ├── field-map.ts
+│ │ │ ├── FormRenderer.tsx
+│ │ │ └── index.ts
+│ │ └── package.json
+│ ├── ui-theme/ # Theme variants
+│ │ ├── web.css
+│ │ └── dashboard.css
+│ └── storybook/ # Internal DS playground
 ├── apps/
-│   ├── web/
-│   └── dashboard/
-│
+│ ├── web/
+│ └── dashboard/
 └── turbo.json
 ```
 
@@ -173,9 +166,9 @@ For TanStack Start applications, use the shared ESLint configuration:
 
 ```js
 // eslint.config.js
-import { config } from '@repo/eslint-config/tanstack-start'
+import { config } from '@repo/eslint-config/tanstack-start';
 
-export default config
+export default config;
 ```
 
 ## Useful Links
