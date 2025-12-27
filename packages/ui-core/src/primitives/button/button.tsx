@@ -1,41 +1,36 @@
 import { Button as ButtonPrimitive } from "@base-ui/react/button";
 import { cva, type VariantProps } from "class-variance-authority";
-
-import { cn } from "@repo/ui-core/utils";
+import { cn, hasReadableText } from "@repo/ui-core/utils";
+import type { AriaAttributes } from "react";
 
 const buttonVariants = cva(
-  "font-sans focus-visible:border-ring focus-visible:ring-ring/30 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:aria-invalid:border-destructive/50 rounded-md border border-transparent bg-clip-padding focus-visible:ring-[2px] aria-invalid:ring-[2px] [&_svg:not([class*='size-'])]:size-4 inline-flex items-center justify-center whitespace-nowrap transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none shrink-0 [&_svg]:shrink-0 outline-none group/button select-none active:translate-y-0.25",
+  cn(
+    "flex items-center justify-center font-sans border border-transparent border-solid active:translate-y-0.25",
+    "[&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 [&_svg]:pointer-events-none"
+  ),
   {
     variants: {
       variant: {
-        default: "text-default-color border-default-color",
+        default: "text-default-color border-gray-4 hover:bg-gray-0",
         filled:
           "bg-primary-color-filled text-white hover:bg-primary-color-filled-hover",
         light:
           "bg-primary-color-light text-primary-color-light-color hover:bg-primary-color-light-hover",
         outline: cn(
-          "text-blue-outline border-blue-outline hover:bg-blue-outline-hover",
-          "aria-expanded:bg-muted aria-expanded:text-foreground"
+          "text-blue-outline border-blue-outline hover:bg-blue-outline-hover"
         ),
         subtle: cn(
-          "text-primary-color-light-color hover:bg-primary-color-light-hover bg-transparent",
-          "aria-expanded:bg-primary-color-light aria-expanded:text-primary-color-light-color"
+          "text-primary-color-light-color hover:bg-primary-color-light-hover bg-transparent"
         ),
-        transparent: cn(
-          "text-primary-color-light-color bg-transparent",
-          "aria-expanded:bg-muted aria-expanded:text-foreground"
-        ),
-        white: cn(
-          "text-primary-color-light-color bg-white",
-          "aria-expanded:bg-muted aria-expanded:text-foreground"
-        ),
+        transparent: cn("text-primary-color-light-color bg-transparent"),
+        white: cn("text-primary-color-light-color bg-white"),
       },
       size: {
-        xs: "px-xs py-1 text-xs/relaxed",
-        sm: "px-sm py-1 text-sm/relaxed",
-        md: "px-md py-1 text-md/relaxed",
-        lg: "px-lg py-1 text-lg/relaxed",
-        xl: "px-xl py-1 text-xl/relaxed",
+        xs: "px-xs h-7.5 text-xs [&_svg]:size-3 has-[>svg]:gap-1",
+        sm: "px-sm h-9 text-sm [&_svg]:size-4 has-[>svg]:gap-1",
+        md: "px-md h-10.5 text-md [&_svg]:size-4 has-[>svg]:gap-1.5",
+        lg: "px-lg h-12.5 text-lg [&_svg]:size-4 has-[>svg]:gap-1.5",
+        xl: "px-xl h-15 text-xl [&_svg]:size-5 has-[>svg]:gap-1.5",
       },
       radius: {
         xs: "rounded-xs",
@@ -45,39 +40,66 @@ const buttonVariants = cva(
         xl: "rounded-xl",
       },
       fullWidth: {
-        false: null,
+        false: "w-fit",
         true: "w-full",
       },
-    },
-    defaultVariants: {
-      fullWidth: false,
-      radius: "sm",
-      size: "sm",
-      variant: "filled",
     },
   }
 );
 
-type ButtonProps = ButtonPrimitive.Props & VariantProps<typeof buttonVariants>;
+type ButtonProps = AriaAttributes &
+  ButtonPrimitive.Props &
+  VariantProps<typeof buttonVariants>;
+type ButtonVariant = NonNullable<ButtonProps["variant"]>;
+type ButtonSize = NonNullable<ButtonProps["size"]>;
+type ButtonRadius = NonNullable<ButtonProps["radius"]>;
+type ButtonFullWidth = NonNullable<ButtonProps["fullWidth"]>;
 
 function Button({
   className,
-  fullWidth = false,
-  radius = "md",
-  size = "md",
+  children,
+  "aria-label": ariaLabel,
   variant = "filled",
+  size = "sm",
+  radius = "sm",
+  fullWidth = false,
   ...props
 }: ButtonProps) {
+  const hasText = hasReadableText(children);
+
+  if (process.env.NODE_ENV !== "production") {
+    if (!hasText && !ariaLabel) {
+      console.warn("[Button] please use ActionButton for icon-only buttons");
+    }
+
+    if (hasText && ariaLabel) {
+      console.warn(
+        "[Button] do not use aria-label when button has visible text"
+      );
+    }
+  }
+
   return (
     <ButtonPrimitive
+      {...(!hasText && ariaLabel ? { "aria-label": ariaLabel } : {})}
       data-slot="button"
       className={cn(
         buttonVariants({ variant, size, radius, fullWidth }),
         className
       )}
       {...props}
-    />
+    >
+      {children}
+    </ButtonPrimitive>
   );
 }
 
-export { Button, type ButtonProps };
+export {
+  Button,
+  buttonVariants,
+  type ButtonProps,
+  type ButtonVariant,
+  type ButtonSize,
+  type ButtonRadius,
+  type ButtonFullWidth,
+};

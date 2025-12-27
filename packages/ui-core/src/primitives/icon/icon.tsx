@@ -9,9 +9,9 @@ const iconList = Icons as unknown as Record<
 type IconName = keyof typeof iconList;
 
 type IconProps = {
-  name: IconName;
-  size?: number;
   className?: string;
+  name: IconName;
+  size?: number; // in pixels
 };
 
 function Icon({ name, size = 16, className }: IconProps) {

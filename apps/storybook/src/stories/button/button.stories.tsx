@@ -1,9 +1,17 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
-import { Button, Icon, type ButtonProps } from "@repo/ui-core/primitives";
+import {
+  Button,
+  Icon,
+  type ButtonProps,
+  type ButtonRadius,
+  type ButtonSize,
+  type ButtonVariant,
+} from "@repo/ui-core/primitives";
 
-const buttonSizes = ["xs", "sm", "md", "lg", "xl"];
-const buttonVariants = [
+const buttonSizes: ButtonSize[] = ["xs", "sm", "md", "lg", "xl"];
+const buttonVariants: ButtonVariant[] = [
+  "default",
   "filled",
   "light",
   "outline",
@@ -11,7 +19,7 @@ const buttonVariants = [
   "transparent",
   "white",
 ];
-const buttonRadiuses = ["xs", "sm", "md", "lg", "xl"];
+const buttonRadiuses: ButtonRadius[] = ["xs", "sm", "md", "lg", "xl"];
 
 const meta = {
   title: "Primitives/Button",
@@ -52,7 +60,7 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-const variantLabel = (variant: string) => {
+const variantLabel = (variant: NonNullable<ButtonProps["variant"]>) => {
   return variant.charAt(0).toUpperCase() + variant.slice(1);
 };
 
@@ -72,8 +80,9 @@ export const Variants: Story = {
           {buttonSizes.map((size) => (
             <Button
               key={`${variant}-${size}`}
-              variant={variant as ButtonProps["variant"]}
-              size={size as ButtonProps["size"]}
+              type="button"
+              variant={variant}
+              size={size}
             >
               {variantLabel(variant)}
             </Button>
@@ -93,8 +102,9 @@ export const IconRight: Story = {
           {buttonSizes.map((size) => (
             <Button
               key={`${variant}-${size}`}
-              variant={variant as ButtonProps["variant"]}
-              size={size as ButtonProps["size"]}
+              type="button"
+              variant={variant}
+              size={size}
             >
               {variantLabel(variant)}
               <Icon name="ArrowRight" className="size-4" />
@@ -115,32 +125,12 @@ export const IconLeft: Story = {
           {buttonSizes.map((size) => (
             <Button
               key={`${variant}-${size}`}
-              variant={variant as ButtonProps["variant"]}
-              size={size as ButtonProps["size"]}
+              type="button"
+              variant={variant}
+              size={size}
             >
               <Icon name="CircleArrowLeft" className="size-4" />
               {variantLabel(variant)}
-            </Button>
-          ))}
-        </div>
-      ))}
-    </div>
-  ),
-};
-
-export const IconOnly: Story = {
-  name: "Icon Only",
-  render: () => (
-    <div className="flex flex-row gap-4">
-      {buttonVariants.map((variant) => (
-        <div key={`${variant}-container`} className="flex flex-col gap-4">
-          {buttonSizes.map((size) => (
-            <Button
-              key={`${variant}-${size}`}
-              variant={variant as ButtonProps["variant"]}
-              size={size as ButtonProps["size"]}
-            >
-              <Icon name="ArrowRight" className="size-4" />
             </Button>
           ))}
         </div>
