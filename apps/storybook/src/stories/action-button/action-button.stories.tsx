@@ -91,6 +91,7 @@ export const Variants: Story = {
               type="button"
               variant={variant}
               size={size}
+              radius="sm"
             >
               <Icon name="ArrowRight" className="size-4" />
             </ActionButton>

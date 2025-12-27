@@ -59,9 +59,9 @@ function Button({
   className,
   children,
   "aria-label": ariaLabel,
-  variant = "filled",
-  size = "sm",
-  radius = "sm",
+  variant = 'filled',
+  size = 'sm',
+  radius = 'sm',
   fullWidth = false,
   ...props
 }: ButtonProps) {

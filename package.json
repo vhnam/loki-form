@@ -3,13 +3,13 @@
   "private": true,
   "scripts": {
     "build": "turbo run build",
-    "dev": "turbo run dev",
-    "lint": "turbo run lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "check-types": "turbo run check-types",
+    "dev": "turbo run dev",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "lint": "turbo run lint",
+    "storybook": "pnpm --filter storybook storybook",
     "turbo": "turbo",
-    "storybook": "cd apps/storybook && pnpm storybook",
-    "ui:watch": "cd packages/ui-core && pnpm watch"
+    "ui:watch": "pnpm --filter @repo/ui-core watch"
   },
   "devDependencies": {
     "prettier": "^3.7.4",

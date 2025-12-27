@@ -28,6 +28,9 @@ function ActionButton({
   "aria-label": ariaLabel,
   className,
   size = "md",
+  radius = "sm",
+  fullWidth = false,
+  variant = "filled",
   ...props
 }: ActionButtonProps) {
   const hasText = hasReadableText(children);
@@ -49,7 +52,7 @@ function ActionButton({
       {...(!hasText && ariaLabel ? { "aria-label": ariaLabel } : {})}
       data-slot="action-button"
       className={cn(
-        buttonVariants({ ...props }),
+        buttonVariants({ variant, size, radius, fullWidth }),
         actionButtonSizeOverrides[size as ActionButtonSize],
         "!px-0",
         className
