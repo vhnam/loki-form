@@ -20,6 +20,7 @@
   },
   "scripts": {
     "build": "tsc && cp -r styles dist/ 2>/dev/null || true",
+    "watch": "tsc --watch",
     "lint": "eslint . --max-warnings 0",
     "generate:component": "turbo gen react-component",
     "check-types": "tsc --noEmit"
