@@ -1,10 +1,13 @@
-//  @ts-check
+// @ts-check
+import baseConfig from '@repo/prettier-config';
 
 /** @type {import('prettier').Config} */
 const config = {
-  semi: false,
-  singleQuote: true,
-  trailingComma: 'all',
-}
+  ...baseConfig,
+  plugins: ['@trivago/prettier-plugin-sort-imports'],
+  importOrder: ['^(?!@repo|@/|\\./).*', '^@repo/*', '^@/*', '^[./]'],
+  importOrderSeparation: true,
+  importOrderSortSpecifiers: true,
+};
 
-export default config
+export default config;

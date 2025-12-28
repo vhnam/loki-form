@@ -20,10 +20,15 @@ const inputVariants = cva('border border-solid border-gray-4', {
       lg: 'rounded-lg',
       xl: 'rounded-xl',
     },
+    disabled: {
+      false: null,
+      true: 'bg-disabled',
+    },
   },
   defaultVariants: {
     size: 'sm',
     radius: 'sm',
+    disabled: false,
   },
 });
 
@@ -31,8 +36,15 @@ type InputProps = AriaAttributes & Omit<ComponentProps<'input'>, 'size'> & Varia
 type InputSize = NonNullable<InputProps['size']>;
 type InputRadius = NonNullable<InputProps['radius']>;
 
-function Input({ className, size = 'sm', radius = 'sm', ...props }: InputProps) {
-  return <InputPrimitive data-slot="input" className={cn(inputVariants({ size, radius }), className)} {...props} />;
+function Input({ className, size = 'sm', radius = 'sm', disabled = false, ...props }: InputProps) {
+  return (
+    <InputPrimitive
+      data-slot="input"
+      className={cn(inputVariants({ size, radius, disabled }), className)}
+      disabled={disabled}
+      {...props}
+    />
+  );
 }
 
 export { Input, type InputProps, type InputSize, type InputRadius };

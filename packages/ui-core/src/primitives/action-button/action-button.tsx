@@ -15,11 +15,11 @@ type ActionButtonSize = ButtonSize;
 type ActionButtonRadius = ButtonRadius;
 
 const actionButtonSizeOverrides: Record<ActionButtonSize, string> = {
-  xs: 'px-0 size-4.5 [&_svg]:size-3',
-  sm: 'px-0 size-5.5 [&_svg]:size-4',
-  md: 'px-0 size-7 [&_svg]:size-4',
-  lg: 'px-0 size-8.5 [&_svg]:size-4',
-  xl: 'px-0 size-11 [&_svg]:size-5',
+  xs: 'size-4.5 [&_svg]:size-3',
+  sm: 'size-5.5 [&_svg]:size-4',
+  md: 'size-7 [&_svg]:size-4',
+  lg: 'size-8.5 [&_svg]:size-4',
+  xl: 'size-11 [&_svg]:size-5',
 };
 
 function ActionButton({
@@ -52,7 +52,7 @@ function ActionButton({
         buttonVariants({ variant, size, radius, fullWidth }),
         actionButtonSizeOverrides[size as ActionButtonSize],
         className,
-        'px-0',
+        '!px-0',
       )}
       {...props}
     >

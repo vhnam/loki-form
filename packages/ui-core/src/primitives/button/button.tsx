@@ -12,7 +12,7 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: 'text-default-color border-gray-4 hover:bg-gray-0',
+        default: 'bg-default text-default-color border-default-border hover:bg-default-hover',
         filled: 'bg-primary-color-filled text-white hover:bg-primary-color-filled-hover',
         light: 'bg-primary-color-light text-primary-color-light-color hover:bg-primary-color-light-hover',
         outline: cn('text-blue-outline border-blue-outline hover:bg-blue-outline-hover'),

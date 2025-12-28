@@ -1,73 +1,62 @@
-import { Button, Icon } from '@repo/ui-core/primitives'
-import { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react';
 
-const THEME_STORAGE_KEY = 'theme'
-const THEME_DARK = 'dark'
-const THEME_LIGHT = 'light'
+import { ActionButton, Icon } from '@repo/ui-core/primitives';
+
+const THEME_STORAGE_KEY = 'theme';
+const THEME_DARK = 'dark';
+const THEME_LIGHT = 'light';
 
 const applyTheme = (theme: string) => {
-  const root = document.documentElement
+  const root = document.documentElement;
   if (theme === THEME_DARK) {
-    root.classList.add(THEME_DARK)
-    root.classList.remove(THEME_LIGHT)
+    root.classList.add(THEME_DARK);
+    root.classList.remove(THEME_LIGHT);
   } else {
-    root.classList.add(THEME_LIGHT)
-    root.classList.remove(THEME_DARK)
+    root.classList.add(THEME_LIGHT);
+    root.classList.remove(THEME_DARK);
   }
-}
+};
 
 const ThemeToggle = () => {
-  const [mounted, setMounted] = useState(false)
-  const [isDark, setIsDark] = useState(false)
+  const [mounted, setMounted] = useState(false);
+  const [isDark, setIsDark] = useState(false);
 
   useEffect(() => {
-    setMounted(true)
+    setMounted(true);
 
     // Get initial theme from localStorage or system preference
-    const storedTheme = localStorage.getItem(THEME_STORAGE_KEY)
-    const prefersDark = window.matchMedia(
-      '(prefers-color-scheme: dark)',
-    ).matches
-    const initialTheme = storedTheme || (prefersDark ? THEME_DARK : THEME_LIGHT)
+    const storedTheme = localStorage.getItem(THEME_STORAGE_KEY);
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const initialTheme = storedTheme || (prefersDark ? THEME_DARK : THEME_LIGHT);
 
-    setIsDark(initialTheme === THEME_DARK)
-    applyTheme(initialTheme)
-  }, [])
+    setIsDark(initialTheme === THEME_DARK);
+    applyTheme(initialTheme);
+  }, []);
 
   const toggleTheme = () => {
-    const newTheme = isDark ? THEME_LIGHT : THEME_DARK
-    setIsDark(!isDark)
-    applyTheme(newTheme)
-    localStorage.setItem(THEME_STORAGE_KEY, newTheme)
-  }
+    const newTheme = isDark ? THEME_LIGHT : THEME_DARK;
+    setIsDark(!isDark);
+    applyTheme(newTheme);
+    localStorage.setItem(THEME_STORAGE_KEY, newTheme);
+  };
 
   if (!mounted) {
     return (
-      <Button variant="transparent" size="xs" className="size-9">
+      <ActionButton type="button" variant="subtle" size="md" aria-label="Toggle theme">
         <Icon name="Sun" className="size-4" />
-      </Button>
-    )
+      </ActionButton>
+    );
   }
 
   return (
-    <Button
-      variant="transparent"
-      size="xs"
-      className="size-9"
-      onClick={toggleTheme}
-      aria-label="Toggle theme"
-    >
+    <ActionButton type="button" variant="subtle" size="lg" onClick={toggleTheme} aria-label="Toggle theme">
       {isDark ? (
         <Icon name="Sun" className="size-4 text-neutral-300 hover:text-white" />
       ) : (
-        <Icon
-          name="Moon"
-          className="size-4 text-neutral-600 hover:text-neutral-900"
-        />
+        <Icon name="Moon" className="size-4 text-neutral-600 hover:text-neutral-900" />
       )}
-      <span className="sr-only">Toggle theme</span>
-    </Button>
-  )
-}
+    </ActionButton>
+  );
+};
 
-export default ThemeToggle
+export default ThemeToggle;

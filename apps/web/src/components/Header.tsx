@@ -1,20 +1,18 @@
-import { useState } from 'react'
-import { Button, Icon } from '@repo/ui-core/primitives'
-import ThemeToggle from '@/components/theme-toggle'
+import { useState } from 'react';
+
+import { Button, Icon } from '@repo/ui-core/primitives';
+
+import ThemeToggle from '@/components/theme-toggle';
 
 const Header = () => {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
     <header className="sticky top-0 z-50 border-b border-neutral-800 dark:border-neutral-800 bg-white/80 dark:bg-neutral-950/80 backdrop-blur-lg">
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 sm:px-6 py-3 sm:py-4 lg:px-8">
         <div className="flex items-center gap-2">
-          <div className="flex size-8 items-center justify-center rounded-lg bg-blue-600">
-            <Icon name="Code2" className="size-5 text-white" />
-          </div>
-          <span className="text-lg text-neutral-900 dark:text-white">
-            Loki-Form
-          </span>
+          <img src="/logo.svg" alt="Loki-Form" className="size-8" />
+          <span className="font-heading text-lg text-neutral-900 dark:text-white">Loki-Form</span>
         </div>
 
         {/* Desktop Navigation */}
@@ -48,18 +46,10 @@ const Header = () => {
         {/* Desktop Actions */}
         <div className="hidden md:flex items-center gap-3">
           <ThemeToggle />
-          <Button
-            variant="transparent"
-            size="xs"
-            className="text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white"
-          >
+          <Button variant="default" size="sm" type="button">
             Sign In
           </Button>
-          <Button
-            variant="filled"
-            size="xs"
-            className="bg-blue-600 hover:bg-blue-700 text-white"
-          >
+          <Button type="button" variant="filled" size="sm">
             Get Started
           </Button>
         </div>
@@ -67,22 +57,11 @@ const Header = () => {
         {/* Mobile Actions */}
         <div className="flex md:hidden items-center gap-2">
           <ThemeToggle />
-          <Button
-            variant="transparent"
-            size="xs"
-            className="size-9"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          >
+          <Button type="button" onClick={() => setMobileMenuOpen(!mobileMenuOpen)} variant="subtle" size="md">
             {mobileMenuOpen ? (
-              <Icon
-                name="X"
-                className="size-5 text-neutral-700 dark:text-neutral-300"
-              />
+              <Icon name="X" className="size-5 text-neutral-700 dark:text-neutral-300" />
             ) : (
-              <Icon
-                name="Menu"
-                className="size-5 text-neutral-700 dark:text-neutral-300"
-              />
+              <Icon name="Menu" className="size-5 text-neutral-700 dark:text-neutral-300" />
             )}
           </Button>
         </div>
@@ -120,19 +99,11 @@ const Header = () => {
             >
               Docs
             </a>
-            <div className="pt-3 space-y-2 border-t border-neutral-200 dark:border-neutral-800">
-              <Button
-                variant="transparent"
-                size="xs"
-                className="w-full justify-start text-neutral-700 dark:text-neutral-300"
-              >
+            <div className="pt-3 flex items-center justify-end gap-2 border-t border-neutral-200 dark:border-neutral-800">
+              <Button type="button" variant="default" size="sm">
                 Sign In
               </Button>
-              <Button
-                variant="filled"
-                size="xs"
-                className="w-full bg-blue-600 hover:bg-blue-700 text-white"
-              >
+              <Button type="button" variant="filled" size="sm">
                 Get Started
               </Button>
             </div>
@@ -140,7 +111,7 @@ const Header = () => {
         </div>
       )}
     </header>
-  )
-}
+  );
+};
 
-export default Header
+export default Header;

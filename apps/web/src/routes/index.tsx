@@ -1,28 +1,23 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute } from '@tanstack/react-router';
 
-import { Button } from '@repo/ui-core/primitives'
+import CTASection from '@/modules/landing/cta-section';
+import DeveloperSection from '@/modules/landing/developer-section';
+import HeroSection from '@/modules/landing/hero-section';
+import HowItWorks from '@/modules/landing/how-it-works';
+import KeyCapabilities from '@/modules/landing/key-capabilities';
+import PricingSection from '@/modules/landing/pricing-section';
 
-export const Route = createFileRoute('/')({ component: LandingPage })
+export const Route = createFileRoute('/')({ component: LandingPage });
 
 function LandingPage() {
   return (
-    <div>
-      <div>
-        <h1 className="text-4xl font-bold">
-          A fully featured React
-          <br />
-          components library
-        </h1>
-        <p className="text-lg text-gray-7 dark:text-dark-1">
-          Build fully functional accessible web applications faster than ever -
-          Mantine includes more than 120 customizable components and 70 hooks to
-          cover you in any situation
-        </p>
-        <div className="flex items-center gap-2">
-          <Button variant="light">Get started</Button>
-          <Button variant="outline">GitHub</Button>
-        </div>
-      </div>
-    </div>
-  )
+    <main>
+      <HeroSection />
+      <HowItWorks />
+      <KeyCapabilities />
+      <DeveloperSection />
+      <PricingSection />
+      <CTASection />
+    </main>
+  );
 }

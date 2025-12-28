@@ -5,18 +5,18 @@ import {
   Field,
   FieldDescription,
   FieldLabel,
-  Input,
-  type InputProps,
-  type InputRadius,
-  type InputSize,
+  Textarea,
+  type TextareaProps,
+  type TextareaRadius,
+  type TextareaSize,
 } from '@repo/ui-core/primitives';
 
-const inputSizes: InputSize[] = ['xs', 'sm', 'md', 'lg', 'xl'];
-const inputRadiuses: InputRadius[] = ['xs', 'sm', 'md', 'lg', 'xl'];
+const textareaSizes: TextareaSize[] = ['xs', 'sm', 'md', 'lg', 'xl'];
+const textareaRadiuses: TextareaRadius[] = ['xs', 'sm', 'md', 'lg', 'xl'];
 
 const meta = {
-  title: 'Primitives/Input',
-  component: Input,
+  title: 'Primitives/Textarea',
+  component: Textarea,
   parameters: {
     layout: 'centered',
   },
@@ -35,22 +35,21 @@ const meta = {
     },
     size: {
       control: 'select',
-      options: inputSizes,
+      options: textareaSizes,
     },
     radius: {
       control: 'select',
-      options: inputRadiuses,
+      options: textareaRadiuses,
     },
   },
   args: {
-    type: 'text',
     size: 'sm',
     radius: 'sm',
     disabled: false,
     readOnly: false,
     required: false,
   },
-} satisfies Meta<InputProps>;
+} satisfies Meta<TextareaProps>;
 
 export default meta;
 
@@ -59,7 +58,7 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   render: () => (
     <Example>
-      <Input type="email" placeholder="Enter your email" />
+      <Textarea placeholder="Enter your email" />
     </Example>
   ),
 };
@@ -68,8 +67,8 @@ export const WithLabel: Story = {
   render: () => (
     <Example title="With Label">
       <Field>
-        <FieldLabel htmlFor="input-email">Email</FieldLabel>
-        <Input type="email" id="input-email" placeholder="name@example.com" />
+        <FieldLabel htmlFor="textarea-demo-message">Message</FieldLabel>
+        <Textarea id="textarea-demo-message" placeholder="Type your message here." rows={6} />
       </Field>
     </Example>
   ),
@@ -79,9 +78,9 @@ export const WithDescription: Story = {
   render: () => (
     <Example title="With Description">
       <Field>
-        <FieldLabel htmlFor="input-demo-username">Username</FieldLabel>
-        <Input id="input-demo-username" type="text" placeholder="Enter your username" />
-        <FieldDescription>Choose a unique username for your account.</FieldDescription>
+        <FieldLabel htmlFor="textarea-demo-message-2">Message</FieldLabel>
+        <Textarea id="textarea-demo-message-2" placeholder="Type your message here." rows={6} />
+        <FieldDescription>Type your message and press enter to send.</FieldDescription>
       </Field>
     </Example>
   ),
@@ -91,8 +90,8 @@ export const Disabled: Story = {
   render: () => (
     <Example title="Disabled">
       <Field>
-        <FieldLabel htmlFor="input-email-disabled">Email</FieldLabel>
-        <Input type="email" id="input-email-disabled" placeholder="name@example.com" disabled />
+        <FieldLabel htmlFor="textarea-demo-disabled">Message</FieldLabel>
+        <Textarea id="textarea-demo-disabled" placeholder="Type your message here." disabled />
       </Field>
     </Example>
   ),
