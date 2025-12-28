@@ -1,5 +1,5 @@
-import { isValidElement, type ReactNode } from 'react';
-import { clsx, type ClassValue } from 'clsx';
+import { type ClassValue, clsx } from 'clsx';
+import { type ReactNode, isValidElement } from 'react';
 import { twMerge } from 'tailwind-merge';
 
 export const cn = (...inputs: ClassValue[]) => {

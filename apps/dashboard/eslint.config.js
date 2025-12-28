@@ -1,5 +1,4 @@
 //  @ts-check
+import { config } from '@repo/eslint-config/tanstack-start';
 
-import { config } from '@repo/eslint-config/tanstack-start'
-
-export default config
+export default config;

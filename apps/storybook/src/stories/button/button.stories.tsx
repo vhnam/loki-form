@@ -2,11 +2,11 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 
 import {
   Button,
-  Icon,
   type ButtonProps,
   type ButtonRadius,
   type ButtonSize,
   type ButtonVariant,
+  Icon,
 } from '@repo/ui-core/primitives';
 
 const buttonSizes: ButtonSize[] = ['xs', 'sm', 'md', 'lg', 'xl'];

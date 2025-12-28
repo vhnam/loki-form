@@ -1,17 +1,11 @@
-import {
-  HeadContent,
-  Scripts,
-  createRootRouteWithContext,
-} from '@tanstack/react-router'
-import type { QueryClient } from '@tanstack/react-query'
-import { type PropsWithChildren } from 'react'
-
-import Header from '@/components/Header'
-
-import appCss from '@/styles.css?url'
+import Header from '@/components/Header';
+import appCss from '@/styles.css?url';
+import type { QueryClient } from '@tanstack/react-query';
+import { HeadContent, Scripts, createRootRouteWithContext } from '@tanstack/react-router';
+import { type PropsWithChildren } from 'react';
 
 export interface RouterContext {
-  queryClient: QueryClient
+  queryClient: QueryClient;
 }
 
 export const Route = createRootRouteWithContext<RouterContext>()({
@@ -39,7 +33,7 @@ export const Route = createRootRouteWithContext<RouterContext>()({
   notFoundComponent: () => <p>Not Found</p>,
 
   shellComponent: RootDocument,
-})
+});
 
 function RootDocument({ children }: PropsWithChildren) {
   return (
@@ -53,5 +47,5 @@ function RootDocument({ children }: PropsWithChildren) {
         <Scripts />
       </body>
     </html>
-  )
+  );
 }

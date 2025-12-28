@@ -2,11 +2,11 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 
 import {
   ActionButton,
-  Icon,
   type ActionButtonProps,
   type ActionButtonRadius,
   type ActionButtonSize,
   type ActionButtonVariant,
+  Icon,
 } from '@repo/ui-core/primitives';
 
 const actionButtonSizes: ActionButtonSize[] = ['xs', 'sm', 'md', 'lg', 'xl'];

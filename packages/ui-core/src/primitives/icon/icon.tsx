@@ -1,5 +1,5 @@
-import type { ComponentType } from 'react';
 import * as Icons from 'lucide-react';
+import type { ComponentType } from 'react';
 
 const iconList = Icons as unknown as Record<string, ComponentType<{ size?: number; className?: string }>>;
 

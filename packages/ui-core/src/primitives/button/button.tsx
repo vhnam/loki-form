@@ -1,7 +1,8 @@
 import { Button as ButtonPrimitive } from '@base-ui/react/button';
-import { cva, type VariantProps } from 'class-variance-authority';
-import { cn, hasReadableText } from '@repo/ui-core/utils';
+import { type VariantProps, cva } from 'class-variance-authority';
 import type { AriaAttributes } from 'react';
+
+import { cn, hasReadableText } from '@repo/ui-core/utils';
 
 const buttonVariants = cva(
   cn(

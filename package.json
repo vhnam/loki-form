@@ -5,13 +5,14 @@
     "build": "turbo run build",
     "check-types": "turbo run check-types",
     "dev": "turbo run dev",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "format": "prettier --write \"**/*.{js,ts,tsx,md}\"",
     "lint": "turbo run lint",
     "storybook": "pnpm --filter storybook storybook",
     "turbo": "turbo",
     "ui:watch": "pnpm --filter @repo/ui-core watch"
   },
   "devDependencies": {
+    "@trivago/prettier-plugin-sort-imports": "^6.0.0",
     "prettier": "^3.7.4",
     "turbo": "^2.6.3",
     "typescript": "5.9.2"

@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
-import { Icon, iconList, type IconProps } from '@repo/ui-core/primitives';
+import { Icon, type IconProps, iconList } from '@repo/ui-core/primitives';
 
 const meta = {
   title: 'Primitives/Icon',
