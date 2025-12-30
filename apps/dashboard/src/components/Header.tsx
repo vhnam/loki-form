@@ -1,7 +1,7 @@
 import { Link } from '@tanstack/react-router';
 import { useState } from 'react';
 
-import { Icon } from '@repo/ui-core/primitives';
+import { ActionButton, Icon } from '@repo/ui-core/primitives';
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
@@ -31,13 +31,9 @@ export default function Header() {
       >
         <div className="flex items-center justify-between p-4 border-b border-gray-700">
           <h2 className="text-xl font-bold">Navigation</h2>
-          <button
-            onClick={() => setIsOpen(false)}
-            className="p-2 hover:bg-gray-800 rounded-lg transition-colors"
-            aria-label="Close menu"
-          >
+          <ActionButton onClick={() => setIsOpen(false)} variant="outline" size="md" aria-label="Close menu">
             <Icon name="X" className="size-6" />
-          </button>
+          </ActionButton>
         </div>
 
         <nav className="flex-1 p-4 overflow-y-auto">

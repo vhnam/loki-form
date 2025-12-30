@@ -45,7 +45,7 @@ const PricingSection = () => {
           <p className="text-lg text-neutral-600 dark:text-neutral-400">Start free, scale when you're ready</p>
         </div>
 
-        <div className="mx-auto grid max-w-5xl gap-8 lg:grid-cols-2">
+        <div className="mx-auto grid max-w-5xl gap-8 sm:grid-cols-2">
           {tiers.map((tier, index) => (
             <div
               key={index}
@@ -78,14 +78,7 @@ const PricingSection = () => {
                 ))}
               </ul>
 
-              <Button
-                className={`w-full ${
-                  tier.highlighted
-                    ? 'bg-blue-600 hover:bg-blue-700 text-white'
-                    : 'border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 text-neutral-700 dark:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-800'
-                }`}
-                variant={tier.highlighted ? 'default' : 'outline'}
-              >
+              <Button fullWidth variant={tier.highlighted ? 'filled' : 'default'}>
                 {tier.cta}
               </Button>
             </div>

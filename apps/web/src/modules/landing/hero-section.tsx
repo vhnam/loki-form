@@ -22,15 +22,11 @@ const HeroSection = () => {
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Button size="lg" className="group bg-blue-600 hover:bg-blue-700 text-white">
+            <Button variant="filled" size="lg" className="group">
               Create Your First Form
               <Icon name="ArrowRight" className="ml-2 size-4 transition-transform group-hover:translate-x-1" />
             </Button>
-            <Button
-              size="lg"
-              variant="outline"
-              className="border-neutral-300 dark:border-neutral-700 bg-white/50 dark:bg-neutral-900/50 text-neutral-700 dark:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-800 hover:text-neutral-900 dark:hover:text-white"
-            >
+            <Button size="lg" variant="outline">
               <Icon name="Code2" className="mr-2 size-4" />
               View JSON Example
             </Button>

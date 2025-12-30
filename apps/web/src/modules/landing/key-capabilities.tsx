@@ -35,7 +35,7 @@ const KeyCapabilities = () => {
           <p className="text-lg text-neutral-600 dark:text-neutral-400">Built for scale, designed for flexibility</p>
         </div>
 
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {capabilities.map((capability) => (
             <div
               key={capability.title}

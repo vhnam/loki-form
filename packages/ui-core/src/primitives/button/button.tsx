@@ -62,7 +62,7 @@ function Button({
 
   if (process.env.NODE_ENV !== 'production') {
     if (!hasText && !ariaLabel) {
-      console.warn('[Button] please use ActionButton for icon-only buttons');
+      console.error('[Button] please use ActionButton for icon-only buttons');
     }
 
     if (hasText && ariaLabel) {

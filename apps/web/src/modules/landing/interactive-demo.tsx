@@ -1,7 +1,7 @@
 import { AnimatePresence, motion } from 'motion/react';
 import { useState } from 'react';
 
-import { Icon } from '@repo/ui-core/primitives';
+import { Button, Icon } from '@repo/ui-core/primitives';
 
 // Example form schemas
 const examples = {
@@ -139,50 +139,31 @@ const InteractiveDemo = () => {
 
   return (
     <div>
-      {/* Example Selector */}
       <div className="mb-6 flex flex-wrap gap-2">
         {(Object.keys(examples) as Array<ExampleKey>).map((key) => (
-          <button
+          <Button
             key={key}
+            variant={activeExample === key ? 'filled' : 'default'}
             onClick={() => {
               setActiveExample(key);
               setFormData({});
             }}
-            className={`rounded-lg px-4 py-2 text-sm transition-colors ${
-              activeExample === key
-                ? 'bg-[#228be6] text-white'
-                : 'bg-[#f1f3f5] text-[#495057] hover:bg-[#e9ecef] dark:bg-[#2c2e33] dark:text-[#909296] dark:hover:bg-[#373a40]'
-            }`}
           >
             {examples[key].name}
-          </button>
+          </Button>
         ))}
       </div>
 
       {/* Mobile Tab Switcher */}
       <div className="mb-4 flex gap-2 lg:hidden">
-        <button
-          onClick={() => setMobileView('json')}
-          className={`flex flex-1 items-center justify-center gap-2 rounded-lg px-4 py-3 text-sm transition-colors ${
-            mobileView === 'json'
-              ? 'bg-[#228be6] text-white'
-              : 'bg-[#f1f3f5] text-[#495057] dark:bg-[#2c2e33] dark:text-[#909296]'
-          }`}
-        >
+        <Button onClick={() => setMobileView('json')} size="xs" variant={mobileView === 'json' ? 'subtle' : 'default'}>
           <Icon name="Code" className="size-4" />
           JSON Schema
-        </button>
-        <button
-          onClick={() => setMobileView('form')}
-          className={`flex flex-1 items-center justify-center gap-2 rounded-lg px-4 py-3 text-sm transition-colors ${
-            mobileView === 'form'
-              ? 'bg-[#228be6] text-white'
-              : 'bg-[#f1f3f5] text-[#495057] dark:bg-[#2c2e33] dark:text-[#909296]'
-          }`}
-        >
+        </Button>
+        <Button size="xs" onClick={() => setMobileView('form')} variant={mobileView === 'form' ? 'subtle' : 'default'}>
           <Icon name="Eye" className="size-4" />
           Live Preview
-        </button>
+        </Button>
       </div>
 
       <div className="grid gap-8 lg:grid-cols-2 lg:gap-12">
@@ -195,7 +176,7 @@ const InteractiveDemo = () => {
 
           <div className="relative flex-1">
             <div className="absolute -inset-4 rounded-lg bg-[#228be6]/5 blur-xl" />
-            <div className="relative h-full rounded-lg border border-[#dee2e6] dark:border-[#373a40] bg-white/90 dark:bg-[#25262b]/90 p-6 shadow-2xl backdrop-blur-sm">
+            <div className="relative h-full rounded-lg border border-[#dee2e6] dark:border-[#373a40] bg-white/90 dark:bg-[#25262b]/90 py-6 px-4 shadow-2xl backdrop-blur-sm">
               <div className="mb-4 flex items-center gap-2">
                 <div className="flex gap-1.5">
                   <div className="size-3 rounded-full bg-[#fa5252]/80" />
