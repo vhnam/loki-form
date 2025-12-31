@@ -4,9 +4,9 @@ const CTASection = () => {
   return (
     <section className="bg-gradient-to-b from-white to-neutral-50 dark:from-neutral-950 dark:to-neutral-900 py-24">
       <div className="mx-auto max-w-4xl px-6 text-center lg:px-8">
-        <h2 className="mb-6 text-neutral-900 dark:text-neutral-100">Ready to Build Your First Form?</h2>
+        <h2 className="mb-6 text-xl text-bright">Ready to Build Your First Form?</h2>
 
-        <p className="mb-10 text-lg text-neutral-600 dark:text-neutral-400">
+        <p className="mb-10 text-lg text-gray-7 dark:text-dark-1">
           Join developers who are building scalable, portable forms without vendor lock-in. Start with our free tier and
           export your first JSON schema in minutes.
         </p>
@@ -23,7 +23,7 @@ const CTASection = () => {
           </Button>
         </div>
 
-        <p className="mt-8 text-sm text-neutral-500">No credit card required · 3 forms included on free tier</p>
+        <p className="mt-8 text-sm text-dimmed">No credit card required · 3 forms included on free tier</p>
       </div>
     </section>
   );

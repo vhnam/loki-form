@@ -49,12 +49,8 @@ const ThemeToggle = () => {
   }
 
   return (
-    <ActionButton type="button" variant="subtle" size="lg" onClick={toggleTheme} aria-label="Toggle theme">
-      {isDark ? (
-        <Icon name="Sun" className="size-4 text-neutral-300 hover:text-white" />
-      ) : (
-        <Icon name="Moon" className="size-4 text-neutral-600 hover:text-neutral-900" />
-      )}
+    <ActionButton type="button" variant="default" size="lg" onClick={toggleTheme} aria-label="Toggle theme">
+      {isDark ? <Icon name="Sun" className="size-4" /> : <Icon name="Moon" className="size-4" />}
     </ActionButton>
   );
 };

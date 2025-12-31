@@ -1,8 +1,11 @@
+/* eslint-disable import/order */
+/* eslint-disable sort-imports */
+/* eslint-disable import/consistent-type-specifier-style */
 import type { QueryClient } from '@tanstack/react-query';
 import { HeadContent, Scripts, createRootRouteWithContext } from '@tanstack/react-router';
-import type { PropsWithChildren } from 'react';
+import { type PropsWithChildren, useEffect } from 'react';
 
-import { Footer } from '@/components/footer';
+import Footer from '@/components/footer';
 import Header from '@/components/header';
 import appCss from '@/styles.css?url';
 
@@ -37,29 +40,29 @@ export const Route = createRootRouteWithContext<RouterContext>()({
   shellComponent: RootDocument,
 });
 
+function ThemeInitializer() {
+  useEffect(() => {
+    const theme =
+      localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    document.documentElement.classList.add(theme);
+    if (theme === 'dark') {
+      document.documentElement.classList.remove('light');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, []);
+
+  return null;
+}
+
 function RootDocument({ children }: PropsWithChildren) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
         <HeadContent />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              (function() {
-                const theme = localStorage.getItem('theme') || 
-                  (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-                document.documentElement.classList.add(theme);
-                if (theme === 'dark') {
-                  document.documentElement.classList.remove('light');
-                } else {
-                  document.documentElement.classList.remove('dark');
-                }
-              })();
-            `,
-          }}
-        />
       </head>
-      <body>
+      <body className="min-h-screen bg-body text-text">
+        <ThemeInitializer />
         <Header />
         {children}
         <Footer />

@@ -28,14 +28,12 @@ const HowItWorks = () => {
   return (
     <section
       id="how-it-works"
-      className="border-b border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-950 py-24"
+      className="border-b border-neutral-200 dark:border-neutral-800 bg-white dark:bg-body py-24"
     >
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="mb-16 text-center">
-          <h2 className="mb-4 text-neutral-900 dark:text-neutral-100">How It Works</h2>
-          <p className="text-lg text-neutral-600 dark:text-neutral-400">
-            Three steps to freedom from form vendor lock-in
-          </p>
+          <h2 className="mb-4 text-xl text-bright">How It Works</h2>
+          <p className="text-lg text-gray-7 dark:text-dark-1">Three steps to freedom from form vendor lock-in</p>
         </div>
 
         <div className="grid gap-8 md:grid-cols-3">

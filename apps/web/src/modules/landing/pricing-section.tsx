@@ -37,12 +37,12 @@ const PricingSection = () => {
   return (
     <section
       id="pricing"
-      className="border-b border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 py-24"
+      className="border-b border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-body py-24"
     >
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="mb-16 text-center">
-          <h2 className="mb-4 text-neutral-900 dark:text-neutral-100">Simple, Transparent Pricing</h2>
-          <p className="text-lg text-neutral-600 dark:text-neutral-400">Start free, scale when you're ready</p>
+          <h2 className="mb-4 text-xl text-bright">Simple, Transparent Pricing</h2>
+          <p className="text-lg text-gray-7 dark:text-dark-1">Start free, scale when you're ready</p>
         </div>
 
         <div className="mx-auto grid max-w-5xl gap-8 sm:grid-cols-2">
