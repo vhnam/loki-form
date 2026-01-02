@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import { ActionButton, Icon } from '@repo/ui-core/primitives';
 
@@ -33,12 +33,31 @@ const ThemeToggle = () => {
     applyTheme(initialTheme);
   }, []);
 
-  const toggleTheme = () => {
-    const newTheme = isDark ? THEME_LIGHT : THEME_DARK;
-    setIsDark(!isDark);
-    applyTheme(newTheme);
-    localStorage.setItem(THEME_STORAGE_KEY, newTheme);
-  };
+  const toggleTheme = useCallback(() => {
+    setIsDark((prev) => {
+      const newTheme = prev ? THEME_LIGHT : THEME_DARK;
+      applyTheme(newTheme);
+      localStorage.setItem(THEME_STORAGE_KEY, newTheme);
+      return !prev;
+    });
+  }, []);
+
+  useEffect(() => {
+    if (!mounted) return;
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      // Check for Cmd+J (Mac) or Ctrl+J (Windows/Linux)
+      if ((event.metaKey || event.ctrlKey) && event.key === 'j') {
+        event.preventDefault();
+        toggleTheme();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [mounted, toggleTheme]);
 
   if (!mounted) {
     return (
