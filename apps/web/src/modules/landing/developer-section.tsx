@@ -2,8 +2,6 @@ import { motion } from 'motion/react';
 
 import { Icon } from '@repo/ui-core/primitives';
 
-import InteractiveDemo from './interactive-demo';
-
 const benefits = [
   'No vendor lock-in — your forms, your schema',
   'Version control friendly JSON output',
@@ -23,11 +21,6 @@ const DeveloperSection = () => {
             Loki-Form treats JSON as the single source of truth. No proprietary formats, no hidden magic — just clean,
             structured data you can version, audit, and deploy with confidence.
           </p>
-        </div>
-
-        {/* Interactive Demo */}
-        <div className="mb-16">
-          <InteractiveDemo />
         </div>
 
         {/* Benefits Grid */}

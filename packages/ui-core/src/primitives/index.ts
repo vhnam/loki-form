@@ -1,4 +1,5 @@
 export * from './action-button';
+export * from './button-group';
 export * from './button';
 export * from './field';
 export * from './icon';

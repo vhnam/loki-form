@@ -27,6 +27,7 @@
     },
     "onlyBuiltDependencies": [
       "esbuild",
+      "msw",
       "unrs-resolver"
     ]
   }
