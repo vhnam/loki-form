@@ -5,7 +5,7 @@ import baseConfig from '@repo/prettier-config';
 const config = {
   ...baseConfig,
   plugins: ['@trivago/prettier-plugin-sort-imports'],
-  importOrder: ['^(?!@repo|@/|\\./).*', '^@repo/*', '^@/*', '^[./]'],
+  importOrder: ['^(?!@repo|@/|\\./).*', '^@repo/*', '@/integrations/*', '@/components/*', '^@/*', '^[./]'],
   importOrderSeparation: true,
   importOrderSortSpecifiers: true,
 };

@@ -2,9 +2,28 @@ import { useCallback, useEffect, useState } from 'react';
 
 import { ActionButton, Icon } from '@repo/ui-core/primitives';
 
-const THEME_STORAGE_KEY = 'theme';
+const THEME_COOKIE_NAME = 'theme';
 const THEME_DARK = 'dark';
 const THEME_LIGHT = 'light';
+
+// Helper function to get cookie value
+function getCookie(name: string): string | null {
+  if (typeof document === 'undefined') return null;
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) {
+    return parts.pop()?.split(';').shift() || null;
+  }
+  return null;
+}
+
+// Helper function to set cookie
+function setCookie(name: string, value: string, days = 365) {
+  if (typeof document === 'undefined') return;
+  const expires = new Date();
+  expires.setTime(expires.getTime() + days * 24 * 60 * 60 * 1000);
+  document.cookie = `${name}=${value};expires=${expires.toUTCString()};path=/;SameSite=Lax`;
+}
 
 const applyTheme = (theme: string) => {
   const root = document.documentElement;
@@ -24,20 +43,22 @@ const ThemeToggle = () => {
   useEffect(() => {
     setMounted(true);
 
-    // Get initial theme from localStorage or system preference
-    const storedTheme = localStorage.getItem(THEME_STORAGE_KEY);
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const initialTheme = storedTheme || (prefersDark ? THEME_DARK : THEME_LIGHT);
+    // Get initial theme from cookie or current HTML class
+    const cookieTheme = getCookie(THEME_COOKIE_NAME);
+    const currentTheme = document.documentElement.classList.contains(THEME_DARK) ? THEME_DARK : THEME_LIGHT;
+    const initialTheme = cookieTheme || currentTheme;
 
     setIsDark(initialTheme === THEME_DARK);
-    applyTheme(initialTheme);
+    if (cookieTheme) {
+      applyTheme(initialTheme);
+    }
   }, []);
 
   const toggleTheme = useCallback(() => {
     setIsDark((prev) => {
       const newTheme = prev ? THEME_LIGHT : THEME_DARK;
       applyTheme(newTheme);
-      localStorage.setItem(THEME_STORAGE_KEY, newTheme);
+      setCookie(THEME_COOKIE_NAME, newTheme);
       return !prev;
     });
   }, []);
